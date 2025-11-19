@@ -4,28 +4,40 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
-const defaultCrops = [
-  { name: "Potato", image: "🥔" },
-  { name: "Potato", image: "🥔" },
-  { name: "Cucumber", image: "🥒" },
-  { name: "Cucumber", image: "🥒" },
-  { name: "Onion", image: "🧅" },
-  { name: "Onion", image: "🧅" }
-];
+const cropIcons: Record<string, string> = {
+  Potato: "🥔",
+  Kheera: "🥒",
+  Onion: "🧅",
+  Garlic: "🧄",
+  Tomato: "🍅",
+  Ginger: "🫚",
+  Cucumber: "🥒"
+};
 
 const FarmDistribution = () => {
   const navigate = useNavigate();
+  // read selected crops from localStorage
+  const stored = typeof window !== "undefined" ? localStorage.getItem("selectedCrops") : null;
+  const selectedNames: string[] = stored ? JSON.parse(stored) : [];
+
+  const crops = selectedNames.length > 0 ? selectedNames.map((name) => ({ name, image: cropIcons[name] || "🌾" })) : [
+    { name: "Potato", image: "🥔" },
+  ];
+
   const [distributions, setDistributions] = useState<Record<number, string>>({});
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    const allFilled = defaultCrops.every((_, index) => distributions[index]);
+    const allFilled = crops.every((_, index) => distributions[index]);
     if (!allFilled) {
       toast.error("Please fill in all areas");
       return;
     }
-    
+    // persist distribution data as array of { name, area }
+    const payload = crops.map((c, index) => ({ name: c.name, area: Number(distributions[index] || 0) }));
+    localStorage.setItem("farmDistributions", JSON.stringify(payload));
+
     navigate("/completion");
   };
 
@@ -42,7 +54,7 @@ const FarmDistribution = () => {
         
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-2 gap-6">
-            {defaultCrops.map((crop, index) => (
+            {crops.map((crop, index) => (
               <div key={index} className="flex items-center gap-4">
                 <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center text-3xl flex-shrink-0">
                   {crop.image}

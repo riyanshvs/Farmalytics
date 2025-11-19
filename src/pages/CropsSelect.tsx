@@ -22,10 +22,6 @@ const CropsSelect = () => {
       setSelectedCrops(selectedCrops.filter(c => c !== cropName));
     } else {
       setSelectedCrops([...selectedCrops, cropName]);
-      // Auto navigate after selecting at least one crop
-      setTimeout(() => {
-        navigate("/farm-distribution");
-      }, 500);
     }
   };
 
@@ -81,6 +77,22 @@ const CropsSelect = () => {
             </button>
           ))}
         </div>
+      </div>
+      <div className="w-full max-w-3xl mt-6 flex justify-end">
+        <button
+          onClick={() => {
+            if (selectedCrops.length === 0) return;
+            // persist selection for next page
+            localStorage.setItem("selectedCrops", JSON.stringify(selectedCrops));
+            navigate("/farm-distribution");
+          }}
+          className={`h-14 px-6 rounded-xl text-lg font-semibold text-white ${
+            selectedCrops.length === 0 ? "bg-muted-foreground/40 cursor-not-allowed" : "bg-primary"
+          }`}
+          disabled={selectedCrops.length === 0}
+        >
+          Next
+        </button>
       </div>
     </div>
   );

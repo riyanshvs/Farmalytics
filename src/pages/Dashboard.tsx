@@ -1,4 +1,4 @@
-import { Home, Sprout, Sun, FileText, AlertTriangle, User } from "lucide-react";
+import { Home, Sprout, Sun, FileText, AlertTriangle, User, Moon } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { Card } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, LineChart, Line } from "recharts";
@@ -6,11 +6,85 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { MessageCircle, X } from "lucide-react";
+import { useEffect, useMemo } from "react";
+import useTheme from "@/lib/useTheme";
+
+const UserName = () => {
+  const [name, setName] = useState<string | null>(null);
+  useEffect(() => {
+    const n = typeof window !== "undefined" ? localStorage.getItem("userName") : null;
+    setName(n);
+  }, []);
+  return <span className="font-semibold">{name || "User"}</span>;
+};
+
+// small LiveWeather component using Open-Meteo (no API key) and browser geolocation
+const LiveWeather = () => {
+  const [weather, setWeather] = useState<{ temp?: number; condition?: string; wind?: number; humidity?: number }>(
+    {}
+  );
+
+  useEffect(() => {
+    if (!navigator.geolocation) return;
+    navigator.geolocation.getCurrentPosition(async (pos) => {
+      const lat = pos.coords.latitude;
+      const lon = pos.coords.longitude;
+      try {
+        const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
+        const json = await res.json();
+        if (json && json.current_weather) {
+          setWeather({ temp: json.current_weather.temperature, condition: json.current_weather.weathercode?.toString() || "", wind: json.current_weather.windspeed });
+        }
+      } catch (e) {
+        // ignore
+      }
+    });
+  }, []);
+
+  return (
+    <div>
+      <div className="flex items-center justify-between">
+        <Sun className="w-16 h-16 text-yellow-500" />
+        <div className="text-right">
+          <div className="text-4xl font-bold">{weather.temp ? `${weather.temp}°` : `--°`}</div>
+          <div className="text-sm text-muted-foreground">{weather.condition || "Loading"}</div>
+        </div>
+      </div>
+      <div className="flex items-center justify-around pt-4 border-t">
+        <div className="text-center">
+          <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-1">
+            <span className="text-xs font-bold text-primary-foreground">💨</span>
+          </div>
+          <div className="text-xs font-semibold">{weather.wind ?? "--"} km/h</div>
+        </div>
+        <div className="text-center">
+          <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-1">
+            <span className="text-xs font-bold text-primary-foreground">AQI</span>
+          </div>
+          <div className="text-xs font-semibold">--</div>
+        </div>
+        <div className="text-center">
+          <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-1">
+            <span className="text-xs font-bold text-primary-foreground">💧</span>
+          </div>
+          <div className="text-xs font-semibold">{weather.humidity ?? "--"}%</div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const Dashboard = () => {
   const [chatOpen, setChatOpen] = useState(false);
+  const { theme, toggle } = useTheme();
 
-  const fieldData = [
+  // read farm distribution from localStorage if available
+  const storedDist = typeof window !== "undefined" ? localStorage.getItem("farmDistributions") : null;
+  const parsedDist: { name: string; area: number }[] = storedDist ? JSON.parse(storedDist) : [];
+
+  const palette = ["#8B5CF6", "#EF4444", "#06B6D4", "#F97316", "#3B82F6", "#10B981", "#A855F7", "#F59E0B"];
+
+  const fieldData = parsedDist.length > 0 ? parsedDist.map((d, i) => ({ name: d.name, value: d.area, color: palette[i % palette.length] })) : [
     { name: "Potato", value: 32.22, color: "#8B5CF6" },
     { name: "Tomato", value: 16.67, color: "#EF4444" },
     { name: "Onion", value: 11.11, color: "#06B6D4" },
@@ -20,12 +94,27 @@ const Dashboard = () => {
     { name: "Others", value: 5.56, color: "#A855F7" },
   ];
 
-  const crops = [
+  // default crop market data (used as fallback and for mapping selected crops)
+  const defaultCrops = [
     { name: "Potato", price: 10, change: 3.3, trend: [12, 15, 13, 18, 16, 20, 18], positive: true },
     { name: "Onion", price: 13, change: 3.3, trend: [10, 12, 11, 15, 14, 17, 16], positive: true },
     { name: "Tomato", price: 17, change: -9.8, trend: [20, 22, 21, 19, 18, 17, 17], positive: false },
     { name: "Cucumber", price: 11, change: 3.3, trend: [8, 10, 9, 12, 11, 14, 13], positive: true },
   ];
+
+  // Read selected crops from localStorage (set by CropsSelect)
+  const storedSelected = typeof window !== "undefined" ? localStorage.getItem("selectedCrops") : null;
+  const selectedNames: string[] = storedSelected ? JSON.parse(storedSelected) : [];
+
+  // Build a lookup map for quick access
+  const cropMap: Record<string, typeof defaultCrops[0]> = {};
+  defaultCrops.forEach((c) => (cropMap[c.name] = c));
+
+  // If user selected crops, show only those (map to default data where available), otherwise show default list
+  const crops = (selectedNames.length > 0
+    ? selectedNames.map((name) => cropMap[name] ?? { name, price: 0, change: 0, trend: [0, 0, 0, 0, 0, 0, 0], positive: true })
+    : defaultCrops
+  );
 
   return (
     <div className="flex min-h-screen bg-background">
@@ -42,7 +131,7 @@ const Dashboard = () => {
           <NavLink
             to="/dashboard"
             className="flex items-center gap-3 px-4 py-3 rounded-lg text-foreground/70 hover:bg-accent transition-colors"
-            activeClassName="bg-accent text-primary font-semibold"
+            activeClassName="bg-accent text-white font-semibold"
           >
             <Home className="w-5 h-5" />
             <span>Home</span>
@@ -89,16 +178,16 @@ const Dashboard = () => {
           <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
             <User className="w-5 h-5 text-primary-foreground" />
           </div>
-          <span className="font-semibold">Michael</span>
+          <UserName />
         </div>
       </aside>
 
       {/* Main Content */}
       <main className="flex-1 p-8">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold">Dashboard</h1>
-          <Button variant="outline" size="icon" className="rounded-full w-12 h-12">
-            <Sun className="w-5 h-5" />
+          <h1 className="text-4xl font-bold">Home</h1>
+          <Button onClick={toggle} variant="outline" size="icon" className="rounded-full w-12 h-12">
+            {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
           </Button>
         </div>
 
@@ -106,37 +195,11 @@ const Dashboard = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           {/* Weather Card */}
           <Card className="p-6">
-            <h3 className="text-lg font-semibold mb-4">Weather</h3>
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <Sun className="w-16 h-16 text-yellow-500" />
-                <div className="text-right">
-                  <div className="text-4xl font-bold">27°</div>
-                  <div className="text-sm text-muted-foreground">Clear</div>
-                </div>
+              <h3 className="text-lg font-semibold mb-4">Weather</h3>
+              <div className="space-y-4">
+                <LiveWeather />
               </div>
-              <div className="flex items-center justify-around pt-4 border-t">
-                <div className="text-center">
-                  <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-1">
-                    <span className="text-xs font-bold text-primary-foreground">💨</span>
-                  </div>
-                  <div className="text-xs font-semibold">23.7km/h</div>
-                </div>
-                <div className="text-center">
-                  <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-1">
-                    <span className="text-xs font-bold text-primary-foreground">AQI</span>
-                  </div>
-                  <div className="text-xs font-semibold">73</div>
-                </div>
-                <div className="text-center">
-                  <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-1">
-                    <span className="text-xs font-bold text-primary-foreground">💧</span>
-                  </div>
-                  <div className="text-xs font-semibold">83%</div>
-                </div>
-              </div>
-            </div>
-          </Card>
+            </Card>
 
           {/* Soil Card */}
           <Card className="p-6">
