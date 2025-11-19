@@ -13,6 +13,8 @@ import FarmSize from "./pages/FarmSize";
 import CropsSelect from "./pages/CropsSelect";
 import FarmDistribution from "./pages/FarmDistribution";
 import Completion from "./pages/Completion";
+import Dashboard from "./pages/Dashboard";
+import ComingSoon from "./pages/ComingSoon";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +34,11 @@ const App = () => (
           <Route path="/crops-select" element={<CropsSelect />} />
           <Route path="/farm-distribution" element={<FarmDistribution />} />
           <Route path="/completion" element={<Completion />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/crops-price" element={<ComingSoon />} />
+          <Route path="/weather-soil" element={<ComingSoon />} />
+          <Route path="/news-reports" element={<ComingSoon />} />
+          <Route path="/alerts" element={<ComingSoon />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

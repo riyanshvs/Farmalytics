@@ -13,7 +13,7 @@ const Completion = () => {
     
     // Auto-navigate to dashboard after 3 seconds
     const timer = setTimeout(() => {
-      navigate("/");
+      navigate("/dashboard");
     }, 3000);
     
     return () => clearTimeout(timer);
