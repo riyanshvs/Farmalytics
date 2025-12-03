@@ -8,6 +8,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { MessageCircle, X } from "lucide-react";
 import { useEffect, useMemo } from "react";
 import useTheme from "@/lib/useTheme";
+import Chatbot from "@/components/Chatbot";
 
 const UserName = () => {
   const [name, setName] = useState<string | null>(null);
@@ -304,12 +305,8 @@ const Dashboard = () => {
 
       {/* Chatbot Dialog */}
       <Dialog open={chatOpen} onOpenChange={setChatOpen}>
-        <DialogContent className="sm:max-w-md">
-          <div className="flex flex-col items-center justify-center py-12">
-            <MessageCircle className="w-16 h-16 text-primary mb-4" />
-            <h2 className="text-2xl font-bold mb-2">AI Assistant</h2>
-            <p className="text-muted-foreground text-center">Coming Soon</p>
-          </div>
+        <DialogContent className="sm:max-w-md h-96 flex flex-col">
+          <Chatbot />
         </DialogContent>
       </Dialog>
     </div>
