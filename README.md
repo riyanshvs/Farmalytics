@@ -1,73 +1,134 @@
-# Welcome to your Lovable project
+# Farmalytics Web Application – README
 
-## Project info
+Farmalytics is a multilingual, farmer‑friendly smart agriculture dashboard designed to help farmers monitor crop health, weather, soil data, and farm analytics with ease. Built using **Vite, TypeScript, React, Tailwind CSS, and shadcn-ui**, the project focuses on simplicity, speed, and accessibility.
 
-**URL**: https://lovable.dev/projects/51e1a7f6-7dd0-4117-a81d-63cd425e2938
+This README explains how to set up, develop, and deploy the project without referencing Lovable.
 
-## How can I edit this code?
+---
 
-There are several ways of editing your application.
+## 🚜 Overview
 
-**Use Lovable**
+Farmalytics aims to simplify farm monitoring and decision‑making. Key goals include:
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/51e1a7f6-7dd0-4117-a81d-63cd425e2938) and start prompting.
+* Providing a clean and intuitive dashboard for farmers
+* Supporting multiple languages for accessibility
+* Allowing farmers to input their crop data
+* Offering weather insights and potential analytics integrations
 
-Changes made via Lovable will be committed automatically to this repo.
+---
 
-**Use your preferred IDE**
+## 🛠️ Tech Stack
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+Farmalytics is built using:
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+* ⚡ **Vite** – Fast build tool
+* 🧩 **React + TypeScript** – Component‑based UI and type safety
+* 🎨 **Tailwind CSS** – Utility‑first styling
+* 🧱 **shadcn-ui** – Reusable UI components
 
-Follow these steps:
+---
+
+## 📦 Installation & Local Development
+
+Follow these steps to run the project locally:
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
+# Clone the repository using your project's Git URL
 git clone <YOUR_GIT_URL>
 
-# Step 2: Navigate to the project directory.
+# Navigate into the folder
 cd <YOUR_PROJECT_NAME>
 
-# Step 3: Install the necessary dependencies.
-npm i
+# Install dependencies
+npm install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start the development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The development server will usually run at:
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```
+http://localhost:5173
+```
 
-**Use GitHub Codespaces**
+---
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## 🧩 Project Structure
 
-## What technologies are used for this project?
+```
+src/
+ ├─ components/     # Reusable UI components
+ ├─ pages/          # Page-level components
+ ├─ hooks/          # Custom React hooks
+ ├─ lib/            # Utility functions
+ ├─ assets/         # Images & icons
+ ├─ styles/         # Global CSS
+ └─ main.tsx        # App entry point
+```
 
-This project is built with:
+You can customize/add pages and components within this structure.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+---
 
-## How can I deploy this project?
+## 🌍 Multilingual Support (Planned)
 
-Simply open [Lovable](https://lovable.dev/projects/51e1a7f6-7dd0-4117-a81d-63cd425e2938) and click on Share -> Publish.
+The project is designed to support multiple languages.
+Future implementation may include:
 
-## Can I connect a custom domain to my Lovable project?
+* Google Cloud Translation API
+* JSON‑based language packs
+* Auto‑detection of browser language
 
-Yes, you can!
+---
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## 🪴 Farmer Crop Data
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Currently, crop data is expected to be entered by the farmer.
+You can:
+
+* Build forms under the appropriate page/component
+* Store submissions locally or integrate with backend storage
+
+---
+
+## 🚀 Deployment
+
+To deploy this project manually:
+
+### Option 1: Netlify
+
+* Run `npm run build`
+* Upload the `dist/` folder to Netlify
+
+### Option 2: Vercel
+
+* Import the GitHub repo into Vercel
+* Build settings detected automatically
+
+### Option 3: Static Hosting
+
+Any static file host can serve the `dist/` folder.
+
+---
+
+## 🤝 Contributing
+
+Feel free to:
+
+* Add UI components
+* Improve forms and analytics
+* Enhance multilingual features
+* Integrate backend services
+
+PRs are welcome.
+
+---
+
+## 📄 License
+
+This project can use any license you prefer. Add **LICENSE** if required.
+
+---
+
+If you want a more detailed README—such as API documentation, architecture diagram, or setup screenshots—tell me and I’ll add it!
