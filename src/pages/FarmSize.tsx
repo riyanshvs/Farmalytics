@@ -3,12 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import { saveFarmSize } from "@/lib/firebaseService";
+import { auth } from "@/lib/firebase";
 
 const FarmSize = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const [farmSize, setFarmSize] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!farmSize) {
@@ -16,7 +19,24 @@ const FarmSize = () => {
       return;
     }
     
-    navigate("/crops-select");
+    setIsLoading(true);
+    try {
+      const userId = auth.currentUser?.uid;
+      if (!userId) {
+        toast.error("User not authenticated. Please sign in again.");
+        return;
+      }
+
+      // Save farm size to Firebase
+      await saveFarmSize(userId, { farmSize });
+      toast.success("Farm size saved successfully!");
+      navigate("/crops-select");
+    } catch (error: any) {
+      console.error("Error saving farm size:", error);
+      toast.error(error.message || "Failed to save farm size. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -41,9 +61,10 @@ const FarmSize = () => {
           
           <Button 
             type="submit"
+            disabled={isLoading}
             className="w-full h-14 text-lg font-bold rounded-xl bg-primary hover:bg-primary/90"
           >
-            Submit
+            {isLoading ? "Saving..." : "Submit"}
           </Button>
         </form>
       </div>

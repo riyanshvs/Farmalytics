@@ -3,9 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import { saveLocation } from "@/lib/firebaseService";
+import { auth } from "@/lib/firebase";
 
 const Location = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     address: "",
     city: "",
@@ -14,7 +17,7 @@ const Location = () => {
     country: ""
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!formData.address || !formData.city || !formData.pincode || !formData.state || !formData.country) {
@@ -22,7 +25,24 @@ const Location = () => {
       return;
     }
     
-    navigate("/farm-size");
+    setIsLoading(true);
+    try {
+      const userId = auth.currentUser?.uid;
+      if (!userId) {
+        toast.error("User not authenticated. Please sign in again.");
+        return;
+      }
+
+      // Save location to Firebase
+      await saveLocation(userId, formData);
+      toast.success("Location saved successfully!");
+      navigate("/farm-size");
+    } catch (error: any) {
+      console.error("Error saving location:", error);
+      toast.error(error.message || "Failed to save location. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -80,9 +100,10 @@ const Location = () => {
           <div className="pt-6">
             <Button 
               type="submit"
+              disabled={isLoading}
               className="w-full h-14 text-lg font-bold rounded-xl bg-primary hover:bg-primary/90"
             >
-              Submit
+              {isLoading ? "Saving..." : "Submit"}
             </Button>
           </div>
         </form>

@@ -2,6 +2,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
+import { toast } from "sonner";
+import { saveSelectedCrops } from "@/lib/firebaseService";
+import { auth } from "@/lib/firebase";
 
 const crops = [
   { name: "Potato", image: "🥔" },
@@ -14,6 +17,7 @@ const crops = [
 
 const CropsSelect = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedCrops, setSelectedCrops] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -22,6 +26,35 @@ const CropsSelect = () => {
       setSelectedCrops(selectedCrops.filter(c => c !== cropName));
     } else {
       setSelectedCrops([...selectedCrops, cropName]);
+    }
+  };
+
+  const handleNext = async () => {
+    if (selectedCrops.length === 0) {
+      toast.error("Please select at least one crop");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const userId = auth.currentUser?.uid;
+      if (!userId) {
+        toast.error("User not authenticated. Please sign in again.");
+        return;
+      }
+
+      // Save selected crops to Firebase
+      await saveSelectedCrops(userId, { crops: selectedCrops });
+      toast.success("Crops saved successfully!");
+      
+      // persist selection for next page
+      localStorage.setItem("selectedCrops", JSON.stringify(selectedCrops));
+      navigate("/farm-distribution");
+    } catch (error: any) {
+      console.error("Error saving crops:", error);
+      toast.error(error.message || "Failed to save crops. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -80,18 +113,13 @@ const CropsSelect = () => {
       </div>
       <div className="w-full max-w-3xl mt-6 flex justify-end">
         <button
-          onClick={() => {
-            if (selectedCrops.length === 0) return;
-            // persist selection for next page
-            localStorage.setItem("selectedCrops", JSON.stringify(selectedCrops));
-            navigate("/farm-distribution");
-          }}
+          onClick={handleNext}
+          disabled={selectedCrops.length === 0 || isLoading}
           className={`h-14 px-6 rounded-xl text-lg font-semibold text-white ${
-            selectedCrops.length === 0 ? "bg-muted-foreground/40 cursor-not-allowed" : "bg-primary"
+            selectedCrops.length === 0 || isLoading ? "bg-muted-foreground/40 cursor-not-allowed" : "bg-primary"
           }`}
-          disabled={selectedCrops.length === 0}
         >
-          Next
+          {isLoading ? "Saving..." : "Next"}
         </button>
       </div>
     </div>

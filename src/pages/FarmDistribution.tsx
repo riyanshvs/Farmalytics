@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import { saveFarmDistribution } from "@/lib/firebaseService";
+import { auth } from "@/lib/firebase";
 
 const cropIcons: Record<string, string> = {
   Potato: "🥔",
@@ -16,6 +18,7 @@ const cropIcons: Record<string, string> = {
 
 const FarmDistribution = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   // read selected crops from localStorage
   const stored = typeof window !== "undefined" ? localStorage.getItem("selectedCrops") : null;
   const selectedNames: string[] = stored ? JSON.parse(stored) : [];
@@ -26,7 +29,7 @@ const FarmDistribution = () => {
 
   const [distributions, setDistributions] = useState<Record<number, string>>({});
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     const allFilled = crops.every((_, index) => distributions[index]);
@@ -34,11 +37,40 @@ const FarmDistribution = () => {
       toast.error("Please fill in all areas");
       return;
     }
-    // persist distribution data as array of { name, area }
-    const payload = crops.map((c, index) => ({ name: c.name, area: Number(distributions[index] || 0) }));
-    localStorage.setItem("farmDistributions", JSON.stringify(payload));
 
-    navigate("/completion");
+    setIsLoading(true);
+    try {
+      const userId = auth.currentUser?.uid;
+      if (!userId) {
+        toast.error("User not authenticated. Please sign in again.");
+        return;
+      }
+
+      // prepare distribution data as array of { name, area }
+      const distributionData = crops.map((c, index) => ({ 
+        name: c.name, 
+        area: Number(distributions[index] || 0) 
+      }));
+      const totalArea = distributionData.reduce((sum, d) => sum + d.area, 0);
+
+      // Save to Firebase
+      await saveFarmDistribution(userId, { 
+        distributions: distributionData,
+        totalArea
+      });
+
+      toast.success("Farm distribution saved successfully!");
+      
+      // persist distribution data as array of { name, area }
+      localStorage.setItem("farmDistributions", JSON.stringify(distributionData));
+
+      navigate("/completion");
+    } catch (error: any) {
+      console.error("Error saving farm distribution:", error);
+      toast.error(error.message || "Failed to save distribution. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -76,9 +108,10 @@ const FarmDistribution = () => {
           <div className="pt-4">
             <Button 
               type="submit"
+              disabled={isLoading}
               className="w-full h-14 text-lg font-bold rounded-xl bg-primary hover:bg-primary/90"
             >
-              Submit
+              {isLoading ? "Saving..." : "Submit"}
             </Button>
           </div>
         </form>
