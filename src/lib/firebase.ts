@@ -1,5 +1,6 @@
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 // Prefer Vite environment variables. If they are not set, fall back to any
 // existing hardcoded values (useful for local testing). Do NOT commit secrets.
@@ -17,17 +18,18 @@ const firebaseConfig = {
 const apiKey = firebaseConfig.apiKey;
 let app: any = null;
 let auth: any = null;
+let db: any = null;
 
 if (!apiKey) {
-  console.error(
+  console.warn(
     "Firebase not initialized: VITE_FIREBASE_API_KEY is missing.\n" +
-      "Please add your Firebase web config to .env and restart the dev server."
+      "Using demo mode - data will not be saved to Firebase."
   );
-  // leave app and auth as null — callers should check
 } else {
   app = !getApps().length ? initializeApp(firebaseConfig as any) : getApp();
   auth = getAuth(app);
+  db = getFirestore(app);
 }
 
-export { auth };
+export { auth, db };
 export default app;

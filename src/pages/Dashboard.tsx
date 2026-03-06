@@ -268,7 +268,7 @@ const Dashboard = () => {
                 </div>
                 <h3 className="text-center text-lg font-semibold mb-2">{crop.name}</h3>
                 <div className="text-center text-2xl font-bold mb-1">
-                  ${crop.price}<span className="text-sm text-muted-foreground">/kg</span>
+                  {crop.price}<span className="text-sm text-muted-foreground">/kg</span>
                 </div>
                 <div className={`text-center text-sm font-semibold mb-3 ${crop.positive ? "text-green-600" : "text-orange-600"}`}>
                   {crop.positive ? "+" : ""}{crop.change}%

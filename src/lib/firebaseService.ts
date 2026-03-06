@@ -10,9 +10,11 @@ import {
   where,
   getDocs
 } from "firebase/firestore";
-import { auth } from "./firebase";
+import { db } from "./firebase";
 
-const db = getFirestore();
+if (!db) {
+  console.warn("Firebase not initialized - using demo mode");
+}
 
 /**
  * FIREBASE DATABASE STRUCTURE - USER FORM DATA MAPPING
@@ -90,6 +92,10 @@ interface SelectedCropsData {
 // ============ USER PROFILE FUNCTIONS ============
 
 export const saveUserProfile = async (userId: string, userData: UserData) => {
+  if (!db) {
+    console.log("Demo mode - skipping save to Firebase");
+    return { success: true };
+  }
   try {
     const userRef = doc(db, "users", userId);
     const dataToSave = {
@@ -107,6 +113,9 @@ export const saveUserProfile = async (userId: string, userData: UserData) => {
 };
 
 export const getUserProfile = async (userId: string) => {
+  if (!db) {
+    return null;
+  }
   try {
     const userRef = doc(db, "users", userId);
     const snapshot = await getDoc(userRef);
@@ -123,6 +132,10 @@ export const getUserProfile = async (userId: string) => {
 // ============ LOCATION FUNCTIONS ============
 
 export const saveLocation = async (userId: string, locationData: LocationData) => {
+  if (!db) {
+    console.log("Demo mode - skipping save to Firebase");
+    return { success: true };
+  }
   try {
     const locationRef = doc(db, "users", userId, "location", "current");
     const dataToSave = {
@@ -139,6 +152,9 @@ export const saveLocation = async (userId: string, locationData: LocationData) =
 };
 
 export const getLocation = async (userId: string) => {
+  if (!db) {
+    return null;
+  }
   try {
     const locationRef = doc(db, "users", userId, "location", "current");
     const snapshot = await getDoc(locationRef);
@@ -155,6 +171,10 @@ export const getLocation = async (userId: string) => {
 // ============ FARM SIZE FUNCTIONS ============
 
 export const saveFarmSize = async (userId: string, farmSizeData: FarmSizeData) => {
+  if (!db) {
+    console.log("Demo mode - skipping save to Firebase");
+    return { success: true };
+  }
   try {
     const farmRef = doc(db, "users", userId, "farm", "details");
     const dataToSave = {
@@ -171,6 +191,9 @@ export const saveFarmSize = async (userId: string, farmSizeData: FarmSizeData) =
 };
 
 export const getFarmSize = async (userId: string) => {
+  if (!db) {
+    return null;
+  }
   try {
     const farmRef = doc(db, "users", userId, "farm", "details");
     const snapshot = await getDoc(farmRef);
@@ -187,6 +210,10 @@ export const getFarmSize = async (userId: string) => {
 // ============ CROPS SELECTION FUNCTIONS ============
 
 export const saveSelectedCrops = async (userId: string, cropsData: SelectedCropsData) => {
+  if (!db) {
+    console.log("Demo mode - skipping save to Firebase");
+    return { success: true };
+  }
   try {
     const cropsRef = doc(db, "users", userId, "crops", "selected");
     const dataToSave = {
@@ -203,6 +230,9 @@ export const saveSelectedCrops = async (userId: string, cropsData: SelectedCrops
 };
 
 export const getSelectedCrops = async (userId: string) => {
+  if (!db) {
+    return null;
+  }
   try {
     const cropsRef = doc(db, "users", userId, "crops", "selected");
     const snapshot = await getDoc(cropsRef);
@@ -219,6 +249,10 @@ export const getSelectedCrops = async (userId: string) => {
 // ============ FARM DISTRIBUTION FUNCTIONS ============
 
 export const saveFarmDistribution = async (userId: string, distributionData: FarmDistributionData) => {
+  if (!db) {
+    console.log("Demo mode - skipping save to Firebase");
+    return { success: true };
+  }
   try {
     const distributionRef = doc(db, "users", userId, "farm", "distribution");
     const dataToSave = {
@@ -235,6 +269,9 @@ export const saveFarmDistribution = async (userId: string, distributionData: Far
 };
 
 export const getFarmDistribution = async (userId: string) => {
+  if (!db) {
+    return null;
+  }
   try {
     const distributionRef = doc(db, "users", userId, "farm", "distribution");
     const snapshot = await getDoc(distributionRef);
@@ -251,6 +288,9 @@ export const getFarmDistribution = async (userId: string) => {
 // ============ GET COMPLETE USER DATA ============
 
 export const getCompleteUserData = async (userId: string) => {
+  if (!db) {
+    return null;
+  }
   try {
     const profile = await getUserProfile(userId);
     const location = await getLocation(userId);
@@ -274,6 +314,9 @@ export const getCompleteUserData = async (userId: string) => {
 // ============ SEARCH FUNCTIONS ============
 
 export const searchUserByPhone = async (phone: string) => {
+  if (!db) {
+    return null;
+  }
   try {
     const usersRef = collection(db, "users");
     const q = query(usersRef, where("phone", "==", phone));
