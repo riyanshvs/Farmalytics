@@ -3,8 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { saveFarmDistribution } from "@/lib/firebaseService";
-import { auth } from "@/lib/firebase";
 
 const cropIcons: Record<string, string> = {
   Potato: "🥔",
@@ -40,12 +38,6 @@ const FarmDistribution = () => {
 
     setIsLoading(true);
     try {
-      const userId = auth.currentUser?.uid;
-      if (!userId) {
-        toast.error("User not authenticated. Please sign in again.");
-        return;
-      }
-
       // prepare distribution data as array of { name, area }
       const distributionData = crops.map((c, index) => ({ 
         name: c.name, 
@@ -53,17 +45,10 @@ const FarmDistribution = () => {
       }));
       const totalArea = distributionData.reduce((sum, d) => sum + d.area, 0);
 
-      // Save to Firebase
-      await saveFarmDistribution(userId, { 
-        distributions: distributionData,
-        totalArea
-      });
-
-      toast.success("Farm distribution saved successfully!");
-      
-      // persist distribution data as array of { name, area }
+      // Save to localStorage
       localStorage.setItem("farmDistributions", JSON.stringify(distributionData));
 
+      toast.success("Farm distribution saved successfully!");
       navigate("/completion");
     } catch (error: any) {
       console.error("Error saving farm distribution:", error);

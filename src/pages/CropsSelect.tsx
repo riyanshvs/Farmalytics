@@ -3,8 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
 import { toast } from "sonner";
-import { saveSelectedCrops } from "@/lib/firebaseService";
-import { auth } from "@/lib/firebase";
 
 const crops = [
   { name: "Potato", image: "🥔" },
@@ -37,18 +35,9 @@ const CropsSelect = () => {
 
     setIsLoading(true);
     try {
-      const userId = auth.currentUser?.uid;
-      if (!userId) {
-        toast.error("User not authenticated. Please sign in again.");
-        return;
-      }
-
-      // Save selected crops to Firebase
-      await saveSelectedCrops(userId, { crops: selectedCrops });
-      toast.success("Crops saved successfully!");
-      
-      // persist selection for next page
+      // Save to localStorage
       localStorage.setItem("selectedCrops", JSON.stringify(selectedCrops));
+      toast.success("Crops saved successfully!");
       navigate("/farm-distribution");
     } catch (error: any) {
       console.error("Error saving crops:", error);

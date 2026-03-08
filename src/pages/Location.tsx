@@ -3,8 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { saveLocation } from "@/lib/firebaseService";
-import { auth } from "@/lib/firebase";
 
 const Location = () => {
   const navigate = useNavigate();
@@ -27,14 +25,8 @@ const Location = () => {
     
     setIsLoading(true);
     try {
-      const userId = auth.currentUser?.uid;
-      if (!userId) {
-        toast.error("User not authenticated. Please sign in again.");
-        return;
-      }
-
-      // Save location to Firebase
-      await saveLocation(userId, formData);
+      // Save to localStorage
+      localStorage.setItem("userLocation", JSON.stringify(formData));
       toast.success("Location saved successfully!");
       navigate("/farm-size");
     } catch (error: any) {

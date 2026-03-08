@@ -3,8 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { saveFarmSize } from "@/lib/firebaseService";
-import { auth } from "@/lib/firebase";
 
 const FarmSize = () => {
   const navigate = useNavigate();
@@ -21,14 +19,8 @@ const FarmSize = () => {
     
     setIsLoading(true);
     try {
-      const userId = auth.currentUser?.uid;
-      if (!userId) {
-        toast.error("User not authenticated. Please sign in again.");
-        return;
-      }
-
-      // Save farm size to Firebase
-      await saveFarmSize(userId, { farmSize });
+      // Save to localStorage
+      localStorage.setItem("farmSize", farmSize);
       toast.success("Farm size saved successfully!");
       navigate("/crops-select");
     } catch (error: any) {

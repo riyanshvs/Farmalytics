@@ -1,28 +1,25 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { HfInference } from "@huggingface/inference";
 
-// Load environment variables
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Initialize Gemini AI
-const apiKey = process.env.GEMINI_API_KEY;
-if (!apiKey) {
-  console.error("ERROR: GEMINI_API_KEY not found in environment variables.");
+const hfToken = process.env.HUGGING_FACE_API_KEY;
+if (!hfToken) {
+  console.error("ERROR: HUGGING_FACE_API_KEY not found in environment variables.");
+  console.error("Get your free API token from: https://huggingface.co/settings/tokens");
   process.exit(1);
 }
 
-const genAI = new GoogleGenerativeAI(apiKey);
+const hf = new HfInference(hfToken);
 
-// System prompt for Kissan Sahayk
 const SYSTEM_PROMPT = `You are "Kissan Sahayk" (किसान सहायक), an AI assistant dedicated to helping Indian farmers.
 
 Your responsibilities:
@@ -36,48 +33,41 @@ Your responsibilities:
 
 When a user asks something unrelated to farming, politely redirect them to farming-related topics.`;
 
-// POST /api/chat - Handle chat messages
 app.post("/api/chat", async (req, res) => {
   try {
     const { message } = req.body;
 
-    // Validate input
     if (!message || typeof message !== "string" || message.trim() === "") {
       return res.status(400).json({
         error: "Message is required and must be a non-empty string.",
       });
     }
 
-    // Call Gemini API
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-    const result = await model.generateContent({
-      contents: [
-        {
-          role: "user",
-          parts: [{ text: SYSTEM_PROMPT + "\n\nUser: " + message }],
-        },
+    const chatCompletion = await hf.chatCompletion({
+      model: "mistralai/Mistral-7B-Instruct-v0.2",
+      messages: [
+        { role: "system", content: SYSTEM_PROMPT },
+        { role: "user", content: message }
       ],
+      max_tokens: 500,
     });
 
-    const reply =
-      result.response.text() ||
+    const reply = chatCompletion.choices[0]?.message?.content || 
       "Kuch dikkat aa rahi hai. Kripya thodi der baad try karein.";
 
     res.json({ reply });
   } catch (error) {
-    console.error("Error calling Gemini API:", error);
+    console.error("Error calling Hugging Face API:", error);
     res.status(500).json({
       reply: "Kuch dikkat aa rahi hai. Kripya thodi der baad try karein.",
     });
   }
 });
 
-// Health check endpoint
 app.get("/health", (req, res) => {
   res.json({ status: "OK", message: "Kissan Sahayk backend is running." });
 });
 
-// Start server
 app.listen(PORT, () => {
   console.log(`Kissan Sahayk backend running on http://localhost:${PORT}`);
   console.log(`POST /api/chat - Send a message to Kissan Sahayk`);

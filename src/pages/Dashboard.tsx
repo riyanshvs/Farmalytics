@@ -118,79 +118,13 @@ const Dashboard = () => {
   );
 
   return (
-    <div className="flex min-h-screen bg-background">
-      {/* Sidebar */}
-      <aside className="w-[280px] bg-card border-r border-border p-6 flex flex-col">
-        <div className="flex items-center gap-3 mb-12">
-          <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center">
-            <Sprout className="w-6 h-6 text-primary-foreground" />
-          </div>
-          <span className="text-xl font-bold text-primary">Farmalytics</span>
-        </div>
-
-        <nav className="flex-1 space-y-2">
-          <NavLink
-            to="/dashboard"
-            className="flex items-center gap-3 px-4 py-3 rounded-lg text-foreground/70 hover:bg-accent transition-colors"
-            activeClassName="bg-accent text-white font-semibold"
-          >
-            <Home className="w-5 h-5" />
-            <span>Home</span>
-          </NavLink>
-
-          <NavLink
-            to="/crops-price"
-            className="flex items-center gap-3 px-4 py-3 rounded-lg text-foreground/70 hover:bg-accent transition-colors"
-            activeClassName="bg-accent text-primary font-semibold"
-          >
-            <Sprout className="w-5 h-5" />
-            <span>Crops & Price</span>
-          </NavLink>
-
-          <NavLink
-            to="/weather-soil"
-            className="flex items-center gap-3 px-4 py-3 rounded-lg text-foreground/70 hover:bg-accent transition-colors"
-            activeClassName="bg-accent text-primary font-semibold"
-          >
-            <Sun className="w-5 h-5" />
-            <span>Weather & Soil</span>
-          </NavLink>
-
-          <NavLink
-            to="/news-reports"
-            className="flex items-center gap-3 px-4 py-3 rounded-lg text-foreground/70 hover:bg-accent transition-colors"
-            activeClassName="bg-accent text-primary font-semibold"
-          >
-            <FileText className="w-5 h-5" />
-            <span>News Reports</span>
-          </NavLink>
-
-          <NavLink
-            to="/alerts"
-            className="flex items-center gap-3 px-4 py-3 rounded-lg text-foreground/70 hover:bg-accent transition-colors"
-            activeClassName="bg-accent text-primary font-semibold"
-          >
-            <AlertTriangle className="w-5 h-5" />
-            <span>Alerts</span>
-          </NavLink>
-        </nav>
-
-        <div className="flex items-center gap-3 mt-8 p-3 bg-accent rounded-lg">
-          <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
-            <User className="w-5 h-5 text-primary-foreground" />
-          </div>
-          <UserName />
-        </div>
-      </aside>
-
-      {/* Main Content */}
-      <main className="flex-1 p-8">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold">Home</h1>
-          <Button onClick={toggle} variant="outline" size="icon" className="rounded-full w-12 h-12">
-            {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-          </Button>
-        </div>
+    <div className="p-8">
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-4xl font-bold">Home</h1>
+        <Button onClick={toggle} variant="outline" size="icon" className="rounded-full w-12 h-12">
+          {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+        </Button>
+      </div>
 
         {/* Top Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">

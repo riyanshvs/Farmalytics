@@ -94,7 +94,7 @@ export const Chatbot = () => {
       </div>
 
       {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto mb-4 space-y-3 max-h-64">
+      <div className="flex-1 overflow-y-auto mb-4 space-y-3 min-h-0">
         {messages.length === 0 ? (
           <div className="flex items-center justify-center h-full text-muted-foreground text-sm">
             <p>नमस्ते! आपके सवालों का जवाब देने के लिए तैयार हूँ।</p>
