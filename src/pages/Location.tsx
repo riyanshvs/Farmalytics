@@ -3,9 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
+import { api } from "@/services/api";
 
 const Location = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     address: "",
@@ -25,9 +28,20 @@ const Location = () => {
     
     setIsLoading(true);
     try {
-      // Save to localStorage
-      localStorage.setItem("userLocation", JSON.stringify(formData));
-      toast.success("Location saved successfully!");
+      const locationData = {
+        state: formData.state,
+        district: formData.city,
+      };
+      
+      localStorage.setItem("userLocation", JSON.stringify(locationData));
+      
+      try {
+        await api.farm.save({ location: locationData });
+      } catch (apiError) {
+        console.warn("API save failed, data stored locally:", apiError);
+      }
+      
+      toast.success(t("common.success"));
       navigate("/farm-size");
     } catch (error: any) {
       console.error("Error saving location:", error);
@@ -40,12 +54,12 @@ const Location = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-background px-4 py-8">
       <h1 className="text-4xl md:text-6xl font-bold text-primary mb-12">
-        We Would Like To Know
+        {t("welcome.locationTitle")}
       </h1>
       
       <div className="w-full max-w-lg bg-card rounded-3xl shadow-xl p-8 border-2 border-border">
         <h2 className="text-2xl font-semibold text-center text-muted-foreground mb-8">
-          Location
+          {t("welcome.locationSubtitle")}
         </h2>
         
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -59,7 +73,7 @@ const Location = () => {
           
           <Input
             type="text"
-            placeholder="City"
+            placeholder="City / District"
             value={formData.city}
             onChange={(e) => setFormData({...formData, city: e.target.value})}
             className="h-12 rounded-xl border-b-2 border-t-0 border-l-0 border-r-0 rounded-none px-0"
@@ -75,7 +89,7 @@ const Location = () => {
           
           <Input
             type="text"
-            placeholder="State"
+            placeholder={t("welcome.stateLabel")}
             value={formData.state}
             onChange={(e) => setFormData({...formData, state: e.target.value})}
             className="h-12 rounded-xl border-b-2 border-t-0 border-l-0 border-r-0 rounded-none px-0"
@@ -95,7 +109,7 @@ const Location = () => {
               disabled={isLoading}
               className="w-full h-14 text-lg font-bold rounded-xl bg-primary hover:bg-primary/90"
             >
-              {isLoading ? "Saving..." : "Submit"}
+              {isLoading ? t("common.loading") : t("common.submit")}
             </Button>
           </div>
         </form>

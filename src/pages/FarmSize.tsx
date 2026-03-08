@@ -3,9 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
+import { api } from "@/services/api";
 
 const FarmSize = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const [farmSize, setFarmSize] = useState("");
 
@@ -19,9 +22,16 @@ const FarmSize = () => {
     
     setIsLoading(true);
     try {
-      // Save to localStorage
+      const farmSizeNum = parseFloat(farmSize);
       localStorage.setItem("farmSize", farmSize);
-      toast.success("Farm size saved successfully!");
+      
+      try {
+        await api.farm.save({ farmSize: farmSizeNum });
+      } catch (apiError) {
+        console.warn("API save failed, data stored locally:", apiError);
+      }
+      
+      toast.success(t("common.success"));
       navigate("/crops-select");
     } catch (error: any) {
       console.error("Error saving farm size:", error);
@@ -34,29 +44,32 @@ const FarmSize = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-background px-4">
       <h1 className="text-4xl md:text-6xl font-bold text-primary mb-12">
-        We Would Like To Know
+        {t("welcome.farmSizeTitle")}
       </h1>
       
       <div className="w-full max-w-md bg-card rounded-3xl shadow-xl p-8 border-2 border-border">
         <h2 className="text-2xl font-semibold text-center text-muted-foreground mb-8">
-          Your Farm Size
+          {t("welcome.farmSizeSubtitle")}
         </h2>
         
         <form onSubmit={handleSubmit} className="space-y-8">
-          <Input
-            type="text"
-            placeholder=""
-            value={farmSize}
-            onChange={(e) => setFarmSize(e.target.value)}
-            className="h-12 rounded-xl border-b-2 border-t-0 border-l-0 border-r-0 rounded-none px-0 text-center"
-          />
+          <div className="text-center">
+            <Input
+              type="number"
+              placeholder={t("welcome.farmSizePlaceholder")}
+              value={farmSize}
+              onChange={(e) => setFarmSize(e.target.value)}
+              className="h-12 rounded-xl border-b-2 border-t-0 border-l-0 border-r-0 rounded-none px-0 text-center text-2xl font-bold w-32 mx-auto"
+            />
+            <p className="text-muted-foreground mt-2">{t("welcome.farmSizeLabel")}</p>
+          </div>
           
           <Button 
             type="submit"
             disabled={isLoading}
             className="w-full h-14 text-lg font-bold rounded-xl bg-primary hover:bg-primary/90"
           >
-            {isLoading ? "Saving..." : "Submit"}
+            {isLoading ? t("common.loading") : t("common.submit")}
           </Button>
         </form>
       </div>

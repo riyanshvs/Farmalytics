@@ -1,29 +1,18 @@
-import { Home, Sprout, Sun, FileText, AlertTriangle, User, Moon } from "lucide-react";
-import { NavLink } from "@/components/NavLink";
+import { Home, Sprout, Sun, FileText, AlertTriangle, User, Moon, Droplets, Wind, MessageCircle } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, LineChart, Line } from "recharts";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { MessageCircle, X } from "lucide-react";
-import { useEffect, useMemo } from "react";
 import useTheme from "@/lib/useTheme";
 import Chatbot from "@/components/Chatbot";
+import { useTranslation } from "react-i18next";
+import { useAuth } from "@/context/AuthContext";
+import { api } from "@/services/api";
 
-const UserName = () => {
-  const [name, setName] = useState<string | null>(null);
-  useEffect(() => {
-    const n = typeof window !== "undefined" ? localStorage.getItem("userName") : null;
-    setName(n);
-  }, []);
-  return <span className="font-semibold">{name || "User"}</span>;
-};
-
-// small LiveWeather component using Open-Meteo (no API key) and browser geolocation
 const LiveWeather = () => {
-  const [weather, setWeather] = useState<{ temp?: number; condition?: string; wind?: number; humidity?: number }>(
-    {}
-  );
+  const { t } = useTranslation();
+  const [weather, setWeather] = useState<{ temp?: number; condition?: string; wind?: number; humidity?: number }>({});
 
   useEffect(() => {
     if (!navigator.geolocation) return;
@@ -37,7 +26,7 @@ const LiveWeather = () => {
           setWeather({ temp: json.current_weather.temperature, condition: json.current_weather.weathercode?.toString() || "", wind: json.current_weather.windspeed });
         }
       } catch (e) {
-        // ignore
+        console.error("Weather fetch error:", e);
       }
     });
   }, []);
@@ -47,14 +36,14 @@ const LiveWeather = () => {
       <div className="flex items-center justify-between">
         <Sun className="w-16 h-16 text-yellow-500" />
         <div className="text-right">
-          <div className="text-4xl font-bold">{weather.temp ? `${weather.temp}°` : `--°`}</div>
-          <div className="text-sm text-muted-foreground">{weather.condition || "Loading"}</div>
+          <div className="text-4xl font-bold">{weather.temp ? `${weather.temp}°C` : `--°C`}</div>
+          <div className="text-sm text-muted-foreground">{weather.condition || t("common.loading")}</div>
         </div>
       </div>
       <div className="flex items-center justify-around pt-4 border-t">
         <div className="text-center">
           <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-1">
-            <span className="text-xs font-bold text-primary-foreground">💨</span>
+            <Wind className="w-4 h-4 text-primary-foreground" />
           </div>
           <div className="text-xs font-semibold">{weather.wind ?? "--"} km/h</div>
         </div>
@@ -66,7 +55,7 @@ const LiveWeather = () => {
         </div>
         <div className="text-center">
           <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-1">
-            <span className="text-xs font-bold text-primary-foreground">💧</span>
+            <Droplets className="w-4 h-4 text-primary-foreground" />
           </div>
           <div className="text-xs font-semibold">{weather.humidity ?? "--"}%</div>
         </div>
@@ -76,12 +65,28 @@ const LiveWeather = () => {
 };
 
 const Dashboard = () => {
-  const [chatOpen, setChatOpen] = useState(false);
+  const { t } = useTranslation();
+  const { user, logout } = useAuth();
   const { theme, toggle } = useTheme();
+  const [chatOpen, setChatOpen] = useState(false);
+  const [farmData, setFarmData] = useState<any>(null);
 
-  // read farm distribution from localStorage if available
+  useEffect(() => {
+    const fetchFarmData = async () => {
+      try {
+        const result = await api.farm.get();
+        if (result.farm) {
+          setFarmData(result.farm);
+        }
+      } catch (error) {
+        console.warn("Failed to fetch farm data:", error);
+      }
+    };
+    fetchFarmData();
+  }, []);
+
   const storedDist = typeof window !== "undefined" ? localStorage.getItem("farmDistributions") : null;
-  const parsedDist: { name: string; area: number }[] = storedDist ? JSON.parse(storedDist) : [];
+  const parsedDist: { name: string; area: number }[] = storedDist ? JSON.parse(storedDist) : farmData?.distributions || [];
 
   const palette = ["#8B5CF6", "#EF4444", "#06B6D4", "#F97316", "#3B82F6", "#10B981", "#A855F7", "#F59E0B"];
 
@@ -90,12 +95,8 @@ const Dashboard = () => {
     { name: "Tomato", value: 16.67, color: "#EF4444" },
     { name: "Onion", value: 11.11, color: "#06B6D4" },
     { name: "Cucumber", value: 22.22, color: "#F97316" },
-    { name: "Ginger", value: 16.67, color: "#3B82F6" },
-    { name: "Garlic", value: 5.56, color: "#10B981" },
-    { name: "Others", value: 5.56, color: "#A855F7" },
   ];
 
-  // default crop market data (used as fallback and for mapping selected crops)
   const defaultCrops = [
     { name: "Potato", price: 10, change: 3.3, trend: [12, 15, 13, 18, 16, 20, 18], positive: true },
     { name: "Onion", price: 13, change: 3.3, trend: [10, 12, 11, 15, 14, 17, 16], positive: true },
@@ -103,49 +104,46 @@ const Dashboard = () => {
     { name: "Cucumber", price: 11, change: 3.3, trend: [8, 10, 9, 12, 11, 14, 13], positive: true },
   ];
 
-  // Read selected crops from localStorage (set by CropsSelect)
-  const storedSelected = typeof window !== "undefined" ? localStorage.getItem("selectedCrops") : null;
-  const selectedNames: string[] = storedSelected ? JSON.parse(storedSelected) : [];
-
-  // Build a lookup map for quick access
+  const selectedNames = farmData?.selectedCrops || [];
   const cropMap: Record<string, typeof defaultCrops[0]> = {};
   defaultCrops.forEach((c) => (cropMap[c.name] = c));
 
-  // If user selected crops, show only those (map to default data where available), otherwise show default list
   const crops = (selectedNames.length > 0
-    ? selectedNames.map((name) => cropMap[name] ?? { name, price: 0, change: 0, trend: [0, 0, 0, 0, 0, 0, 0], positive: true })
+    ? selectedNames.map((name: string) => cropMap[name] ?? { name, price: 0, change: 0, trend: [0, 0, 0, 0, 0, 0, 0], positive: true })
     : defaultCrops
   );
 
   return (
-    <div className="p-8">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-4xl font-bold">Home</h1>
-        <Button onClick={toggle} variant="outline" size="icon" className="rounded-full w-12 h-12">
-          {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-        </Button>
-      </div>
+    <div className="flex min-h-screen bg-background">
+      <main className="flex-1 p-8">
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-4xl font-bold">{t("dashboard.title")}</h1>
+          <div className="flex items-center gap-4">
+            <span className="text-muted-foreground">{user?.name || "User"}</span>
+            <Button onClick={toggle} variant="outline" size="icon" className="rounded-full w-12 h-12">
+              {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </Button>
+            <Button variant="outline" onClick={logout}>
+              {t("dashboard.logout")}
+            </Button>
+          </div>
+        </div>
 
-        {/* Top Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          {/* Weather Card */}
           <Card className="p-6">
-              <h3 className="text-lg font-semibold mb-4">Weather</h3>
-              <div className="space-y-4">
-                <LiveWeather />
-              </div>
-            </Card>
+            <h3 className="text-lg font-semibold mb-4">{t("dashboard.weather")}</h3>
+            <LiveWeather />
+          </Card>
 
-          {/* Soil Card */}
           <Card className="p-6">
-            <h3 className="text-lg font-semibold mb-4">Soil</h3>
+            <h3 className="text-lg font-semibold mb-4">{t("dashboard.soil")}</h3>
             <div className="space-y-4">
               <div className="flex items-center gap-3">
-                <div className="text-3xl">💧</div>
+                <div className="text-3xl">🧪</div>
                 <div className="text-lg font-semibold text-primary">Neutral</div>
               </div>
               <div className="flex items-center gap-3">
-                <div className="text-3xl">💧💧</div>
+                <div className="text-3xl">💧</div>
                 <div className="text-lg font-semibold text-primary">High</div>
               </div>
               <div className="flex items-center gap-3">
@@ -155,9 +153,8 @@ const Dashboard = () => {
             </div>
           </Card>
 
-          {/* Field Distribution */}
           <Card className="p-6">
-            <h3 className="text-lg font-semibold mb-4">Field Distribution</h3>
+            <h3 className="text-lg font-semibold mb-4">{t("dashboard.fieldDistribution")}</h3>
             <div className="flex items-center gap-4">
               <ResponsiveContainer width={140} height={140}>
                 <PieChart>
@@ -188,9 +185,8 @@ const Dashboard = () => {
           </Card>
         </div>
 
-        {/* Your Crops */}
         <div>
-          <h2 className="text-2xl font-bold mb-6">Your Crops</h2>
+          <h2 className="text-2xl font-bold mb-6">{t("dashboard.yourCrops")}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
             {crops.map((crop) => (
               <Card key={crop.name} className="p-6">
@@ -220,15 +216,10 @@ const Dashboard = () => {
                 </ResponsiveContainer>
               </Card>
             ))}
-            <Card className="p-6 flex flex-col items-center justify-center cursor-pointer hover:bg-accent transition-colors">
-              <div className="text-6xl mb-2">+</div>
-              <div className="text-lg font-semibold underline">View All</div>
-            </Card>
           </div>
         </div>
       </main>
 
-      {/* Chatbot Button */}
       <Button
         onClick={() => setChatOpen(true)}
         className="fixed bottom-6 right-6 w-14 h-14 rounded-full shadow-lg"
@@ -237,7 +228,6 @@ const Dashboard = () => {
         <MessageCircle className="w-6 h-6" />
       </Button>
 
-      {/* Chatbot Dialog */}
       <Dialog open={chatOpen} onOpenChange={setChatOpen}>
         <DialogContent className="sm:max-w-md h-96 flex flex-col">
           <Chatbot />

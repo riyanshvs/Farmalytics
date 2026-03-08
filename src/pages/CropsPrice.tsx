@@ -4,14 +4,27 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { TrendingUp, TrendingDown, Search, RefreshCw, Calendar, MapPin } from "lucide-react";
+import { TrendingUp, TrendingDown, Search, RefreshCw, Calendar, MapPin, Sprout, Apple, Onion } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from "recharts";
+
+const getCropIcon = (iconType: string) => {
+  switch (iconType) {
+    case 'potato':
+      return <Sprout className="w-8 h-8 text-yellow-500" />;
+    case 'tomato':
+      return <Apple className="w-8 h-8 text-red-500" />;
+    case 'onion':
+      return <Onion className="w-8 h-8 text-purple-500" />;
+    default:
+      return <Sprout className="w-8 h-8 text-green-500" />;
+  }
+};
 
 // Mock data - in production, this would come from backend API
 const cropPriceData = [
   {
     name: "Potato",
-    emoji: "🥔",
+    icon: "potato",
     currentPrice: 12.50,
     change: 2.3,
     trend: "up",
@@ -33,7 +46,7 @@ const cropPriceData = [
   },
   {
     name: "Tomato",
-    emoji: "🍅",
+    icon: "tomato",
     currentPrice: 18.75,
     change: -3.2,
     trend: "down",
@@ -55,7 +68,7 @@ const cropPriceData = [
   },
   {
     name: "Onion",
-    emoji: "🧅",
+    icon: "onion",
     currentPrice: 14.25,
     change: 1.8,
     trend: "up",
@@ -153,7 +166,7 @@ const CropsPrice = () => {
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <span className="text-3xl">{crop.emoji}</span>
+                    {getCropIcon(crop.icon)}
                     <CardTitle className="text-lg">{crop.name}</CardTitle>
                   </div>
                   <Badge variant={crop.trend === 'up' ? 'default' : 'destructive'}>
@@ -168,7 +181,7 @@ const CropsPrice = () => {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold text-primary mb-2">
-                  ₹{crop.currentPrice}/kg
+                  Rs{crop.currentPrice}/kg
                 </div>
                 <div className="text-sm text-muted-foreground">
                   Current market price
@@ -185,7 +198,7 @@ const CropsPrice = () => {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <span className="text-2xl">{selectedCrop.emoji}</span>
+                  {getCropIcon(selectedCrop.icon)}
                   {selectedCrop.name} - Weekly Trend
                 </CardTitle>
               </CardHeader>
@@ -196,7 +209,7 @@ const CropsPrice = () => {
                     <XAxis dataKey="day" />
                     <YAxis />
                     <Tooltip
-                      formatter={(value) => [`₹${value}`, 'Price']}
+                      formatter={(value) => [`Rs${value}`, 'Price']}
                       labelFormatter={(label) => `Day: ${label}`}
                     />
                     <Line
@@ -228,7 +241,7 @@ const CropsPrice = () => {
                         <div className="text-sm text-muted-foreground">Mandi</div>
                       </div>
                       <div className="text-right">
-                        <div className="font-bold text-lg">₹{market.price}</div>
+                        <div className="font-bold text-lg">Rs{market.price}</div>
                         <div className={`text-sm flex items-center gap-1 ${
                           market.change >= 0 ? 'text-green-600' : 'text-red-600'
                         }`}>
@@ -248,6 +261,8 @@ const CropsPrice = () => {
           </div>
         )}
 
+        </div>
+
         {/* Market Insights */}
         <Card className="mt-6">
           <CardHeader>
@@ -263,7 +278,7 @@ const CropsPrice = () => {
                 <div className="text-sm text-muted-foreground">Average Price Increase</div>
               </div>
               <div className="text-center p-4 bg-blue-50 dark:bg-blue-950/20 rounded-lg">
-                <div className="text-2xl font-bold text-blue-600 mb-1">₹15.83</div>
+                <div className="text-2xl font-bold text-blue-600 mb-1">Rs15.83</div>
                 <div className="text-sm text-muted-foreground">Average Market Price</div>
               </div>
               <div className="text-center p-4 bg-orange-50 dark:bg-orange-950/20 rounded-lg">

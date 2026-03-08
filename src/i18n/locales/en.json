@@ -1,0 +1,91 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "save": "Save",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit",
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "auth": {
+    "title": "Welcome to Farmalytics",
+    "subtitle": "Your farming companion",
+    "phoneLabel": "Phone Number",
+    "phonePlaceholder": "Enter 10-digit mobile number",
+    "sendOtp": "Send OTP",
+    "otpSent": "OTP sent! Check console",
+    "otpLabel": "Enter OTP",
+    "otpPlaceholder": "6-digit code",
+    "verifyOtp": "Verify & Login",
+    "invalidPhone": "Please enter a valid 10-digit phone number",
+    "invalidOtp": "Please enter valid 6-digit OTP",
+    "loginFailed": "Login failed. Please try again.",
+    "nameLabel": "Your Name",
+    "namePlaceholder": "Enter your name",
+    "skip": "Skip for now"
+  },
+  "welcome": {
+    "hiTitle": "Hi, {{name}}!",
+    "hiSubtitle": "Let's set up your farm profile",
+    "locationTitle": "Where is your farm?",
+    "locationSubtitle": "Select your state and district",
+    "stateLabel": "State",
+    "districtLabel": "District",
+    "selectState": "Select State",
+    "selectDistrict": "Select District",
+    "farmSizeTitle": "How big is your farm?",
+    "farmSizeSubtitle": "Enter your total land area",
+    "farmSizeLabel": "Farm Size (acres)",
+    "farmSizePlaceholder": "e.g., 5",
+    "cropsTitle": "What do you grow?",
+    "cropsSubtitle": "Select the crops you cultivate",
+    "distributionTitle": "How is your land distributed?",
+    "distributionSubtitle": "Enter area for each crop",
+    "areaLabel": "Area (acres)",
+    "areaPlaceholder": "e.g., 2.5",
+    "addCrop": "Add Crop",
+    "completeTitle": "You're all set!",
+    "completeSubtitle": "Your farm profile has been created",
+    "goToDashboard": "Go to Dashboard"
+  },
+  "dashboard": {
+    "title": "Home",
+    "weather": "Weather",
+    "soil": "Soil",
+    "fieldDistribution": "Field Distribution",
+    "yourCrops": "Your Crops",
+    "viewAll": "View All",
+    "cropsPrice": "Crops & Price",
+    "weatherSoil": "Weather & Soil",
+    "newsReports": "News Reports",
+    "alerts": "Alerts",
+    "profile": "Profile",
+    "settings": "Settings",
+    "logout": "Logout"
+  },
+  "chatbot": {
+    "title": "Kissan Sahayk",
+    "subtitle": "Agricultural Assistant",
+    "placeholder": "Ask your question...",
+    "loading": "Thinking...",
+    "initialMessage": "Hello! I'm ready to answer your questions.",
+    "error": "Some error occurred. Please try again."
+  },
+  "soil": {
+    "ph": "pH Level",
+    "moisture": "Moisture",
+    "nitrogen": "Nitrogen",
+    "phosphorus": "Phosphorus",
+    "potassium": "Potassium"
+  },
+  "language": {
+    "label": "Language",
+    "en": "English",
+    "hi": "हिंदी"
+  }
+}

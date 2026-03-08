@@ -1,0 +1,91 @@
+{
+  "common": {
+    "loading": "लोड हो रहा है...",
+    "error": "त्रुटि",
+    "success": "सफल",
+    "save": "सहेजें",
+    "cancel": "रद्द करें",
+    "continue": "जारी रखें",
+    "back": "वापस",
+    "next": "आगे",
+    "submit": "जमा करें",
+    "edit": "संपादित करें",
+    "delete": "हटाएं"
+  },
+  "auth": {
+    "title": "Farmalytics में आपका स्वागत है",
+    "subtitle": "आपका खेती साथी",
+    "phoneLabel": "फोन नंबर",
+    "phonePlaceholder": "10 अंकों का मोबाइल नंबर दर्ज करें",
+    "sendOtp": "OTP भेजें",
+    "otpSent": "OTP भेज दिया गया! कंसोल देखें",
+    "otpLabel": "OTP दर्ज करें",
+    "otpPlaceholder": "6 अंकों का कोड",
+    "verifyOtp": "सत्यापित करें और लॉगिन करें",
+    "invalidPhone": "कृपया एक मान्य 10 अंकों का फोन नंबर दर्ज करें",
+    "invalidOtp": "कृपया वैध 6 अंकों का OTP दर्ज करें",
+    "loginFailed": "लॉगिन विफल। कृपया पुनः प्रयास करें।",
+    "nameLabel": "आपका नाम",
+    "namePlaceholder": "अपना नाम दर्ज करें",
+    "skip": "अभी छोड़ें"
+  },
+  "welcome": {
+    "hiTitle": "नमस्ते, {{name}}!",
+    "hiSubtitle": "आइए आपकी खेती प्रोफ़ाइल सेट करें",
+    "locationTitle": "आपकी खेती कहाँ है?",
+    "locationSubtitle": "अपना राज्य और जिला चुनें",
+    "stateLabel": "राज्य",
+    "districtLabel": "जिला",
+    "selectState": "राज्य चुनें",
+    "selectDistrict": "जिला चुनें",
+    "farmSizeTitle": "आपकी खेती कितनी बड़ी है?",
+    "farmSizeSubtitle": "अपनी कुल भूमि का क्षेत्रफल दर्ज करें",
+    "farmSizeLabel": "खेती का आकार (एकड़)",
+    "farmSizePlaceholder": "उदा., 5",
+    "cropsTitle": "आप क्या उगाते हैं?",
+    "cropsSubtitle": "वे फसलें चुनें जो आप उगाते हैं",
+    "distributionTitle": "आपकी भूमि कैसे वितरित है?",
+    "distributionSubtitle": "प्रत्येक फसल के लिए क्षेत्रफल दर्ज करें",
+    "areaLabel": "क्षेत्रफल (एकड़)",
+    "areaPlaceholder": "उदा., 2.5",
+    "addCrop": "फसल जोड़ें",
+    "completeTitle": "आप पूरी तरह तैयार हैं!",
+    "completeSubtitle": "आपकी खेती प्रोफ़ाइल बनाई गई है",
+    "goToDashboard": "डैशबोर्ड पर जाएं"
+  },
+  "dashboard": {
+    "title": "होम",
+    "weather": "मौसम",
+    "soil": "मिट्टी",
+    "fieldDistribution": "खेत का वितरण",
+    "yourCrops": "आपकी फसलें",
+    "viewAll": "सभी देखें",
+    "cropsPrice": "फसल और कीमत",
+    "weatherSoil": "मौसम और मिट्टी",
+    "newsReports": "समाचार रिपोर्ट",
+    "alerts": "अलर्ट",
+    "profile": "प्रोफ़ाइल",
+    "settings": "सेटिंग्स",
+    "logout": "लॉगआउट"
+  },
+  "chatbot": {
+    "title": "किसान सहायक",
+    "subtitle": "कृषि सहायक",
+    "placeholder": "अपना सवाल पूछें...",
+    "loading": "विचार कर रहे हैं...",
+    "initialMessage": "नमस्ते! मैं आपके सवालों का जवाब देने के लिए तैयार हूँ।",
+    "error": "कुछ त्रुटि हुई। कृपया पुनः प्रयास करें।"
+  },
+  "soil": {
+    "ph": "pH स्तर",
+    "moisture": "नमी",
+    "nitrogen": "नाइट्रोजन",
+    "phosphorus": "फास्फोरस",
+    "potassium": "पोटेशियम"
+  },
+  "language": {
+    "label": "भाषा",
+    "en": "English",
+    "hi": "हिंदी"
+  }
+}

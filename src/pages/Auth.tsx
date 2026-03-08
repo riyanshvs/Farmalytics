@@ -1,85 +1,76 @@
 import { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
+import { useAuth } from "@/context/AuthContext";
 import farmBg from "@/assets/farm-field-bg.jpg";
 
 const Auth = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const mode = location.pathname.includes("signup") ? "signup" : "signin";
+  const { t } = useTranslation();
+  const { sendOTP, login, updateProfile } = useAuth();
 
   const [phone, setPhone] = useState("");
   const [name, setName] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const [otp, setOtp] = useState("");
-  const [generatedOtp, setGeneratedOtp] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const sendOtp = async (e: React.FormEvent) => {
+  const handleSendOtp = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!phone) {
-      toast.error("Please enter your phone number");
-      return;
-    }
-
-    if (!/^\d{10}$/.test(phone)) {
-      toast.error("Please enter a valid 10-digit phone number");
+    if (!phone || !/^\d{10}$/.test(phone)) {
+      toast.error(t("auth.invalidPhone"));
       return;
     }
 
     setIsLoading(true);
     
     try {
-      // Generate a random 6-digit OTP
-      const newOtp = Math.floor(100000 + Math.random() * 900000).toString();
+      const result = await sendOTP(phone);
       
-      // Store OTP locally for verification
-      setGeneratedOtp(newOtp);
-      
-      // Log OTP to console for demo/testing
-      console.log("=".repeat(40));
-      console.log("OTP for phone number +91" + phone + " is: " + newOtp);
-      console.log("=".repeat(40));
-      
-      // Show success message
-      toast.success("OTP generated! Check the browser console.");
-      
-      setOtpSent(true);
-    } catch (err: any) {
-      console.error("Error generating OTP:", err);
-      toast.error("Failed to generate OTP. Please try again.");
+      if (result.success) {
+        toast.success(t("auth.otpSent"));
+        setOtpSent(true);
+      } else {
+        toast.error(result.message || "Failed to send OTP");
+      }
+    } catch (err) {
+      console.error("Error sending OTP:", err);
+      toast.error("Failed to send OTP. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
 
-  const verifyOtp = (e: React.FormEvent) => {
+  const handleVerifyOtp = async (e: React.FormEvent) => {
     e.preventDefault();
+    
     if (!otp || otp.length !== 6) {
-      toast.error("Please enter the 6-digit OTP");
+      toast.error(t("auth.invalidOtp"));
       return;
     }
 
     setIsLoading(true);
     
-    // Verify OTP locally
-    if (otp === generatedOtp) {
-      // OTP verified successfully
-      console.log("OTP verified successfully for phone: +91" + phone);
+    try {
+      const result = await login(phone, otp);
       
-      // Save to localStorage
-      localStorage.setItem("userPhone", phone);
-      if (name) localStorage.setItem("userName", name);
-      
-      toast.success("Verified successfully!");
-      navigate("/hi");
-      setIsLoading(false);
-    } else {
-      console.log("Invalid OTP entered:", otp, "Expected:", generatedOtp);
-      toast.error("Invalid OTP. Please try again.");
+      if (result.success) {
+        if (name) {
+          await updateProfile({ name });
+        }
+        toast.success(t("common.success"));
+        navigate("/dashboard");
+      } else {
+        toast.error(result.message || t("auth.loginFailed"));
+      }
+    } catch (err) {
+      console.error("Error verifying OTP:", err);
+      toast.error(t("auth.loginFailed"));
+    } finally {
       setIsLoading(false);
     }
   };
@@ -93,23 +84,22 @@ const Auth = () => {
 
       <div className="relative z-10 w-full max-w-md mx-4">
         <div className="bg-card/95 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border border-border">
-          <h1 className="text-4xl font-bold text-center mb-6">{mode === "signin" ? "Sign In" : "Sign Up"}</h1>
+          <h1 className="text-4xl font-bold text-center mb-2">{t("auth.title")}</h1>
+          <p className="text-center text-muted-foreground mb-6">{t("auth.subtitle")}</p>
 
           {!otpSent ? (
-            <form onSubmit={sendOtp} className="space-y-4">
-              {mode === "signup" && (
-                <Input
-                  type="text"
-                  placeholder="Name (optional)"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="h-14 rounded-xl border-2"
-                />
-              )}
+            <form onSubmit={handleSendOtp} className="space-y-4">
+              <Input
+                type="text"
+                placeholder={t("auth.namePlaceholder")}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="h-14 rounded-xl border-2"
+              />
 
               <Input
                 type="tel"
-                placeholder="Phone Number (10 digits)"
+                placeholder={t("auth.phonePlaceholder")}
                 value={phone}
                 onChange={(e) => setPhone(e.target.value.replace(/\D/g, "").slice(0, 10))}
                 maxLength={10}
@@ -121,17 +111,17 @@ const Auth = () => {
                 className="w-full h-14 text-lg font-bold rounded-xl bg-primary"
                 disabled={isLoading}
               >
-                {isLoading ? "Sending..." : "Send OTP"}
+                {isLoading ? t("common.loading") : t("auth.sendOtp")}
               </Button>
             </form>
           ) : (
-            <form onSubmit={verifyOtp} className="space-y-4">
+            <form onSubmit={handleVerifyOtp} className="space-y-4">
               <p className="text-sm text-muted-foreground text-center">
-                Enter the OTP from console (F12) for +91{phone}
+                {t("auth.otpSent")}
               </p>
               <Input
                 type="text"
-                placeholder="Enter 6-digit OTP"
+                placeholder={t("auth.otpPlaceholder")}
                 value={otp}
                 onChange={(e) => setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
                 maxLength={6}
@@ -143,7 +133,7 @@ const Auth = () => {
                 className="w-full h-14 text-lg font-bold rounded-xl bg-primary"
                 disabled={isLoading}
               >
-                {isLoading ? "Verifying..." : "Verify OTP"}
+                {isLoading ? t("common.loading") : t("auth.verifyOtp")}
               </Button>
 
               <div className="flex gap-2">
@@ -156,44 +146,22 @@ const Auth = () => {
                   }} 
                   className="flex-1"
                 >
-                  Change Phone
+                  {t("common.back")}
                 </Button>
                 <Button
                   type="button"
                   variant="ghost"
                   onClick={() => {
                     setOtp("");
-                    sendOtp(new Event("submit") as any);
+                    handleSendOtp({ preventDefault: () => {} } as React.FormEvent);
                   }}
                   className="flex-1"
                 >
-                  Resend OTP
+                  {t("auth.resendOtp")}
                 </Button>
               </div>
             </form>
           )}
-
-          <div className="mt-6 text-center border-t pt-4">
-            <p className="text-muted-foreground text-sm">
-              {mode === "signin" ? "Don't have an account?" : "Already have an account?"}
-            </p>
-            <div className="mt-3 flex gap-3 justify-center">
-              <Button 
-                onClick={() => navigate('/signin')} 
-                variant={mode === 'signin' ? undefined : 'outline'}
-                className="flex-1"
-              >
-                Sign In
-              </Button>
-              <Button 
-                onClick={() => navigate('/signup')} 
-                variant={mode === 'signup' ? undefined : 'outline'}
-                className="flex-1"
-              >
-                Sign Up
-              </Button>
-            </div>
-          </div>
         </div>
       </div>
     </div>

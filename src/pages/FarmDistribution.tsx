@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
+import { api } from "@/services/api";
 
 const cropIcons: Record<string, string> = {
   Potato: "🥔",
@@ -16,8 +18,8 @@ const cropIcons: Record<string, string> = {
 
 const FarmDistribution = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
-  // read selected crops from localStorage
   const stored = typeof window !== "undefined" ? localStorage.getItem("selectedCrops") : null;
   const selectedNames: string[] = stored ? JSON.parse(stored) : [];
 
@@ -38,17 +40,20 @@ const FarmDistribution = () => {
 
     setIsLoading(true);
     try {
-      // prepare distribution data as array of { name, area }
       const distributionData = crops.map((c, index) => ({ 
         name: c.name, 
         area: Number(distributions[index] || 0) 
       }));
-      const totalArea = distributionData.reduce((sum, d) => sum + d.area, 0);
 
-      // Save to localStorage
       localStorage.setItem("farmDistributions", JSON.stringify(distributionData));
-
-      toast.success("Farm distribution saved successfully!");
+      
+      try {
+        await api.farm.save({ distributions: distributionData });
+      } catch (apiError) {
+        console.warn("API save failed, data stored locally:", apiError);
+      }
+      
+      toast.success(t("common.success"));
       navigate("/completion");
     } catch (error: any) {
       console.error("Error saving farm distribution:", error);
@@ -61,12 +66,12 @@ const FarmDistribution = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-background px-4 py-8">
       <h1 className="text-4xl md:text-6xl font-bold text-primary mb-12">
-        We Would Like To Know
+        {t("welcome.distributionTitle")}
       </h1>
       
       <div className="w-full max-w-3xl bg-card rounded-3xl shadow-xl p-8 border-2 border-border">
         <h2 className="text-2xl font-semibold text-center text-muted-foreground mb-8">
-          Your Farm Distribution
+          {t("welcome.distributionSubtitle")}
         </h2>
         
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -79,8 +84,8 @@ const FarmDistribution = () => {
                 <div className="flex-1">
                   <p className="font-semibold mb-2">{crop.name}</p>
                   <Input
-                    type="text"
-                    placeholder="Area Cultivated"
+                    type="number"
+                    placeholder={t("welcome.areaPlaceholder")}
                     value={distributions[index] || ""}
                     onChange={(e) => setDistributions({...distributions, [index]: e.target.value})}
                     className="h-10 rounded-xl bg-secondary border-0"
@@ -96,7 +101,7 @@ const FarmDistribution = () => {
               disabled={isLoading}
               className="w-full h-14 text-lg font-bold rounded-xl bg-primary hover:bg-primary/90"
             >
-              {isLoading ? "Saving..." : "Submit"}
+              {isLoading ? t("common.loading") : t("common.submit")}
             </Button>
           </div>
         </form>

@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
+import { api } from "@/services/api";
 
 const crops = [
   { name: "Potato", image: "🥔" },
@@ -15,6 +18,7 @@ const crops = [
 
 const CropsSelect = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const [selectedCrops, setSelectedCrops] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -35,13 +39,19 @@ const CropsSelect = () => {
 
     setIsLoading(true);
     try {
-      // Save to localStorage
       localStorage.setItem("selectedCrops", JSON.stringify(selectedCrops));
-      toast.success("Crops saved successfully!");
+      
+      try {
+        await api.farm.save({ selectedCrops });
+      } catch (apiError) {
+        console.warn("API save failed, data stored locally:", apiError);
+      }
+      
+      toast.success(t("common.success"));
       navigate("/farm-distribution");
-    } catch (error: any) {
+    } catch (error) {
       console.error("Error saving crops:", error);
-      toast.error(error.message || "Failed to save crops. Please try again.");
+      toast.error("Failed to save crops. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -54,12 +64,12 @@ const CropsSelect = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-background px-4 py-8">
       <h1 className="text-4xl md:text-6xl font-bold text-primary mb-12">
-        We Would Like To Know
+        {t("welcome.cropsTitle")}
       </h1>
       
       <div className="w-full max-w-3xl bg-card rounded-3xl shadow-xl p-8 border-2 border-border">
         <h2 className="text-2xl font-semibold text-center text-muted-foreground mb-8">
-          Your Crops
+          {t("welcome.cropsSubtitle")}
         </h2>
         
         <Input
@@ -101,15 +111,15 @@ const CropsSelect = () => {
         </div>
       </div>
       <div className="w-full max-w-3xl mt-6 flex justify-end">
-        <button
+        <Button
           onClick={handleNext}
           disabled={selectedCrops.length === 0 || isLoading}
-          className={`h-14 px-6 rounded-xl text-lg font-semibold text-white ${
-            selectedCrops.length === 0 || isLoading ? "bg-muted-foreground/40 cursor-not-allowed" : "bg-primary"
+          className={`h-14 px-6 rounded-xl text-lg font-semibold ${
+            selectedCrops.length === 0 || isLoading ? "opacity-50 cursor-not-allowed" : ""
           }`}
         >
-          {isLoading ? "Saving..." : "Next"}
-        </button>
+          {isLoading ? t("common.loading") : t("common.next")}
+        </Button>
       </div>
     </div>
   );

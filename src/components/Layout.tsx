@@ -1,25 +1,48 @@
-import { Home, Sprout, Sun, FileText, AlertTriangle, User, Moon, Menu, X } from "lucide-react";
+import { Home, Sprout, Sun, FileText, AlertTriangle, User, Moon, Menu } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import useTheme from "@/lib/useTheme";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useTranslation } from "react-i18next";
+import { useAuth } from "@/context/AuthContext";
 
 const UserName = () => {
-  const [name, setName] = useState<string | null>(null);
-  useEffect(() => {
-    const n = typeof window !== "undefined" ? localStorage.getItem("userName") : null;
-    setName(n);
-  }, []);
-  return <span className="font-semibold">{name || "User"}</span>;
+  const { user } = useAuth();
+  return <span className="font-semibold">{user?.name || "User"}</span>;
 };
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
+const LanguageSwitcher = () => {
+  const { i18n, t } = useTranslation();
+  const { user, updateProfile } = useAuth();
+
+  const toggleLanguage = async () => {
+    const newLang = i18n.language === "hi" ? "en" : "hi";
+    await i18n.changeLanguage(newLang);
+    await updateProfile({ language: newLang });
+  };
+
+  return (
+    <Button
+      onClick={toggleLanguage}
+      variant="outline"
+      className="w-full justify-start gap-3"
+    >
+      <span className="font-medium">{i18n.language === "hi" ? "हिंदी" : "English"}</span>
+      <span className="ml-auto text-xs text-muted-foreground">
+        {t("language.label")}
+      </span>
+    </Button>
+  );
+};
+
 const SidebarContent = () => {
   const { theme, toggle } = useTheme();
+  const { t } = useTranslation();
 
   return (
     <div className="flex flex-col h-full">
@@ -37,7 +60,7 @@ const SidebarContent = () => {
           activeClassName="bg-accent text-primary font-semibold"
         >
           <Home className="w-5 h-5" />
-          <span>Home</span>
+          <span>{t("dashboard.title")}</span>
         </NavLink>
 
         <NavLink
@@ -46,7 +69,7 @@ const SidebarContent = () => {
           activeClassName="bg-accent text-primary font-semibold"
         >
           <Sprout className="w-5 h-5" />
-          <span>Crops & Price</span>
+          <span>{t("dashboard.cropsPrice")}</span>
         </NavLink>
 
         <NavLink
@@ -55,7 +78,7 @@ const SidebarContent = () => {
           activeClassName="bg-accent text-primary font-semibold"
         >
           <Sun className="w-5 h-5" />
-          <span>Weather & Soil</span>
+          <span>{t("dashboard.weatherSoil")}</span>
         </NavLink>
 
         <NavLink
@@ -64,7 +87,7 @@ const SidebarContent = () => {
           activeClassName="bg-accent text-primary font-semibold"
         >
           <FileText className="w-5 h-5" />
-          <span>News Reports</span>
+          <span>{t("dashboard.newsReports")}</span>
         </NavLink>
 
         <NavLink
@@ -73,7 +96,7 @@ const SidebarContent = () => {
           activeClassName="bg-accent text-primary font-semibold"
         >
           <AlertTriangle className="w-5 h-5" />
-          <span>Alerts</span>
+          <span>{t("dashboard.alerts")}</span>
         </NavLink>
       </nav>
 
@@ -85,14 +108,18 @@ const SidebarContent = () => {
           <UserName />
         </div>
 
-        <Button
-          onClick={toggle}
-          variant="outline"
-          className="w-full justify-start gap-3"
-        >
-          {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-          {theme === "dark" ? "Light Mode" : "Dark Mode"}
-        </Button>
+        <div className="space-y-2">
+          <LanguageSwitcher />
+          
+          <Button
+            onClick={toggle}
+            variant="outline"
+            className="w-full justify-start gap-3"
+          >
+            {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            {theme === "dark" ? "Light Mode" : "Dark Mode"}
+          </Button>
+        </div>
       </div>
     </div>
   );
@@ -103,12 +130,10 @@ const Layout = ({ children }: LayoutProps) => {
 
   return (
     <div className="flex min-h-screen bg-background">
-      {/* Desktop Sidebar */}
       <aside className="hidden lg:flex w-[280px] bg-card border-r border-border flex-col">
         <SidebarContent />
       </aside>
 
-      {/* Mobile Header */}
       <div className="lg:hidden flex items-center justify-between p-4 bg-card border-b border-border">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
@@ -129,7 +154,6 @@ const Layout = ({ children }: LayoutProps) => {
         </Sheet>
       </div>
 
-      {/* Main Content */}
       <main className="flex-1 overflow-auto">
         {children}
       </main>

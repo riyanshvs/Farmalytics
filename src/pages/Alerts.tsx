@@ -20,7 +20,9 @@ import {
   Sun,
   CloudRain,
   TrendingUp,
-  Filter
+  Filter,
+  Building2,
+  DollarSign
 } from "lucide-react";
 
 // Mock alerts data - in production, this would come from backend API
@@ -35,7 +37,7 @@ const alertsData = [
     timestamp: "2024-03-08T08:30:00Z",
     isRead: false,
     actions: ["Secure crops", "Check drainage", "Monitor soil moisture"],
-    icon: "🌧️"
+    icon: "rain"
   },
   {
     id: 2,
@@ -47,7 +49,7 @@ const alertsData = [
     timestamp: "2024-03-08T06:15:00Z",
     isRead: false,
     actions: ["Inspect crops", "Apply organic pesticides", "Contact extension officer"],
-    icon: "🐛"
+    icon: "pest"
   },
   {
     id: 3,
@@ -59,7 +61,7 @@ const alertsData = [
     timestamp: "2024-03-07T14:20:00Z",
     isRead: true,
     actions: ["Check current prices", "Plan storage", "Consider early harvest"],
-    icon: "📈"
+    icon: "market"
   },
   {
     id: 4,
@@ -71,7 +73,7 @@ const alertsData = [
     timestamp: "2024-03-07T10:00:00Z",
     isRead: true,
     actions: ["Check eligibility", "Apply online", "Contact local office"],
-    icon: "🏛️"
+    icon: "government"
   },
   {
     id: 5,
@@ -83,7 +85,7 @@ const alertsData = [
     timestamp: "2024-03-07T08:00:00Z",
     isRead: true,
     actions: ["Monitor weather", "Check soil sensors", "Plan irrigation"],
-    icon: "💧"
+    icon: "soil"
   }
 ];
 
@@ -93,6 +95,23 @@ const notificationSettings = {
   market: { enabled: true, critical: true, high: true, medium: true, low: false },
   government: { enabled: true, critical: true, high: true, medium: true, low: true },
   soil: { enabled: false, critical: true, high: true, medium: true, low: true }
+};
+
+const getAlertIcon = (iconType: string) => {
+  switch (iconType) {
+    case 'rain':
+      return <CloudRain className="w-6 h-6 text-blue-500" />;
+    case 'pest':
+      return <Bug className="w-6 h-6 text-red-500" />;
+    case 'market':
+      return <TrendingUp className="w-6 h-6 text-green-500" />;
+    case 'government':
+      return <Building2 className="w-6 h-6 text-purple-500" />;
+    case 'soil':
+      return <Droplets className="w-6 h-6 text-blue-500" />;
+    default:
+      return <Bell className="w-6 h-6 text-gray-500" />;
+  }
 };
 
 const Alerts = () => {
@@ -259,7 +278,7 @@ const Alerts = () => {
                   <CardHeader className="pb-3">
                     <div className="flex items-start justify-between">
                       <div className="flex items-start gap-3">
-                        <span className="text-2xl">{alert.icon}</span>
+                        {getAlertIcon(alert.icon)}
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1">
                             <Badge className={getPriorityColor(alert.priority)}>

@@ -27,7 +27,7 @@ const newsData = [
     id: 1,
     title: "Maharashtra Government Announces New MSP Rates for Kharif Crops",
     summary: "The Maharashtra government has increased Minimum Support Prices (MSP) for major kharif crops including cotton, soybean, and tur dal by 5-7% to benefit farmers.",
-    content: "The state government has revised MSP rates to ensure better returns for farmers. Cotton MSP increased to ₹6,050 per quintal, soybean to ₹4,250, and tur dal to ₹6,800. This move is expected to benefit over 2 million farmers across the state.",
+    content: "The state government has revised MSP rates to ensure better returns for farmers. Cotton MSP increased to Rs6,050 per quintal, soybean to Rs4,250, and tur dal to Rs6,800. This move is expected to benefit over 2 million farmers across the state.",
     category: "Government Policy",
     priority: "high",
     publishedAt: "2024-03-08T10:30:00Z",
@@ -79,7 +79,7 @@ const newsData = [
     id: 5,
     title: "Market Update: Onion Prices Surge Due to Export Demand",
     summary: "Onion prices in major markets have increased by 15-20% driven by strong export demand and reduced arrivals.",
-    content: "Onion prices have shown significant upward movement in key markets. Lasalgaon mandi reported prices of ₹2,800-3,200 per quintal, while Pune market saw rates of ₹3,000-3,400. The increase is attributed to higher export orders and lower-than-expected arrivals from producing regions.",
+    content: "Onion prices have shown significant upward movement in key markets. Lasalgaon mandi reported prices of Rs2,800-3,200 per quintal, while Pune market saw rates of Rs3,000-3,400. The increase is attributed to higher export orders and lower-than-expected arrivals from producing regions.",
     category: "Market Update",
     priority: "high",
     publishedAt: "2024-03-07T12:00:00Z",
@@ -96,7 +96,7 @@ const marketReports = [
     title: "Weekly Agricultural Commodity Report",
     summary: "Comprehensive analysis of major crop prices and market trends for the week ending March 8, 2024.",
     highlights: [
-      "Cotton prices stable at ₹6,000-6,200/quintal",
+      "Cotton prices stable at Rs6,000-6,200/quintal",
       "Turmeric shows 8% price increase",
       "Soybean arrivals increase by 15%",
       "Groundnut prices remain firm"

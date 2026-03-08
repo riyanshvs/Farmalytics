@@ -16,7 +16,12 @@ import {
   MapPin,
   RefreshCw,
   AlertTriangle,
-  CheckCircle
+  CheckCircle,
+  CloudSun,
+  Zap,
+  Sprout,
+  Flask,
+  Thermometer as TempIcon
 } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from "recharts";
 
@@ -30,14 +35,14 @@ const weatherData = {
     visibility: 8,
     uvIndex: 6,
     condition: "Partly Cloudy",
-    icon: "⛅"
+    icon: "partly-cloudy"
   },
   forecast: [
-    { day: "Today", temp: 28, humidity: 65, rain: 20, icon: "⛅" },
-    { day: "Tomorrow", temp: 30, humidity: 60, rain: 15, icon: "☀️" },
-    { day: "Day 3", temp: 27, humidity: 70, rain: 45, icon: "🌧️" },
-    { day: "Day 4", temp: 26, humidity: 75, rain: 60, icon: "⛈️" },
-    { day: "Day 5", temp: 29, humidity: 55, rain: 10, icon: "☀️" }
+    { day: "Today", temp: 28, humidity: 65, rain: 20, icon: "partly-cloudy" },
+    { day: "Tomorrow", temp: 30, humidity: 60, rain: 15, icon: "sunny" },
+    { day: "Day 3", temp: 27, humidity: 70, rain: 45, icon: "rainy" },
+    { day: "Day 4", temp: 26, humidity: 75, rain: 60, icon: "stormy" },
+    { day: "Day 5", temp: 29, humidity: 55, rain: 10, icon: "sunny" }
   ],
   hourly: [
     { time: "6 AM", temp: 24, rain: 0 },
@@ -95,6 +100,21 @@ const WeatherSoil = () => {
     return "Very High";
   };
 
+  const getWeatherIcon = (iconType: string) => {
+    switch (iconType) {
+      case 'partly-cloudy':
+        return <CloudSun className="w-8 h-8 text-yellow-500" />;
+      case 'sunny':
+        return <Sun className="w-8 h-8 text-yellow-500" />;
+      case 'rainy':
+        return <CloudRain className="w-8 h-8 text-blue-500" />;
+      case 'stormy':
+        return <Zap className="w-8 h-8 text-purple-500" />;
+      default:
+        return <Cloud className="w-8 h-8 text-gray-500" />;
+    }
+  };
+
   return (
     <div className="p-4 md:p-8">
       {/* Header */}
@@ -128,7 +148,7 @@ const WeatherSoil = () => {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <span className="text-3xl">{weatherData.current.icon}</span>
+                  {getWeatherIcon(weatherData.current.icon)}
                   Current Weather
                 </CardTitle>
               </CardHeader>
@@ -137,7 +157,7 @@ const WeatherSoil = () => {
                   <div className="text-center">
                     <div className="flex items-center justify-center mb-2">
                       <Thermometer className="w-8 h-8 text-red-500 mr-2" />
-                      <span className="text-4xl font-bold">{weatherData.current.temperature}°C</span>
+                      <span className="text-4xl font-bold">{weatherData.current.temperature} C</span>
                     </div>
                     <div className="text-sm text-muted-foreground">Temperature</div>
                   </div>
@@ -199,13 +219,15 @@ const WeatherSoil = () => {
                   {weatherData.forecast.map((day, index) => (
                     <div key={index} className="text-center p-4 bg-muted/30 rounded-lg">
                       <div className="text-lg font-semibold mb-2">{day.day}</div>
-                      <div className="text-3xl mb-2">{day.icon}</div>
-                      <div className="text-xl font-bold text-primary mb-1">{day.temp}°C</div>
-                      <div className="text-sm text-muted-foreground mb-2">
-                        💧 {day.humidity}%
+                      <div className="flex justify-center mb-2">{getWeatherIcon(day.icon)}</div>
+                      <div className="text-xl font-bold text-primary mb-1">{day.temp} C</div>
+                      <div className="text-sm text-muted-foreground mb-2 flex items-center justify-center gap-1">
+                        <Droplets className="h-3 w-3" />
+                        {day.humidity}%
                       </div>
-                      <div className="text-sm text-blue-600">
-                        🌧️ {day.rain}%
+                      <div className="text-sm text-blue-600 flex items-center justify-center gap-1">
+                        <CloudRain className="h-3 w-3" />
+                        {day.rain}%
                       </div>
                     </div>
                   ))}
@@ -225,7 +247,7 @@ const WeatherSoil = () => {
                     <XAxis dataKey="time" />
                     <YAxis />
                     <Tooltip
-                      formatter={(value) => [`${value}°C`, 'Temperature']}
+                      formatter={(value) => [`${value} C`, 'Temperature']}
                       labelFormatter={(label) => `Time: ${label}`}
                     />
                     <Area
@@ -251,26 +273,26 @@ const WeatherSoil = () => {
               <CardContent>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                   <div className="text-center">
-                    <div className="text-2xl mb-2">🌱</div>
+                    <Sprout className="w-8 h-8 mx-auto mb-2 text-green-500" />
                     <div className="text-lg font-bold">{soilData.type}</div>
                     <div className="text-sm text-muted-foreground">Soil Type</div>
                   </div>
 
                   <div className="text-center">
-                    <div className="text-2xl mb-2">🧪</div>
+                    <Flask className="w-8 h-8 mx-auto mb-2 text-purple-500" />
                     <div className="text-lg font-bold">{soilData.ph}</div>
                     <div className="text-sm text-muted-foreground">pH Level</div>
                   </div>
 
                   <div className="text-center">
-                    <div className="text-2xl mb-2">💧</div>
+                    <Droplets className="w-8 h-8 mx-auto mb-2 text-blue-500" />
                     <div className="text-lg font-bold">{soilData.moisture}%</div>
                     <div className="text-sm text-muted-foreground">Moisture</div>
                   </div>
 
                   <div className="text-center">
-                    <div className="text-2xl mb-2">🌡️</div>
-                    <div className="text-lg font-bold">{soilData.temperature}°C</div>
+                    <TempIcon className="w-8 h-8 mx-auto mb-2 text-red-500" />
+                    <div className="text-lg font-bold">{soilData.temperature} C</div>
                     <div className="text-sm text-muted-foreground">Soil Temp</div>
                   </div>
                 </div>
