@@ -176,34 +176,35 @@ const Alerts = () => {
   const unreadCount = alerts.filter(alert => !alert.isRead).length;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="p-4 md:p-8">
       {/* Header */}
-      <div className="bg-card border-b border-border p-6">
-        <div className="flex items-center justify-between mb-4">
+      <div className="bg-card border border-border rounded-lg p-4 md:p-6 mb-6 md:mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
           <div className="flex items-center gap-3">
             <div className="relative">
-              <Bell className="w-8 h-8 text-primary" />
+              <Bell className="w-6 md:w-8 h-6 md:h-8 text-primary" />
               {unreadCount > 0 && (
-                <div className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                <div className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 md:w-5 h-4 md:h-5 flex items-center justify-center">
                   {unreadCount}
                 </div>
               )}
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-primary">Alerts & Notifications</h1>
-              <p className="text-muted-foreground">Stay informed about farming conditions and opportunities</p>
+              <h1 className="text-xl md:text-3xl font-bold text-primary">Alerts & Notifications</h1>
+              <p className="text-muted-foreground text-sm md:text-base">Stay informed about farming conditions and opportunities</p>
             </div>
           </div>
-          <Button onClick={handleRefresh} disabled={isLoading} variant="outline">
+          <Button onClick={handleRefresh} disabled={isLoading} variant="outline" className="self-start sm:self-auto">
             <RefreshCw className={`w-4 h-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
-            Refresh
+            <span className="hidden sm:inline">Refresh</span>
           </Button>
         </div>
 
         {/* Filters */}
-        <div className="flex gap-4">
+        <div className="flex flex-col sm:flex-row gap-4">
           <Select value={filterType} onValueChange={setFilterType}>
-            <SelectTrigger className="w-40">
+            <SelectTrigger className="w-full sm:w-40 h-10 md:h-11">
+              <Filter className="w-4 h-4 mr-2" />
               <SelectValue placeholder="Filter by type" />
             </SelectTrigger>
             <SelectContent>
@@ -216,7 +217,7 @@ const Alerts = () => {
             </SelectContent>
           </Select>
           <Select value={filterPriority} onValueChange={setFilterPriority}>
-            <SelectTrigger className="w-40">
+            <SelectTrigger className="w-full sm:w-40 h-10 md:h-11">
               <SelectValue placeholder="Filter by priority" />
             </SelectTrigger>
             <SelectContent>
@@ -230,18 +231,17 @@ const Alerts = () => {
         </div>
       </div>
 
-      <div className="p-6">
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="alerts" className="flex items-center gap-2">
-              <Bell className="w-4 h-4" />
-              Alerts ({filteredAlerts.length})
-            </TabsTrigger>
-            <TabsTrigger value="settings" className="flex items-center gap-2">
-              <Settings className="w-4 h-4" />
-              Settings
-            </TabsTrigger>
-          </TabsList>
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <TabsList className="grid w-full grid-cols-2 h-10 md:h-12 mb-6">
+          <TabsTrigger value="alerts" className="text-sm md:text-base flex items-center gap-2">
+            <Bell className="w-4 h-4" />
+            Alerts ({filteredAlerts.length})
+          </TabsTrigger>
+          <TabsTrigger value="settings" className="text-sm md:text-base flex items-center gap-2">
+            <Settings className="w-4 h-4" />
+            Settings
+          </TabsTrigger>
+        </TabsList>
 
           {/* Alerts Tab */}
           <TabsContent value="alerts" className="space-y-4">
