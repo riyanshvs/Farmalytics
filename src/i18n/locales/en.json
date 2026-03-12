@@ -10,7 +10,11 @@
     "next": "Next",
     "submit": "Submit",
     "edit": "Edit",
-    "delete": "Delete"
+    "delete": "Delete",
+    "close": "Close",
+    "open": "Open",
+    "search": "Search",
+    "home": "Home"
   },
   "auth": {
     "title": "Welcome to Farmalytics",
@@ -27,7 +31,11 @@
     "loginFailed": "Login failed. Please try again.",
     "nameLabel": "Your Name",
     "namePlaceholder": "Enter your name",
-    "skip": "Skip for now"
+    "skip": "Skip for now",
+    "resendOtp": "Resend OTP",
+    "otpExpired": "OTP has expired. Please request a new one.",
+    "otpInvalid": "Invalid OTP. Please try again.",
+    "checkConsole": "For testing, check your browser console (F12) for the OTP code"
   },
   "welcome": {
     "hiTitle": "Hi, {{name}}!",
@@ -66,7 +74,11 @@
     "alerts": "Alerts",
     "profile": "Profile",
     "settings": "Settings",
-    "logout": "Logout"
+    "logout": "Logout",
+    "temperature": "Temperature",
+    "humidity": "Humidity",
+    "windSpeed": "Wind Speed",
+    "pressure": "Pressure"
   },
   "chatbot": {
     "title": "Kissan Sahayk",
@@ -74,18 +86,63 @@
     "placeholder": "Ask your question...",
     "loading": "Thinking...",
     "initialMessage": "Hello! I'm ready to answer your questions.",
-    "error": "Some error occurred. Please try again."
+    "error": "Some error occurred. Please try again.",
+    "send": "Send"
   },
   "soil": {
     "ph": "pH Level",
     "moisture": "Moisture",
     "nitrogen": "Nitrogen",
     "phosphorus": "Phosphorus",
-    "potassium": "Potassium"
+    "potassium": "Potassium",
+    "temperature": "Temperature",
+    "type": "Soil Type",
+    "recommendations": "Recommendations",
+    "alerts": "Soil Alerts"
   },
   "language": {
     "label": "Language",
     "en": "English",
-    "hi": "हिंदी"
+    "hi": "हिंदी",
+    "selectLanguage": "Select Language"
+  },
+  "weather": {
+    "title": "Weather & Soil",
+    "currentWeather": "Current Weather",
+    "forecast": "5-Day Forecast",
+    "hourlyTemperature": "Hourly Temperature",
+    "soilAnalysis": "Soil Analysis",
+    "soilOverview": "Soil Overview",
+    "nutrientLevels": "Nutrient Levels",
+    "uvIndex": "UV Index",
+    "visibility": "Visibility",
+    "low": "Low",
+    "moderate": "Moderate",
+    "high": "High",
+    "veryHigh": "Very High"
+  },
+  "crops": {
+    "title": "Your Crops",
+    "price": "Price",
+    "change": "Change",
+    "market": "Market",
+    "addCrop": "Add Crop",
+    "removeCrop": "Remove Crop",
+    "selectCrops": "Select Crops"
+  },
+  "alerts": {
+    "title": "Alerts",
+    "noAlerts": "No alerts at the moment",
+    "weather": "Weather Alert",
+    "pest": "Pest Alert",
+    "disease": "Disease Alert",
+    "price": "Price Alert"
+  },
+  "news": {
+    "title": "News & Reports",
+    "latest": "Latest News",
+    "marketPrice": "Market Prices",
+    "farmingTips": "Farming Tips",
+    "weatherForecast": "Weather Forecast"
   }
 }

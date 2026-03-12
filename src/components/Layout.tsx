@@ -1,11 +1,11 @@
-import { Home, Sprout, Sun, FileText, AlertTriangle, User, Moon, Menu } from "lucide-react";
+import { Home, Sprout, FileText, AlertTriangle, User, Menu } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { Button } from "@/components/ui/button";
-import { useState, useEffect } from "react";
-import useTheme from "@/lib/useTheme";
+import { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/context/AuthContext";
+import { SettingsBar } from "@/components/SettingsBar";
 
 const UserName = () => {
   const { user } = useAuth();
@@ -16,32 +16,7 @@ interface LayoutProps {
   children: React.ReactNode;
 }
 
-const LanguageSwitcher = () => {
-  const { i18n, t } = useTranslation();
-  const { user, updateProfile } = useAuth();
-
-  const toggleLanguage = async () => {
-    const newLang = i18n.language === "hi" ? "en" : "hi";
-    await i18n.changeLanguage(newLang);
-    await updateProfile({ language: newLang });
-  };
-
-  return (
-    <Button
-      onClick={toggleLanguage}
-      variant="outline"
-      className="w-full justify-start gap-3"
-    >
-      <span className="font-medium">{i18n.language === "hi" ? "हिंदी" : "English"}</span>
-      <span className="ml-auto text-xs text-muted-foreground">
-        {t("language.label")}
-      </span>
-    </Button>
-  );
-};
-
 const SidebarContent = () => {
-  const { theme, toggle } = useTheme();
   const { t } = useTranslation();
 
   return (
@@ -77,7 +52,7 @@ const SidebarContent = () => {
           className="flex items-center gap-3 px-4 py-3 rounded-lg text-foreground/70 hover:bg-accent transition-colors"
           activeClassName="bg-accent text-primary font-semibold"
         >
-          <Sun className="w-5 h-5" />
+          <FileText className="w-5 h-5" />
           <span>{t("dashboard.weatherSoil")}</span>
         </NavLink>
 
@@ -108,18 +83,7 @@ const SidebarContent = () => {
           <UserName />
         </div>
 
-        <div className="space-y-2">
-          <LanguageSwitcher />
-          
-          <Button
-            onClick={toggle}
-            variant="outline"
-            className="w-full justify-start gap-3"
-          >
-            {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-            {theme === "dark" ? "Light Mode" : "Dark Mode"}
-          </Button>
-        </div>
+        <SettingsBar className="w-full" />
       </div>
     </div>
   );
@@ -134,7 +98,7 @@ const Layout = ({ children }: LayoutProps) => {
         <SidebarContent />
       </aside>
 
-      <div className="lg:hidden flex items-center justify-between p-4 bg-card border-b border-border">
+      <div className="lg:hidden flex items-center justify-between p-4 bg-card border-b border-border gap-3">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
             <Sprout className="w-4 h-4 text-primary-foreground" />
@@ -142,16 +106,20 @@ const Layout = ({ children }: LayoutProps) => {
           <span className="text-lg font-bold text-primary">Farmalytics</span>
         </div>
 
-        <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-          <SheetTrigger asChild>
-            <Button variant="ghost" size="icon">
-              <Menu className="w-5 h-5" />
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="left" className="w-[280px] p-0">
-            <SidebarContent />
-          </SheetContent>
-        </Sheet>
+        <div className="flex items-center gap-2 ml-auto">
+          <SettingsBar />
+          
+          <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <Menu className="w-5 h-5" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-[280px] p-0">
+              <SidebarContent />
+            </SheetContent>
+          </Sheet>
+        </div>
       </div>
 
       <main className="flex-1 overflow-auto">

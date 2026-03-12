@@ -10,7 +10,11 @@
     "next": "आगे",
     "submit": "जमा करें",
     "edit": "संपादित करें",
-    "delete": "हटाएं"
+    "delete": "हटाएं",
+    "close": "बंद करें",
+    "open": "खोलें",
+    "search": "खोजें",
+    "home": "होम"
   },
   "auth": {
     "title": "Farmalytics में आपका स्वागत है",
@@ -27,7 +31,11 @@
     "loginFailed": "लॉगिन विफल। कृपया पुनः प्रयास करें।",
     "nameLabel": "आपका नाम",
     "namePlaceholder": "अपना नाम दर्ज करें",
-    "skip": "अभी छोड़ें"
+    "skip": "अभी छोड़ें",
+    "resendOtp": "OTP दोबारा भेजें",
+    "otpExpired": "OTP समाप्त हो गया है। कृपया एक नया अनुरोध करें।",
+    "otpInvalid": "अमान्य OTP। कृपया पुनः प्रयास करें।",
+    "checkConsole": "परीक्षण के लिए, OTP कोड के लिए अपने ब्राउज़र कंसोल (F12) को देखें"
   },
   "welcome": {
     "hiTitle": "नमस्ते, {{name}}!",
@@ -66,7 +74,11 @@
     "alerts": "अलर्ट",
     "profile": "प्रोफ़ाइल",
     "settings": "सेटिंग्स",
-    "logout": "लॉगआउट"
+    "logout": "लॉगआउट",
+    "temperature": "तापमान",
+    "humidity": "आर्द्रता",
+    "windSpeed": "हवा की गति",
+    "pressure": "दबाव"
   },
   "chatbot": {
     "title": "किसान सहायक",
@@ -74,18 +86,63 @@
     "placeholder": "अपना सवाल पूछें...",
     "loading": "विचार कर रहे हैं...",
     "initialMessage": "नमस्ते! मैं आपके सवालों का जवाब देने के लिए तैयार हूँ।",
-    "error": "कुछ त्रुटि हुई। कृपया पुनः प्रयास करें।"
+    "error": "कुछ त्रुटि हुई। कृपया पुनः प्रयास करें।",
+    "send": "भेजें"
   },
   "soil": {
     "ph": "pH स्तर",
     "moisture": "नमी",
     "nitrogen": "नाइट्रोजन",
     "phosphorus": "फास्फोरस",
-    "potassium": "पोटेशियम"
+    "potassium": "पोटेशियम",
+    "temperature": "तापमान",
+    "type": "मिट्टी का प्रकार",
+    "recommendations": "सिफारिशें",
+    "alerts": "मिट्टी के अलर्ट"
   },
   "language": {
     "label": "भाषा",
     "en": "English",
-    "hi": "हिंदी"
+    "hi": "हिंदी",
+    "selectLanguage": "भाषा चुनें"
+  },
+  "weather": {
+    "title": "मौसम और मिट्टी",
+    "currentWeather": "वर्तमान मौसम",
+    "forecast": "5 दिन का पूर्वानुमान",
+    "hourlyTemperature": "प्रति घंटा तापमान",
+    "soilAnalysis": "मिट्टी विश्लेषण",
+    "soilOverview": "मिट्टी की समीक्षा",
+    "nutrientLevels": "पोषक तत्व स्तर",
+    "uvIndex": "यूवी इंडेक्स",
+    "visibility": "दृश्यमानता",
+    "low": "कम",
+    "moderate": "मध्यम",
+    "high": "अधिक",
+    "veryHigh": "बहुत अधिक"
+  },
+  "crops": {
+    "title": "आपकी फसलें",
+    "price": "कीमत",
+    "change": "परिवर्तन",
+    "market": "बाजार",
+    "addCrop": "फसल जोड़ें",
+    "removeCrop": "फसल हटाएं",
+    "selectCrops": "फसलें चुनें"
+  },
+  "alerts": {
+    "title": "अलर्ट",
+    "noAlerts": "अभी कोई अलर्ट नहीं हैं",
+    "weather": "मौसम सतर्कता",
+    "pest": "कीट सतर्कता",
+    "disease": "रोग सतर्कता",
+    "price": "कीमत सतर्कता"
+  },
+  "news": {
+    "title": "समाचार और रिपोर्ट",
+    "latest": "नवीनतम समाचार",
+    "marketPrice": "बाजार मूल्य",
+    "farmingTips": "खेती के टिप्स",
+    "weatherForecast": "मौसम पूर्वानुमान"
   }
 }
