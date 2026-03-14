@@ -24,6 +24,7 @@ import {
   Building2,
   DollarSign
 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 // Mock alerts data - in production, this would come from backend API
 const alertsData = [
@@ -115,6 +116,7 @@ const getAlertIcon = (iconType: string) => {
 };
 
 const Alerts = () => {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState("alerts");
   const [alerts, setAlerts] = useState(alertsData);
   const [settings, setSettings] = useState(notificationSettings);
@@ -194,8 +196,14 @@ const Alerts = () => {
 
   const unreadCount = alerts.filter(alert => !alert.isRead).length;
 
+  const getAlertTitle = (id: number, fallback: string) => t(`pages.alerts.alert${id}.title`, { defaultValue: fallback });
+  const getAlertMessage = (id: number, fallback: string) => t(`pages.alerts.alert${id}.message`, { defaultValue: fallback });
+  const getAlertAction = (id: number, index: number, fallback: string) =>
+    t(`pages.alerts.alert${id}.actions.${index}`, { defaultValue: fallback });
+
   return (
-    <div className="p-4 md:p-8">
+    <div className="p-4 md:p-6">
+      <div className="mx-auto max-w-7xl rounded-[28px] border border-border bg-card p-3 md:p-5 shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
       {/* Header */}
       <div className="bg-card border border-border rounded-lg p-4 md:p-6 mb-6 md:mb-8">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
@@ -209,13 +217,13 @@ const Alerts = () => {
               )}
             </div>
             <div>
-              <h1 className="text-xl md:text-3xl font-bold text-primary">Alerts & Notifications</h1>
-              <p className="text-muted-foreground text-sm md:text-base">Stay informed about farming conditions and opportunities</p>
+              <h1 className="text-xl md:text-3xl font-bold text-primary">{t("pages.alerts.title")}</h1>
+              <p className="text-muted-foreground text-sm md:text-base">{t("pages.alerts.subtitle")}</p>
             </div>
           </div>
           <Button onClick={handleRefresh} disabled={isLoading} variant="outline" className="self-start sm:self-auto">
             <RefreshCw className={`w-4 h-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
-            <span className="hidden sm:inline">Refresh</span>
+            <span className="hidden sm:inline">{t("pages.alerts.refresh")}</span>
           </Button>
         </div>
 
@@ -224,41 +232,53 @@ const Alerts = () => {
           <Select value={filterType} onValueChange={setFilterType}>
             <SelectTrigger className="w-full sm:w-40 h-10 md:h-11">
               <Filter className="w-4 h-4 mr-2" />
-              <SelectValue placeholder="Filter by type" />
+              <SelectValue placeholder={t("pages.alerts.filterByType")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Types</SelectItem>
-              <SelectItem value="weather">Weather</SelectItem>
-              <SelectItem value="pest">Pest</SelectItem>
-              <SelectItem value="market">Market</SelectItem>
-              <SelectItem value="government">Government</SelectItem>
-              <SelectItem value="soil">Soil</SelectItem>
+              <SelectItem value="all">{t("pages.alerts.allTypes")}</SelectItem>
+              <SelectItem value="weather">{t("pages.alerts.typeWeather")}</SelectItem>
+              <SelectItem value="pest">{t("pages.alerts.typePest")}</SelectItem>
+              <SelectItem value="market">{t("pages.alerts.typeMarket")}</SelectItem>
+              <SelectItem value="government">{t("pages.alerts.typeGovernment")}</SelectItem>
+              <SelectItem value="soil">{t("pages.alerts.typeSoil")}</SelectItem>
             </SelectContent>
           </Select>
           <Select value={filterPriority} onValueChange={setFilterPriority}>
             <SelectTrigger className="w-full sm:w-40 h-10 md:h-11">
-              <SelectValue placeholder="Filter by priority" />
+              <SelectValue placeholder={t("pages.alerts.filterByPriority")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Priorities</SelectItem>
-              <SelectItem value="critical">Critical</SelectItem>
-              <SelectItem value="high">High</SelectItem>
-              <SelectItem value="medium">Medium</SelectItem>
-              <SelectItem value="low">Low</SelectItem>
+              <SelectItem value="all">{t("pages.alerts.allPriorities")}</SelectItem>
+              <SelectItem value="critical">{t("pages.alerts.priorityCritical")}</SelectItem>
+              <SelectItem value="high">{t("pages.alerts.priorityHigh")}</SelectItem>
+              <SelectItem value="medium">{t("pages.alerts.priorityMedium")}</SelectItem>
+              <SelectItem value="low">{t("pages.alerts.priorityLow")}</SelectItem>
             </SelectContent>
           </Select>
         </div>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-2 h-10 md:h-12 mb-6">
-          <TabsTrigger value="alerts" className="text-sm md:text-base flex items-center gap-2">
+        <TabsList className="relative grid w-full grid-cols-2 h-11 md:h-12 mb-6 p-1 rounded-xl border border-emerald-200 bg-emerald-100/70 dark:border-emerald-800 dark:bg-emerald-950/30">
+          <div
+            className={`absolute left-1 top-1 h-[calc(100%-0.5rem)] w-[calc(50%-0.25rem)] rounded-lg bg-emerald-500 shadow-sm transition-transform duration-300 ease-out ${
+              activeTab === "alerts" ? "translate-x-0" : "translate-x-[calc(100%+0.5rem)]"
+            }`}
+            aria-hidden="true"
+          />
+          <TabsTrigger
+            value="alerts"
+            className="relative z-10 text-sm md:text-base flex items-center gap-2 bg-transparent text-emerald-900 transition-colors duration-300 data-[state=active]:bg-transparent data-[state=active]:text-white dark:text-emerald-200"
+          >
             <Bell className="w-4 h-4" />
-            Alerts ({filteredAlerts.length})
+            {t("pages.alerts.alertsTab", { count: filteredAlerts.length })}
           </TabsTrigger>
-          <TabsTrigger value="settings" className="text-sm md:text-base flex items-center gap-2">
+          <TabsTrigger
+            value="settings"
+            className="relative z-10 text-sm md:text-base flex items-center gap-2 bg-transparent text-emerald-900 transition-colors duration-300 data-[state=active]:bg-transparent data-[state=active]:text-white dark:text-emerald-200"
+          >
             <Settings className="w-4 h-4" />
-            Settings
+            {t("dashboard.settings")}
           </TabsTrigger>
         </TabsList>
 
@@ -268,8 +288,8 @@ const Alerts = () => {
               <Card>
                 <CardContent className="text-center py-12">
                   <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold mb-2">All caught up!</h3>
-                  <p className="text-muted-foreground">No alerts match your current filters.</p>
+                  <h3 className="text-lg font-semibold mb-2">{t("pages.alerts.allCaughtUp")}</h3>
+                  <p className="text-muted-foreground">{t("pages.alerts.noAlertsForFilters")}</p>
                 </CardContent>
               </Card>
             ) : (
@@ -282,15 +302,15 @@ const Alerts = () => {
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1">
                             <Badge className={getPriorityColor(alert.priority)}>
-                              {alert.priority.toUpperCase()}
+                              {t(`pages.alerts.priority${alert.priority.charAt(0).toUpperCase()}${alert.priority.slice(1)}`).toUpperCase()}
                             </Badge>
                             <div className="flex items-center gap-1 text-sm text-muted-foreground">
                               {getTypeIcon(alert.type)}
-                              <span className="capitalize">{alert.type}</span>
+                              <span className="capitalize">{t(`pages.alerts.type${alert.type.charAt(0).toUpperCase()}${alert.type.slice(1)}`)}</span>
                             </div>
                           </div>
-                          <CardTitle className="text-lg mb-1">{alert.title}</CardTitle>
-                          <p className="text-muted-foreground text-sm mb-2">{alert.message}</p>
+                          <CardTitle className="text-lg mb-1">{getAlertTitle(alert.id, alert.title)}</CardTitle>
+                          <p className="text-muted-foreground text-sm mb-2">{getAlertMessage(alert.id, alert.message)}</p>
                           <div className="flex items-center gap-4 text-xs text-muted-foreground">
                             <div className="flex items-center gap-1">
                               <MapPin className="w-3 h-3" />
@@ -310,7 +330,7 @@ const Alerts = () => {
                             size="sm"
                             onClick={() => markAsRead(alert.id)}
                           >
-                            Mark Read
+                            {t("pages.alerts.markRead")}
                           </Button>
                         )}
                         <Button
@@ -326,11 +346,11 @@ const Alerts = () => {
                   {alert.actions && alert.actions.length > 0 && (
                     <CardContent className="pt-0">
                       <div className="space-y-2">
-                        <h4 className="font-semibold text-sm">Recommended Actions:</h4>
+                        <h4 className="font-semibold text-sm">{t("pages.alerts.recommendedActions")}</h4>
                         <div className="flex flex-wrap gap-2">
                           {alert.actions.map((action, index) => (
                             <Badge key={index} variant="outline" className="text-xs">
-                              {action}
+                              {getAlertAction(alert.id, index, action)}
                             </Badge>
                           ))}
                         </div>
@@ -348,7 +368,7 @@ const Alerts = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Settings className="w-5 h-5" />
-                  Notification Preferences
+                  {t("pages.alerts.notificationPreferences")}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -357,7 +377,7 @@ const Alerts = () => {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         {getTypeIcon(category)}
-                        <span className="font-semibold capitalize">{category} Alerts</span>
+                        <span className="font-semibold capitalize">{t(`pages.alerts.type${category.charAt(0).toUpperCase()}${category.slice(1)}`)} {t("pages.alerts.alertsLabel")}</span>
                       </div>
                       <Switch
                         checked={config.enabled}
@@ -368,28 +388,28 @@ const Alerts = () => {
                     {config.enabled && (
                       <div className="ml-7 space-y-2">
                         <div className="flex items-center justify-between text-sm">
-                          <span>Critical Priority</span>
+                          <span>{t("pages.alerts.criticalPriority")}</span>
                           <Switch
                             checked={config.critical}
                             onCheckedChange={(checked) => updateSetting(category, 'critical', checked)}
                           />
                         </div>
                         <div className="flex items-center justify-between text-sm">
-                          <span>High Priority</span>
+                          <span>{t("pages.alerts.highPriority")}</span>
                           <Switch
                             checked={config.high}
                             onCheckedChange={(checked) => updateSetting(category, 'high', checked)}
                           />
                         </div>
                         <div className="flex items-center justify-between text-sm">
-                          <span>Medium Priority</span>
+                          <span>{t("pages.alerts.mediumPriority")}</span>
                           <Switch
                             checked={config.medium}
                             onCheckedChange={(checked) => updateSetting(category, 'medium', checked)}
                           />
                         </div>
                         <div className="flex items-center justify-between text-sm">
-                          <span>Low Priority</span>
+                          <span>{t("pages.alerts.lowPriority")}</span>
                           <Switch
                             checked={config.low}
                             onCheckedChange={(checked) => updateSetting(category, 'low', checked)}
@@ -404,7 +424,7 @@ const Alerts = () => {
 
             <Card>
               <CardHeader>
-                <CardTitle>Alert Summary</CardTitle>
+                <CardTitle>{t("pages.alerts.alertSummary")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -412,31 +432,32 @@ const Alerts = () => {
                     <div className="text-2xl font-bold text-red-600">
                       {alerts.filter(a => a.priority === 'critical' && !a.isRead).length}
                     </div>
-                    <div className="text-sm text-muted-foreground">Critical</div>
+                    <div className="text-sm text-muted-foreground">{t("pages.alerts.priorityCritical")}</div>
                   </div>
                   <div className="text-center p-3 bg-orange-50 dark:bg-orange-950/20 rounded-lg">
                     <div className="text-2xl font-bold text-orange-600">
                       {alerts.filter(a => a.priority === 'high' && !a.isRead).length}
                     </div>
-                    <div className="text-sm text-muted-foreground">High</div>
+                    <div className="text-sm text-muted-foreground">{t("pages.alerts.priorityHigh")}</div>
                   </div>
                   <div className="text-center p-3 bg-yellow-50 dark:bg-yellow-950/20 rounded-lg">
                     <div className="text-2xl font-bold text-yellow-600">
                       {alerts.filter(a => a.priority === 'medium' && !a.isRead).length}
                     </div>
-                    <div className="text-sm text-muted-foreground">Medium</div>
+                    <div className="text-sm text-muted-foreground">{t("pages.alerts.priorityMedium")}</div>
                   </div>
                   <div className="text-center p-3 bg-blue-50 dark:bg-blue-950/20 rounded-lg">
                     <div className="text-2xl font-bold text-blue-600">
                       {alerts.filter(a => a.priority === 'low' && !a.isRead).length}
                     </div>
-                    <div className="text-sm text-muted-foreground">Low</div>
+                    <div className="text-sm text-muted-foreground">{t("pages.alerts.priorityLow")}</div>
                   </div>
                 </div>
               </CardContent>
             </Card>
           </TabsContent>
         </Tabs>
+      </div>
     </div>
   );
 };

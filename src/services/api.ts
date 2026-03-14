@@ -2,10 +2,10 @@ const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const getAuthHeaders = () => {
-  const token = localStorage.getItem("token");
-  return token ? { Authorization: `Bearer ${token}` } : {};
-};
+const withAuth = (init?: RequestInit): RequestInit => ({
+  credentials: "include",
+  ...init,
+});
 
 const getChatFallbackReply = (message: string, language: string) => {
   const input = message.toLowerCase();
@@ -40,6 +40,7 @@ export const api = {
     sendOTP: async (phone: string) => {
       try {
         const res = await fetch(`${API_URL}/auth/send-otp`, {
+          ...withAuth(),
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ phone }),
@@ -49,7 +50,6 @@ export const api = {
         return {
           success: !!data?.success,
           message: data?.message || (res.ok ? "OTP sent successfully" : "Failed to send OTP"),
-          otp: data?.otp,
         };
       } catch (error) {
         console.error("OTP send error:", error);
@@ -63,6 +63,7 @@ export const api = {
     verifyOTP: async (phone: string, otp: string) => {
       try {
         const res = await fetch(`${API_URL}/auth/verify-otp`, {
+          ...withAuth(),
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ phone, otp }),
@@ -79,7 +80,6 @@ export const api = {
         return {
           success: true,
           message: data?.message || "Login successful",
-          token: data.token,
           user: data.user,
         };
       } catch (error) {
@@ -94,7 +94,7 @@ export const api = {
     getProfile: async () => {
       try {
         const res = await fetch(`${API_URL}/auth/me`, {
-          headers: { ...getAuthHeaders() },
+          ...withAuth(),
         });
 
         const data = await res.json();
@@ -111,10 +111,10 @@ export const api = {
     updateProfile: async (data: { name?: string; language?: string }) => {
       try {
         const res = await fetch(`${API_URL}/auth/profile`, {
+          ...withAuth(),
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            ...getAuthHeaders(),
           },
           body: JSON.stringify(data),
         });
@@ -133,13 +133,25 @@ export const api = {
         return { success: false, message: "Failed to update profile" };
       }
     },
+
+    logout: async () => {
+      try {
+        const res = await fetch(`${API_URL}/auth/logout`, {
+          ...withAuth(),
+          method: "POST",
+        });
+
+        const data = await res.json();
+        return { success: !!data?.success };
+      } catch {
+        return { success: false };
+      }
+    },
   },
 
   farm: {
     get: async () => {
-      const res = await fetch(`${API_URL}/farm`, {
-        headers: { ...getAuthHeaders() },
-      });
+      const res = await fetch(`${API_URL}/farm`, withAuth());
       return res.json();
     },
 
@@ -150,10 +162,10 @@ export const api = {
       distributions?: { name: string; area: number }[];
     }) => {
       const res = await fetch(`${API_URL}/farm`, {
+        ...withAuth(),
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          ...getAuthHeaders(),
         },
         body: JSON.stringify(data),
       });
@@ -167,10 +179,10 @@ export const api = {
       for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
         try {
           const res = await fetch(`${API_URL}/chat`, {
+            ...withAuth(),
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              ...getAuthHeaders(),
             },
             body: JSON.stringify({ message, language, conversationId }),
           });
@@ -195,9 +207,10 @@ export const api = {
     },
 
     getHistory: async (conversationId: string) => {
-      const res = await fetch(`${API_URL}/chat/history?conversationId=${encodeURIComponent(conversationId)}`, {
-        headers: { ...getAuthHeaders() },
-      });
+      const res = await fetch(
+        `${API_URL}/chat/history?conversationId=${encodeURIComponent(conversationId)}`,
+        withAuth()
+      );
 
       if (!res.ok) {
         throw new Error("Failed to load chat history");
@@ -215,10 +228,10 @@ export const api = {
     }) => {
       try {
         const res = await fetch(`${API_URL}/chat/feedback`, {
+          ...withAuth(),
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            ...getAuthHeaders(),
           },
           body: JSON.stringify(payload),
         });
@@ -230,24 +243,20 @@ export const api = {
   },
 };
 
-export const AUTH_TOKEN_KEY = "token";
 export const USER_DATA_KEY = "userData";
 
 type AuthUser = Record<string, unknown>;
 
-export const setAuth = (token: string, user: AuthUser) => {
-  localStorage.setItem(AUTH_TOKEN_KEY, token);
+export const setAuth = (user: AuthUser) => {
   localStorage.setItem(USER_DATA_KEY, JSON.stringify(user));
 };
 
 export const clearAuth = () => {
-  localStorage.removeItem(AUTH_TOKEN_KEY);
   localStorage.removeItem(USER_DATA_KEY);
 };
 
 export const getAuth = () => {
-  const token = localStorage.getItem(AUTH_TOKEN_KEY);
   const userStr = localStorage.getItem(USER_DATA_KEY);
   const user = userStr ? JSON.parse(userStr) : null;
-  return { token, user };
+  return { user };
 };

@@ -2,8 +2,17 @@ const buckets = new Map();
 
 const now = () => Date.now();
 
+const getClientIp = (req) => {
+  const forwarded = req.headers["x-forwarded-for"];
+  if (typeof forwarded === "string" && forwarded.trim()) {
+    return forwarded.split(",")[0].trim();
+  }
+
+  return req.ip || req.socket?.remoteAddress || "unknown";
+};
+
 const getKey = (req) => {
-  const ip = req.ip || req.headers["x-forwarded-for"] || "unknown";
+  const ip = getClientIp(req);
   const userId = req.chatContext?.userId || "anon";
   return `${ip}:${userId}`;
 };

@@ -43,7 +43,81 @@ export const validateFeedbackInput = (req, res, next) => {
   next();
 };
 
+const isStringArray = (value) =>
+  Array.isArray(value) && value.every((item) => typeof item === "string");
+
+const isFiniteNumber = (value) => typeof value === "number" && Number.isFinite(value);
+
+export const validateFarmInput = (req, res, next) => {
+  const { location, farmSize, selectedCrops, distributions } = req.body || {};
+
+  if (location !== undefined) {
+    if (typeof location !== "object" || location === null) {
+      return res.status(400).json({ error: "location must be an object." });
+    }
+
+    const state = sanitizeText(location.state || "").slice(0, 80);
+    const district = sanitizeText(location.district || "").slice(0, 80);
+    if (!state || !district) {
+      return res.status(400).json({ error: "location.state and location.district are required when location is provided." });
+    }
+    req.body.location = { state, district };
+  }
+
+  if (farmSize !== undefined) {
+    const numericSize = Number(farmSize);
+    if (!Number.isFinite(numericSize) || numericSize <= 0 || numericSize > 100000) {
+      return res.status(400).json({ error: "farmSize must be a number between 0 and 100000." });
+    }
+    req.body.farmSize = numericSize;
+  }
+
+  if (selectedCrops !== undefined) {
+    if (!isStringArray(selectedCrops) || selectedCrops.length === 0 || selectedCrops.length > 30) {
+      return res.status(400).json({ error: "selectedCrops must be a non-empty array of crop names (max 30)." });
+    }
+
+    req.body.selectedCrops = Array.from(
+      new Set(
+        selectedCrops
+          .map((crop) => sanitizeText(crop).slice(0, 60))
+          .filter(Boolean)
+      )
+    );
+
+    if (req.body.selectedCrops.length === 0) {
+      return res.status(400).json({ error: "selectedCrops must include at least one valid crop name." });
+    }
+  }
+
+  if (distributions !== undefined) {
+    if (!Array.isArray(distributions) || distributions.length === 0 || distributions.length > 100) {
+      return res.status(400).json({ error: "distributions must be a non-empty array (max 100)." });
+    }
+
+    const normalized = [];
+    for (const item of distributions) {
+      if (!item || typeof item !== "object") {
+        return res.status(400).json({ error: "Each distribution must be an object with name and area." });
+      }
+
+      const name = sanitizeText(item.name || "").slice(0, 60);
+      const area = Number(item.area);
+      if (!name || !isFiniteNumber(area) || area <= 0 || area > 1000000) {
+        return res.status(400).json({ error: "Each distribution requires valid name and area between 0 and 1000000." });
+      }
+
+      normalized.push({ name, area });
+    }
+
+    req.body.distributions = normalized;
+  }
+
+  next();
+};
+
 export default {
   sanitizeChatInput,
   validateFeedbackInput,
+  validateFarmInput,
 };

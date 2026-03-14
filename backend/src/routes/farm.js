@@ -1,29 +1,21 @@
 import express from "express";
-import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import Farm from "../models/Farm.js";
-import User from "../models/User.js";
+import { authMiddleware } from "../middleware/auth.js";
+import { validateFarmInput } from "../middleware/validation.js";
 
 const router = express.Router();
 
-const JWT_SECRET = process.env.JWT_SECRET || "farmalytics-secret-key";
 const canUseDatabase = () => mongoose.connection.readyState === 1;
 
-const authMiddleware = (req, res, next) => {
-  try {
-    const token = req.header("Authorization")?.replace("Bearer ", "");
-    if (!token) {
-      return res.status(401).json({ message: "No token" });
-    }
-    const decoded = jwt.verify(token, JWT_SECRET);
-    req.userId = decoded.userId;
+const farmAuthMiddleware = (req, res, next) => {
+  authMiddleware(req, res, () => {
+    req.userId = req.user?.userId;
     next();
-  } catch (error) {
-    res.status(401).json({ message: "Invalid token" });
-  }
+  });
 };
 
-router.get("/", authMiddleware, async (req, res) => {
+router.get("/", farmAuthMiddleware, async (req, res) => {
   try {
     if (!canUseDatabase()) {
       return res.json({ farm: null, offline: true });
@@ -42,7 +34,7 @@ router.get("/", authMiddleware, async (req, res) => {
   }
 });
 
-router.put("/", authMiddleware, async (req, res) => {
+router.put("/", farmAuthMiddleware, validateFarmInput, async (req, res) => {
   try {
     const { location, farmSize, selectedCrops, distributions } = req.body;
 

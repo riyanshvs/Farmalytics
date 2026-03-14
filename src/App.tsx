@@ -3,7 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { AuthProvider } from "@/context/AuthContext";
+import { AuthProvider, useAuth } from "@/context/AuthContext";
 import { LanguageProvider } from "@/context/LanguageContext";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
@@ -15,7 +15,8 @@ import CropsSelect from "./pages/CropsSelect";
 import FarmDistribution from "./pages/FarmDistribution";
 import Completion from "./pages/Completion";
 import Dashboard from "./pages/Dashboard";
-import ComingSoon from "./pages/ComingSoon";
+import CropsPrice from "./pages/CropsPrice";
+import WeatherSoil from "./pages/WeatherSoil";
 import NewsReports from "./pages/NewsReports";
 import Alerts from "./pages/Alerts";
 import Profile from "./pages/Profile";
@@ -24,18 +25,30 @@ import Layout from "./components/Layout";
 const queryClient = new QueryClient();
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const token = localStorage.getItem("token");
-  if (!token) {
+  const { isAuthenticated, loading } = useAuth();
+
+  if (loading) {
+    return null;
+  }
+
+  if (!isAuthenticated) {
     return <Navigate to="/signin" replace />;
   }
+
   return <>{children}</>;
 };
 
 const OnboardingRoute = ({ children }: { children: React.ReactNode }) => {
-  const token = localStorage.getItem("token");
-  if (token) {
+  const { isAuthenticated, loading } = useAuth();
+
+  if (loading) {
+    return null;
+  }
+
+  if (isAuthenticated) {
     return <Navigate to="/dashboard" replace />;
   }
+
   return <>{children}</>;
 };
 
@@ -136,7 +149,7 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <Layout>
-                    <ComingSoon />
+                    <CropsPrice />
                   </Layout>
                 </ProtectedRoute>
               }
@@ -146,7 +159,7 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <Layout>
-                    <ComingSoon />
+                    <WeatherSoil />
                   </Layout>
                 </ProtectedRoute>
               }

@@ -18,8 +18,8 @@ const Profile = () => {
   const handleSave = async () => {
     if (!name.trim()) {
       toast({
-        title: "Name is required",
-        description: "Please enter your name before saving.",
+        title: t("pages.profile.nameRequired"),
+        description: t("pages.profile.nameRequiredDescription"),
       });
       return;
     }
@@ -28,8 +28,8 @@ const Profile = () => {
     try {
       await updateProfile({ name: name.trim() });
       toast({
-        title: "Profile updated",
-        description: "Your profile details were saved successfully.",
+        title: t("pages.profile.updated"),
+        description: t("pages.profile.updatedDescription"),
       });
     } finally {
       setSaving(false);
@@ -37,7 +37,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="p-4 md:p-8">
+    <div className="p-4 md:p-6">
       <Card className="max-w-2xl">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-2xl">
@@ -47,17 +47,17 @@ const Profile = () => {
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="space-y-2">
-            <Label htmlFor="profile-name">Name</Label>
+            <Label htmlFor="profile-name">{t("pages.profile.name")}</Label>
             <Input
               id="profile-name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Enter your name"
+              placeholder={t("pages.profile.namePlaceholder")}
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="profile-phone">Phone</Label>
+            <Label htmlFor="profile-phone">{t("pages.profile.phone")}</Label>
             <div className="relative">
               <Phone className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
               <Input
@@ -71,7 +71,7 @@ const Profile = () => {
 
           <Button onClick={handleSave} disabled={saving}>
             <Save className="w-4 h-4 mr-2" />
-            {saving ? "Saving..." : "Save Changes"}
+            {saving ? t("pages.profile.saving") : t("pages.profile.saveChanges")}
           </Button>
         </CardContent>
       </Card>

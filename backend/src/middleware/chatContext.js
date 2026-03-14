@@ -3,8 +3,16 @@ import mongoose from "mongoose";
 import User from "../models/User.js";
 import Farm from "../models/Farm.js";
 import { getAnonymousContext } from "../services/anonymousContextStore.js";
+import { AUTH_COOKIE_NAME, JWT_SECRET } from "../config/security.js";
 
-const JWT_SECRET = process.env.JWT_SECRET || "farmalytics-secret-key";
+const getRequestToken = (req) => {
+  const authHeaderToken = req.header("Authorization")?.replace("Bearer ", "");
+  if (authHeaderToken) {
+    return authHeaderToken;
+  }
+
+  return req.cookies?.[AUTH_COOKIE_NAME] || null;
+};
 
 const buildContextText = ({ user, farm, anonymousContext }) => {
   if (!user) {
@@ -49,7 +57,7 @@ export const chatContextMiddleware = async (req, _res, next) => {
     return next();
   }
 
-  const token = req.header("Authorization")?.replace("Bearer ", "");
+  const token = getRequestToken(req);
   if (!token) {
     req.chatContext.promptContext = buildContextText({ user: null, farm: null, anonymousContext });
     req.chatContext.anonymousContext = anonymousContext;

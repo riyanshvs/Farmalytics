@@ -2,6 +2,8 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import helmet from "helmet";
+import cookieParser from "cookie-parser";
 import { randomUUID } from "crypto";
 import { HfInference } from "@huggingface/inference";
 import connectDB from "./src/config/db.js";
@@ -17,19 +19,33 @@ import { retrieveRelevantKnowledge } from "./src/services/ragService.js";
 import { getRecentConversationMessages, toLLMMessages } from "./src/services/conversationManager.js";
 import { buildStructuredResponse } from "./src/services/responseBuilder.js";
 import { getAnonymousContext, updateAnonymousContext } from "./src/services/anonymousContextStore.js";
+import { JWT_SECRET } from "./src/config/security.js";
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-const allowedOrigins = (process.env.CORS_ORIGIN || "http://localhost:8080,http://localhost:8081")
+if (!JWT_SECRET) {
+  throw new Error("JWT secret configuration failed.");
+}
+
+app.set("trust proxy", true);
+
+const allowedOrigins = (process.env.CORS_ORIGIN || "http://localhost:8080,http://localhost:8081,http://localhost:5173")
   .split(",")
   .map((origin) => origin.trim())
   .filter(Boolean);
 
 app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+  })
+);
+
+app.use(
   cors({
+    credentials: true,
     origin(origin, callback) {
       if (!origin || allowedOrigins.includes(origin)) {
         return callback(null, true);
@@ -38,7 +54,9 @@ app.use(
     },
   })
 );
-app.use(express.json());
+app.use(cookieParser());
+app.use(express.json({ limit: "100kb" }));
+app.use(express.urlencoded({ extended: true, limit: "100kb" }));
 
 connectDB();
 
@@ -301,11 +319,15 @@ app.get("/api/chat/history", chatContextMiddleware, async (req, res) => {
     const userId = req.chatContext?.userId;
     const conversationId = req.query?.conversationId;
 
+    if (!userId) {
+      return res.status(401).json({ message: "Authentication required" });
+    }
+
     if (!conversationId || !canPersistToDb()) {
       return res.status(200).json({ messages: [] });
     }
 
-    const filter = userId ? { userId, conversationId } : { conversationId };
+    const filter = { userId, conversationId };
 
     const messages = await ChatHistory.find(filter)
       .sort({ createdAt: 1 })

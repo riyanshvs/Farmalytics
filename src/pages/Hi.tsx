@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const Hi = () => {
   const navigate = useNavigate();
   const [userName, setUserName] = useState("Michael");
+  const { t } = useTranslation();
 
   useEffect(() => {
     const storedName = localStorage.getItem("userName");
@@ -22,10 +24,7 @@ const Hi = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-background">
       <div className="text-center">
-        <h1 className="text-5xl md:text-7xl font-bold">
-          <span className="text-primary">Hi, </span>
-          <span className="text-primary">{userName}</span>
-        </h1>
+        <h1 className="text-5xl md:text-7xl font-bold text-primary">{t("welcome.hiTitle", { name: userName })}</h1>
       </div>
     </div>
   );

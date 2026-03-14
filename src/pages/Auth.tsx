@@ -5,7 +5,6 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/context/AuthContext";
-import { useLanguage } from "@/context/LanguageContext";
 import { SettingsBar } from "@/components/SettingsBar";
 import { RefreshCw } from "lucide-react";
 import farmBg from "@/assets/farm-field-bg.jpg";
@@ -14,14 +13,12 @@ const Auth = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { sendOTP, login, updateProfile } = useAuth();
-  const { language } = useLanguage();
 
   const [phone, setPhone] = useState("");
   const [name, setName] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const [otp, setOtp] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [otpMessage, setOtpMessage] = useState<string>("");
 
   const handleSendOtp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,20 +29,11 @@ const Auth = () => {
     }
 
     setIsLoading(true);
-    setOtpMessage("");
     
     try {
       const result = await sendOTP(phone);
       
       if (result.success) {
-        if (result.otp) {
-          console.log("[DEV OTP]", result.otp);
-        }
-        setOtpMessage(
-          result.otp
-            ? "✅ OTP sent! Check browser console (F12) for the OTP code in development mode."
-            : "✅ OTP sent! Check backend terminal logs to see the OTP code for testing."
-        );
         toast.success(t("auth.otpSent"));
         setOtpSent(true);
       } else {
@@ -148,12 +136,6 @@ const Auth = () => {
             </form>
           ) : (
             <form onSubmit={handleVerifyOtp} className="space-y-4">
-              {otpMessage && (
-                <div className="p-4 bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-800 rounded-lg">
-                  <p className="text-sm text-green-800 dark:text-green-200">{otpMessage}</p>
-                </div>
-              )}
-
               <p className="text-sm text-muted-foreground text-center">
                 {t("auth.otpSent")}
               </p>
@@ -193,7 +175,6 @@ const Auth = () => {
                   onClick={() => {
                     setOtpSent(false);
                     setOtp("");
-                    setOtpMessage("");
                   }} 
                   className="flex-1"
                   disabled={isLoading}
@@ -219,9 +200,6 @@ const Auth = () => {
         </div>
 
         {/* Info Footer */}
-        <div className="mt-6 text-center text-sm text-white/80">
-          <p>💡 {language === "en" ? "For testing, check backend terminal logs for the OTP code" : "परीक्षण के लिए, ओटीपी कोड के लिए बैकएंड टर्मिनल लॉग देखें"}</p>
-        </div>
       </div>
     </div>
   );

@@ -1,13 +1,13 @@
-import { Home, Sprout, Sun, FileText, AlertTriangle, User, Moon, Droplets, Wind, MessageCircle } from "lucide-react";
+import { Home, Sprout, Sun, FileText, AlertTriangle, User, Droplets, Wind, MessageCircle } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, LineChart, Line } from "recharts";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
-import useTheme from "@/lib/useTheme";
 import Chatbot from "@/components/Chatbot";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/context/AuthContext";
 import { api } from "@/services/api";
+import { SettingsBar } from "@/components/SettingsBar";
 
 interface FarmData {
   selectedCrops?: string[];
@@ -40,7 +40,7 @@ const LiveWeather = () => {
       <div className="flex items-center justify-between">
         <Sun className="w-16 h-16 text-yellow-500" />
         <div className="text-right">
-          <div className="text-4xl font-bold">{weather.temp ? `${weather.temp}°C` : `--°C`}</div>
+          <div className="text-3xl font-bold">{weather.temp ? `${weather.temp}°C` : `--°C`}</div>
           <div className="text-sm text-muted-foreground">{weather.condition || t("common.loading")}</div>
         </div>
       </div>
@@ -70,8 +70,7 @@ const LiveWeather = () => {
 
 const Dashboard = () => {
   const { t } = useTranslation();
-  const { user, logout } = useAuth();
-  const { theme, toggle } = useTheme();
+  const { logout } = useAuth();
   const [chatOpen, setChatOpen] = useState(false);
   const [farmData, setFarmData] = useState<FarmData | null>(null);
 
@@ -118,15 +117,12 @@ const Dashboard = () => {
   );
 
   return (
-    <div className="flex min-h-screen bg-background">
-      <main className="flex-1 p-8">
+    <div className="p-4 md:p-6">
+      <main className="mx-auto max-w-7xl rounded-[28px] border border-border bg-card p-4 md:p-5 shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold">{t("dashboard.title")}</h1>
+          <h1 className="text-3xl md:text-4xl font-bold">{t("dashboard.title")}</h1>
           <div className="flex items-center gap-4">
-            <span className="text-muted-foreground">{user?.name || "User"}</span>
-            <Button onClick={toggle} variant="outline" size="icon" className="rounded-full w-12 h-12">
-              {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-            </Button>
+            <SettingsBar />
             <Button variant="outline" onClick={logout}>
               {t("dashboard.logout")}
             </Button>
@@ -134,30 +130,30 @@ const Dashboard = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Card className="p-6">
+          <Card className="p-5">
             <h3 className="text-lg font-semibold mb-4">{t("dashboard.weather")}</h3>
             <LiveWeather />
           </Card>
 
-          <Card className="p-6">
+          <Card className="p-5">
             <h3 className="text-lg font-semibold mb-4">{t("dashboard.soil")}</h3>
             <div className="space-y-4">
               <div className="flex items-center gap-3">
-                <div className="text-3xl">🧪</div>
-                <div className="text-lg font-semibold text-primary">Neutral</div>
+                <div className="text-2xl">🧪</div>
+                <div className="text-lg font-semibold text-primary">{t("pages.dashboard.soilNeutral")}</div>
               </div>
               <div className="flex items-center gap-3">
-                <div className="text-3xl">💧</div>
-                <div className="text-lg font-semibold text-primary">High</div>
+                <div className="text-2xl">💧</div>
+                <div className="text-lg font-semibold text-primary">{t("pages.dashboard.soilHigh")}</div>
               </div>
               <div className="flex items-center gap-3">
-                <div className="text-3xl">💊</div>
-                <div className="text-lg font-semibold text-primary">Required</div>
+                <div className="text-2xl">💊</div>
+                <div className="text-lg font-semibold text-primary">{t("pages.dashboard.soilRequired")}</div>
               </div>
             </div>
           </Card>
 
-          <Card className="p-6">
+          <Card className="p-5">
             <h3 className="text-lg font-semibold mb-4">{t("dashboard.fieldDistribution")}</h3>
             <div className="flex items-center gap-4">
               <ResponsiveContainer width={140} height={140}>
@@ -193,15 +189,15 @@ const Dashboard = () => {
           <h2 className="text-2xl font-bold mb-6">{t("dashboard.yourCrops")}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
             {crops.map((crop) => (
-              <Card key={crop.name} className="p-6">
-                <div className="w-20 h-20 mx-auto mb-4 bg-muted rounded-full flex items-center justify-center text-4xl">
+              <Card key={crop.name} className="p-5">
+                <div className="w-20 h-20 mx-auto mb-4 bg-muted rounded-full flex items-center justify-center text-3xl">
                   {crop.name === "Potato" && "🥔"}
                   {crop.name === "Onion" && "🧅"}
                   {crop.name === "Tomato" && "🍅"}
                   {crop.name === "Cucumber" && "🥒"}
                 </div>
                 <h3 className="text-center text-lg font-semibold mb-2">{crop.name}</h3>
-                <div className="text-center text-2xl font-bold mb-1">
+                <div className="text-center text-xl font-bold mb-1">
                   {crop.price}<span className="text-sm text-muted-foreground">/kg</span>
                 </div>
                 <div className={`text-center text-sm font-semibold mb-3 ${crop.positive ? "text-green-600" : "text-orange-600"}`}>

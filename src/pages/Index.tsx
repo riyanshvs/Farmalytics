@@ -1,9 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import bg from "@/assets/farm-field-bg.jpg";
+import { useTranslation } from "react-i18next";
 
 const Index = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <div
@@ -15,7 +17,7 @@ const Index = () => {
       <div className="relative z-10 text-center space-y-8 px-4">
         <div>
           <h1 className="mb-4 text-5xl md:text-7xl font-bold text-white">Farmalytics</h1>
-          <p className="text-xl text-white/90">Your Personalized Farm Analytics Dashboard</p>
+          <p className="text-xl text-white/90">{t("pages.index.subtitle")}</p>
         </div>
 
         <div className="flex gap-4 justify-center">
@@ -24,7 +26,7 @@ const Index = () => {
             size="lg"
             className="text-lg px-8 rounded-xl"
           >
-            Sign In
+            {t("pages.index.signIn")}
           </Button>
           <Button
             onClick={() => navigate("/signup")}
@@ -32,7 +34,7 @@ const Index = () => {
             variant="outline"
             className="text-lg px-8 rounded-xl"
           >
-            Sign Up
+            {t("pages.index.signUp")}
           </Button>
         </div>
 

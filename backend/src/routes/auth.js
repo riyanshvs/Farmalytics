@@ -2,14 +2,22 @@ import express from "express";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import User from "../models/User.js";
-import { generateOTP, verifyOTP } from "../utils/otp.js";
+import { generateOTP, verifyOTP, getOtpLockStatus } from "../utils/otp.js";
+import { createRateLimiter } from "../middleware/rateLimit.js";
+import { authMiddleware } from "../middleware/auth.js";
+import {
+  JWT_SECRET,
+  isInsecureOtpDebugEnabled,
+  AUTH_COOKIE_NAME,
+  buildAuthCookieOptions,
+} from "../config/security.js";
 
 const router = express.Router();
-
-const JWT_SECRET = process.env.JWT_SECRET || "farmalytics-secret-key";
 const OFFLINE_USERS = new Map();
 
 const canUseDatabase = () => mongoose.connection.readyState === 1;
+const authRouteRateLimiter = createRateLimiter({ windowMs: 15 * 60 * 1000, maxRequests: 20 });
+const verifyOtpRateLimiter = createRateLimiter({ windowMs: 15 * 60 * 1000, maxRequests: 10 });
 
 const getOfflineUser = (phone) => {
   const existing = OFFLINE_USERS.get(phone);
@@ -25,7 +33,7 @@ const getOfflineUser = (phone) => {
   return created;
 };
 
-router.post("/send-otp", async (req, res) => {
+router.post("/send-otp", authRouteRateLimiter, async (req, res) => {
   try {
     const { phone } = req.body;
 
@@ -34,9 +42,12 @@ router.post("/send-otp", async (req, res) => {
     }
 
     const generatedOtp = generateOTP(phone);
+    if (isInsecureOtpDebugEnabled) {
+      console.warn(`[INSECURE_OTP_DEBUG] OTP for ${phone}: ${generatedOtp}`);
+    }
 
     const payload = { message: "OTP sent successfully", success: true };
-    if (process.env.NODE_ENV !== "production") {
+    if (isInsecureOtpDebugEnabled) {
       payload.otp = generatedOtp;
     }
 
@@ -47,7 +58,7 @@ router.post("/send-otp", async (req, res) => {
   }
 });
 
-router.post("/verify-otp", async (req, res) => {
+router.post("/verify-otp", verifyOtpRateLimiter, async (req, res) => {
   try {
     const { phone, otp } = req.body;
 
@@ -55,10 +66,19 @@ router.post("/verify-otp", async (req, res) => {
       return res.status(400).json({ message: "Phone and OTP required" });
     }
 
+    const lockStatus = getOtpLockStatus(phone);
+    if (lockStatus.isLocked) {
+      return res.status(429).json({
+        message: "Too many invalid OTP attempts. Please try again later.",
+        retryAfter: Math.ceil(lockStatus.retryAfterMs / 1000),
+      });
+    }
+
     const result = verifyOTP(phone, otp);
 
     if (!result.valid) {
-      return res.status(400).json({ message: result.message });
+      const status = typeof result.retryAfter === "number" ? 429 : 400;
+      return res.status(status).json({ message: result.message, retryAfter: result.retryAfter });
     }
 
     if (!canUseDatabase()) {
@@ -69,10 +89,11 @@ router.post("/verify-otp", async (req, res) => {
         { expiresIn: "30d" }
       );
 
+      res.cookie(AUTH_COOKIE_NAME, token, buildAuthCookieOptions());
+
       return res.json({
         message: "Login successful",
         success: true,
-        token,
         user,
       });
     }
@@ -89,10 +110,11 @@ router.post("/verify-otp", async (req, res) => {
       { expiresIn: "30d" }
     );
 
+    res.cookie(AUTH_COOKIE_NAME, token, buildAuthCookieOptions());
+
     res.json({
       message: "Login successful",
       success: true,
-      token,
       user: {
         id: user._id,
         phone: user.phone,
@@ -106,15 +128,9 @@ router.post("/verify-otp", async (req, res) => {
   }
 });
 
-router.put("/profile", async (req, res) => {
+router.put("/profile", authMiddleware, async (req, res) => {
   try {
-    const token = req.header("Authorization")?.replace("Bearer ", "");
-
-    if (!token) {
-      return res.status(401).json({ message: "No token" });
-    }
-
-    const decoded = jwt.verify(token, JWT_SECRET);
+    const decoded = req.user;
     const { name, language } = req.body;
 
     if (!canUseDatabase() || decoded.offline) {
@@ -159,15 +175,9 @@ router.put("/profile", async (req, res) => {
   }
 });
 
-router.get("/me", async (req, res) => {
+router.get("/me", authMiddleware, async (req, res) => {
   try {
-    const token = req.header("Authorization")?.replace("Bearer ", "");
-
-    if (!token) {
-      return res.status(401).json({ message: "No token" });
-    }
-
-    const decoded = jwt.verify(token, JWT_SECRET);
+    const decoded = req.user;
 
     if (!canUseDatabase() || decoded.offline) {
       return res.json({ user: getOfflineUser(decoded.phone) });
@@ -182,8 +192,17 @@ router.get("/me", async (req, res) => {
     res.json({ user });
   } catch (error) {
     console.error("Error fetching user:", error);
-    res.status(401).json({ message: "Invalid token" });
+    res.status(500).json({ message: "Server error" });
   }
+});
+
+router.post("/logout", (_req, res) => {
+  res.clearCookie(AUTH_COOKIE_NAME, {
+    ...buildAuthCookieOptions(),
+    expires: new Date(0),
+  });
+
+  return res.status(200).json({ success: true, message: "Logged out successfully" });
 });
 
 export default router;
