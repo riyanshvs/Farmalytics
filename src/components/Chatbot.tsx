@@ -1,15 +1,23 @@
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { MessageCircle, Send, Loader } from "lucide-react";
+import { MessageCircle, Send, Loader, ThumbsUp, ThumbsDown } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { api } from "@/services/api";
+import { toast } from "sonner";
 
 interface Message {
   id: string;
   type: "user" | "assistant";
   text: string;
   timestamp: Date;
+  feedbackSubmitted?: boolean;
+}
+
+interface HistoryMessage {
+  role?: string;
+  message?: string;
+  createdAt?: string;
 }
 
 export const Chatbot = () => {
@@ -17,7 +25,49 @@ export const Chatbot = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [loading, setLoading] = useState(false);
+  const [historyLoading, setHistoryLoading] = useState(false);
+  const [historyError, setHistoryError] = useState(false);
+  const [conversationId, setConversationId] = useState<string | undefined>(undefined);
+  const [quickReplies, setQuickReplies] = useState<string[]>([]);
+  const [recommendations, setRecommendations] = useState<string[]>([]);
+  const hasLocalInteractionRef = useRef(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const loadHistory = async (savedConversationId: string, retries = 2) => {
+    setHistoryLoading(true);
+    setHistoryError(false);
+
+    for (let attempt = 0; attempt <= retries; attempt += 1) {
+      try {
+        const history = await api.chat.getHistory(savedConversationId);
+        if (Array.isArray(history) && history.length > 0 && !hasLocalInteractionRef.current) {
+          setMessages(
+            history.map((item: HistoryMessage, idx: number) => ({
+              id: `${item.createdAt || Date.now()}-${idx}`,
+              type: item.role === "assistant" ? "assistant" : "user",
+              text: item.message || "",
+              timestamp: item.createdAt ? new Date(item.createdAt) : new Date(),
+            }))
+          );
+        }
+        setHistoryLoading(false);
+        return;
+      } catch {
+        if (attempt === retries) {
+          setHistoryError(true);
+          setHistoryLoading(false);
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    const savedConversationId = localStorage.getItem("chatConversationId");
+    if (savedConversationId) {
+      setConversationId(savedConversationId);
+      loadHistory(savedConversationId);
+    }
+  }, []);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -34,12 +84,21 @@ export const Chatbot = () => {
       text: messageText,
       timestamp: new Date(),
     };
+    hasLocalInteractionRef.current = true;
     setMessages((prev) => [...prev, userMessage]);
     setInputValue("");
     setLoading(true);
 
     try {
-      const result = await api.chat.send(messageText, i18n.language);
+      const result = await api.chat.send(messageText, i18n.language, conversationId);
+
+      if (result?.conversationId && !conversationId) {
+        setConversationId(result.conversationId);
+        localStorage.setItem("chatConversationId", result.conversationId);
+      }
+
+      setQuickReplies(result?.quickReplies || []);
+      setRecommendations(result?.recommendations || []);
       
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
@@ -62,6 +121,25 @@ export const Chatbot = () => {
     }
   };
 
+  const submitFeedback = async (messageId: string, helpful: boolean) => {
+    if (!conversationId) return;
+
+    const result = await api.chat.submitFeedback({
+      conversationId,
+      messageId,
+      helpful,
+    });
+
+    if (!result?.success) {
+      toast.error("Could not save feedback. Please try again.");
+      return;
+    }
+
+    setMessages((prev) =>
+      prev.map((msg) => (msg.id === messageId ? { ...msg, feedbackSubmitted: true } : msg))
+    );
+  };
+
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && !loading) {
       sendMessage();
@@ -79,7 +157,20 @@ export const Chatbot = () => {
       </div>
 
       <div className="flex-1 overflow-y-auto mb-4 space-y-3 min-h-0">
-        {messages.length === 0 ? (
+        {historyError && !historyLoading && (
+          <div className="flex justify-center py-1">
+            <Button variant="outline" size="sm" className="text-xs" onClick={() => conversationId && loadHistory(conversationId)}>
+              Retry loading history
+            </Button>
+          </div>
+        )}
+
+        {historyLoading ? (
+          <div className="flex items-center justify-center h-full text-muted-foreground text-sm">
+            <Loader className="w-4 h-4 animate-spin mr-2" />
+            <span>Loading previous chat...</span>
+          </div>
+        ) : messages.length === 0 ? (
           <div className="flex items-center justify-center h-full text-muted-foreground text-sm">
             <p>{t("chatbot.initialMessage")}</p>
           </div>
@@ -98,8 +189,25 @@ export const Chatbot = () => {
               >
                 {msg.text}
               </div>
+              {msg.type === "assistant" && !msg.feedbackSubmitted && (
+                <div className="flex gap-1 mt-1 px-1">
+                  <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => submitFeedback(msg.id, true)}>
+                    <ThumbsUp className="w-3.5 h-3.5" />
+                  </Button>
+                  <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => submitFeedback(msg.id, false)}>
+                    <ThumbsDown className="w-3.5 h-3.5" />
+                  </Button>
+                </div>
+              )}
             </div>
           ))
+        )}
+        {recommendations.length > 0 && (
+          <div className="space-y-1">
+            {recommendations.map((rec, idx) => (
+              <p key={`${rec}-${idx}`} className="text-xs text-muted-foreground">• {rec}</p>
+            ))}
+          </div>
         )}
         {loading && (
           <div className="flex justify-start">
@@ -111,6 +219,22 @@ export const Chatbot = () => {
         )}
         <div ref={messagesEndRef} />
       </div>
+
+      {quickReplies.length > 0 && !loading && (
+        <div className="mb-3 flex flex-wrap gap-2">
+          {quickReplies.map((quickReply) => (
+            <Button
+              key={quickReply}
+              variant="outline"
+              size="sm"
+              className="text-xs h-8"
+              onClick={() => setInputValue(quickReply)}
+            >
+              {quickReply}
+            </Button>
+          ))}
+        </div>
+      )}
 
       <div className="flex gap-2">
         <Input

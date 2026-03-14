@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { api, setAuth, clearAuth, getAuth } from "@/services/api";
+import React, { createContext, useContext, useState, useEffect, ReactNode, useRef } from "react";
+import { api, setAuth, clearAuth, getAuth, USER_DATA_KEY } from "@/services/api";
 import { useTranslation } from "react-i18next";
 
 interface User {
@@ -14,7 +14,7 @@ interface AuthContextType {
   token: string | null;
   loading: boolean;
   login: (phone: string, otp: string) => Promise<{ success: boolean; message?: string }>;
-  sendOTP: (phone: string) => Promise<{ success: boolean; message?: string }>;
+  sendOTP: (phone: string) => Promise<{ success: boolean; message?: string; otp?: string }>;
   updateProfile: (data: { name?: string; language?: string }) => Promise<void>;
   logout: () => void;
   isAuthenticated: boolean;
@@ -27,14 +27,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const { i18n } = useTranslation();
+  const initializedRef = useRef(false);
 
   useEffect(() => {
+    if (initializedRef.current) {
+      return;
+    }
+    initializedRef.current = true;
+
     const { token: savedToken, user: savedUser } = getAuth();
     if (savedToken && savedUser) {
       setToken(savedToken);
       setUser(savedUser);
-      if (savedUser.language) {
-        i18n.changeLanguage(savedUser.language);
+      if (savedUser.language && i18n.resolvedLanguage !== savedUser.language) {
+        void i18n.changeLanguage(savedUser.language);
       }
     }
     setLoading(false);
@@ -43,7 +49,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const sendOTP = async (phone: string) => {
     try {
       const result = await api.auth.sendOTP(phone);
-      return { success: result.success, message: result.message };
+      return { success: result.success, message: result.message, otp: result.otp };
     } catch (error) {
       return { success: false, message: "Failed to send OTP" };
     }
@@ -56,8 +62,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setAuth(result.token, result.user);
         setToken(result.token);
         setUser(result.user);
-        if (result.user.language) {
-          i18n.changeLanguage(result.user.language);
+        if (result.user.language && i18n.resolvedLanguage !== result.user.language) {
+          void i18n.changeLanguage(result.user.language);
         }
         return { success: true };
       }
@@ -73,8 +79,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (result.user) {
         setUser(result.user);
         localStorage.setItem(USER_DATA_KEY, JSON.stringify(result.user));
-        if (data.language) {
-          i18n.changeLanguage(data.language);
+        if (data.language && i18n.resolvedLanguage !== data.language) {
+          void i18n.changeLanguage(data.language);
         }
       }
     } catch (error) {

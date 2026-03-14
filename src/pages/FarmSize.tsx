@@ -33,9 +33,9 @@ const FarmSize = () => {
       
       toast.success(t("common.success"));
       navigate("/crops-select");
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error saving farm size:", error);
-      toast.error(error.message || "Failed to save farm size. Please try again.");
+      toast.error(error instanceof Error ? error.message : "Failed to save farm size. Please try again.");
     } finally {
       setIsLoading(false);
     }

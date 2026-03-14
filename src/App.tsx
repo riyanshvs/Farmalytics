@@ -16,6 +16,9 @@ import FarmDistribution from "./pages/FarmDistribution";
 import Completion from "./pages/Completion";
 import Dashboard from "./pages/Dashboard";
 import ComingSoon from "./pages/ComingSoon";
+import NewsReports from "./pages/NewsReports";
+import Alerts from "./pages/Alerts";
+import Profile from "./pages/Profile";
 import Layout from "./components/Layout";
 
 const queryClient = new QueryClient();
@@ -43,7 +46,7 @@ const App = () => (
         <AuthProvider>
           <Toaster />
           <Sonner />
-          <BrowserRouter>
+          <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <Routes>
             <Route
               path="/"
@@ -153,7 +156,7 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <Layout>
-                    <ComingSoon />
+                    <NewsReports />
                   </Layout>
                 </ProtectedRoute>
               }
@@ -163,7 +166,17 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <Layout>
-                    <ComingSoon />
+                    <Alerts />
+                  </Layout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Layout>
+                    <Profile />
                   </Layout>
                 </ProtectedRoute>
               }

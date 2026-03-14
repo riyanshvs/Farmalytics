@@ -3,12 +3,16 @@ import { Card } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, LineChart, Line } from "recharts";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
 import useTheme from "@/lib/useTheme";
 import Chatbot from "@/components/Chatbot";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/context/AuthContext";
 import { api } from "@/services/api";
+
+interface FarmData {
+  selectedCrops?: string[];
+  distributions?: { name: string; area: number }[];
+}
 
 const LiveWeather = () => {
   const { t } = useTranslation();
@@ -69,7 +73,7 @@ const Dashboard = () => {
   const { user, logout } = useAuth();
   const { theme, toggle } = useTheme();
   const [chatOpen, setChatOpen] = useState(false);
-  const [farmData, setFarmData] = useState<any>(null);
+  const [farmData, setFarmData] = useState<FarmData | null>(null);
 
   useEffect(() => {
     const fetchFarmData = async () => {
@@ -221,18 +225,36 @@ const Dashboard = () => {
       </main>
 
       <Button
-        onClick={() => setChatOpen(true)}
-        className="fixed bottom-6 right-6 w-14 h-14 rounded-full shadow-lg"
+        onClick={() => setChatOpen((prev) => !prev)}
+        className={`fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full shadow-lg transition-transform duration-300 ${chatOpen ? "rotate-90" : "rotate-0"}`}
         size="icon"
+        aria-label={chatOpen ? "Close chatbot" : "Open chatbot"}
       >
         <MessageCircle className="w-6 h-6" />
       </Button>
 
-      <Dialog open={chatOpen} onOpenChange={setChatOpen}>
-        <DialogContent className="sm:max-w-md h-96 flex flex-col">
-          <Chatbot />
-        </DialogContent>
-      </Dialog>
+      <div
+        className={`fixed bottom-24 right-6 z-40 h-[70vh] max-h-[36rem] w-[min(24rem,calc(100vw-1.5rem))] origin-bottom-right transition-all duration-300 ease-out ${
+          chatOpen
+            ? "pointer-events-auto translate-y-0 rotate-0 scale-100 opacity-100"
+            : "pointer-events-none translate-y-6 rotate-[8deg] scale-95 opacity-0"
+        }`}
+      >
+        <Card className="relative h-full p-4 shadow-2xl">
+          <Button
+            onClick={() => setChatOpen(false)}
+            variant="ghost"
+            size="sm"
+            className="absolute right-2 top-2 z-10"
+            aria-label="Close chatbot panel"
+          >
+            ✕
+          </Button>
+          <div className="h-full pt-2">
+            <Chatbot />
+          </div>
+        </Card>
+      </div>
     </div>
   );
 };

@@ -24,7 +24,9 @@ export function useTheme() {
   useEffect(() => {
     try {
       localStorage.setItem(THEME_KEY, theme);
-    } catch (e) {}
+    } catch {
+      // ignore storage write failures in restricted environments
+    }
 
     const root = document.documentElement;
     if (theme === "dark") {

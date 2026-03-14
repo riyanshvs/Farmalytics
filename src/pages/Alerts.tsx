@@ -372,7 +372,6 @@ const Alerts = () => {
                           <Switch
                             checked={config.critical}
                             onCheckedChange={(checked) => updateSetting(category, 'critical', checked)}
-                            size="sm"
                           />
                         </div>
                         <div className="flex items-center justify-between text-sm">
@@ -380,7 +379,6 @@ const Alerts = () => {
                           <Switch
                             checked={config.high}
                             onCheckedChange={(checked) => updateSetting(category, 'high', checked)}
-                            size="sm"
                           />
                         </div>
                         <div className="flex items-center justify-between text-sm">
@@ -388,7 +386,6 @@ const Alerts = () => {
                           <Switch
                             checked={config.medium}
                             onCheckedChange={(checked) => updateSetting(category, 'medium', checked)}
-                            size="sm"
                           />
                         </div>
                         <div className="flex items-center justify-between text-sm">
@@ -396,7 +393,6 @@ const Alerts = () => {
                           <Switch
                             checked={config.low}
                             onCheckedChange={(checked) => updateSetting(category, 'low', checked)}
-                            size="sm"
                           />
                         </div>
                       </div>
@@ -441,7 +437,6 @@ const Alerts = () => {
             </Card>
           </TabsContent>
         </Tabs>
-      </div>
     </div>
   );
 };

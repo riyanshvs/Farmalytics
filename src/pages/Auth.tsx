@@ -38,13 +38,13 @@ const Auth = () => {
       const result = await sendOTP(phone);
       
       if (result.success) {
-        console.log(
-          "%c✅ OTP sent successfully! Check browser console (F12) for OTP details",
-          "background: #4ade80; color: white; padding: 8px 12px; border-radius: 4px; font-weight: bold;"
-        );
-        
+        if (result.otp) {
+          console.log("[DEV OTP]", result.otp);
+        }
         setOtpMessage(
-          "✅ OTP sent! Check your browser console (Press F12) to see the OTP code for testing."
+          result.otp
+            ? "✅ OTP sent! Check browser console (F12) for the OTP code in development mode."
+            : "✅ OTP sent! Check backend terminal logs to see the OTP code for testing."
         );
         toast.success(t("auth.otpSent"));
         setOtpSent(true);
@@ -220,7 +220,7 @@ const Auth = () => {
 
         {/* Info Footer */}
         <div className="mt-6 text-center text-sm text-white/80">
-          <p>💡 {language === "en" ? "For testing, check your browser console (F12) for the OTP code" : "परीक्षण के लिए, ओटीपी कोड के लिए अपने ब्राउज़र कंसोल (F12) को देखें"}</p>
+          <p>💡 {language === "en" ? "For testing, check backend terminal logs for the OTP code" : "परीक्षण के लिए, ओटीपी कोड के लिए बैकएंड टर्मिनल लॉग देखें"}</p>
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import React, { createContext, useContext, useState, useEffect, ReactNode, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { translateService } from "@/services/translateService";
 
@@ -17,30 +17,40 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   const { i18n } = useTranslation();
   const [language, setLanguageState] = useState<Language>("en");
   const [isLoading, setIsLoading] = useState(false);
+  const initializedRef = useRef(false);
 
   // Initialize language on mount
   useEffect(() => {
+    if (initializedRef.current) {
+      return;
+    }
+    initializedRef.current = true;
+
     const savedLanguage = localStorage.getItem("preferredLanguage") as Language | null;
     const detectedLanguage = i18n.language as Language;
     const initialLanguage = savedLanguage || detectedLanguage || "en";
 
-    setLanguageState(initialLanguage);
-    if (i18n.language !== initialLanguage) {
-      i18n.changeLanguage(initialLanguage);
+    setLanguageState((prev) => (prev === initialLanguage ? prev : initialLanguage));
+    if (i18n.resolvedLanguage !== initialLanguage) {
+      void i18n.changeLanguage(initialLanguage);
     }
   }, [i18n]);
 
   const setLanguage = async (lang: Language) => {
     try {
-      setIsLoading(true);
-      
       // Validate language
       if (!["en", "hi"].includes(lang)) {
         throw new Error("Unsupported language");
       }
 
+      if (lang === language && i18n.resolvedLanguage === lang) {
+        return;
+      }
+
+      setIsLoading(true);
+
       // Update state first
-      setLanguageState(lang);
+      setLanguageState((prev) => (prev === lang ? prev : lang));
 
       // Save preferences to localStorage (multiple keys for compatibility)
       localStorage.setItem("preferredLanguage", lang);
@@ -48,7 +58,9 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
       localStorage.setItem("i18nextLng", lang);  // For i18next detector
 
       // Change language in i18n
-      await i18n.changeLanguage(lang);
+      if (i18n.resolvedLanguage !== lang) {
+        await i18n.changeLanguage(lang);
+      }
 
       // Log language change
       console.log(`📍 Language changed to: ${lang === "en" ? "English" : "हिंदी (Hindi)"}`);

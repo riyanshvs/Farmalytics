@@ -1,11 +1,29 @@
 import express from "express";
 import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
 import User from "../models/User.js";
 import { generateOTP, verifyOTP } from "../utils/otp.js";
 
 const router = express.Router();
 
 const JWT_SECRET = process.env.JWT_SECRET || "farmalytics-secret-key";
+const OFFLINE_USERS = new Map();
+
+const canUseDatabase = () => mongoose.connection.readyState === 1;
+
+const getOfflineUser = (phone) => {
+  const existing = OFFLINE_USERS.get(phone);
+  if (existing) return existing;
+
+  const created = {
+    id: `offline-${phone}`,
+    phone,
+    name: "",
+    language: "hi",
+  };
+  OFFLINE_USERS.set(phone, created);
+  return created;
+};
 
 router.post("/send-otp", async (req, res) => {
   try {
@@ -15,9 +33,14 @@ router.post("/send-otp", async (req, res) => {
       return res.status(400).json({ message: "Valid 10-digit phone number required" });
     }
 
-    generateOTP(phone);
+    const generatedOtp = generateOTP(phone);
 
-    res.json({ message: "OTP sent successfully", success: true });
+    const payload = { message: "OTP sent successfully", success: true };
+    if (process.env.NODE_ENV !== "production") {
+      payload.otp = generatedOtp;
+    }
+
+    res.json(payload);
   } catch (error) {
     console.error("Error sending OTP:", error);
     res.status(500).json({ message: "Server error" });
@@ -36,6 +59,22 @@ router.post("/verify-otp", async (req, res) => {
 
     if (!result.valid) {
       return res.status(400).json({ message: result.message });
+    }
+
+    if (!canUseDatabase()) {
+      const user = getOfflineUser(phone);
+      const token = jwt.sign(
+        { userId: user.id, phone: user.phone, offline: true },
+        JWT_SECRET,
+        { expiresIn: "30d" }
+      );
+
+      return res.json({
+        message: "Login successful",
+        success: true,
+        token,
+        user,
+      });
     }
 
     let user = await User.findOne({ phone });
@@ -78,6 +117,17 @@ router.put("/profile", async (req, res) => {
     const decoded = jwt.verify(token, JWT_SECRET);
     const { name, language } = req.body;
 
+    if (!canUseDatabase() || decoded.offline) {
+      const offline = getOfflineUser(decoded.phone);
+      if (name !== undefined) offline.name = String(name);
+      if (language !== undefined && ["en", "hi"].includes(language)) {
+        offline.language = language;
+      }
+      OFFLINE_USERS.set(decoded.phone, offline);
+
+      return res.json({ user: offline });
+    }
+
     const updateData = {};
     if (name !== undefined) updateData.name = name;
     if (language !== undefined && ["en", "hi"].includes(language)) {
@@ -118,6 +168,11 @@ router.get("/me", async (req, res) => {
     }
 
     const decoded = jwt.verify(token, JWT_SECRET);
+
+    if (!canUseDatabase() || decoded.offline) {
+      return res.json({ user: getOfflineUser(decoded.phone) });
+    }
+
     const user = await User.findById(decoded.userId).select("-__v");
 
     if (!user) {

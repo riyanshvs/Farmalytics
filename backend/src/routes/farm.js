@@ -1,11 +1,13 @@
 import express from "express";
 import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
 import Farm from "../models/Farm.js";
 import User from "../models/User.js";
 
 const router = express.Router();
 
 const JWT_SECRET = process.env.JWT_SECRET || "farmalytics-secret-key";
+const canUseDatabase = () => mongoose.connection.readyState === 1;
 
 const authMiddleware = (req, res, next) => {
   try {
@@ -23,6 +25,10 @@ const authMiddleware = (req, res, next) => {
 
 router.get("/", authMiddleware, async (req, res) => {
   try {
+    if (!canUseDatabase()) {
+      return res.json({ farm: null, offline: true });
+    }
+
     let farm = await Farm.findOne({ userId: req.userId });
 
     if (!farm) {
@@ -39,6 +45,21 @@ router.get("/", authMiddleware, async (req, res) => {
 router.put("/", authMiddleware, async (req, res) => {
   try {
     const { location, farmSize, selectedCrops, distributions } = req.body;
+
+    if (!canUseDatabase()) {
+      return res.json({
+        message: "Farm data stored locally (database unavailable)",
+        farm: {
+          userId: req.userId,
+          location,
+          farmSize,
+          selectedCrops,
+          distributions,
+          offline: true,
+        },
+        offline: true,
+      });
+    }
 
     const farmData = {
       userId: req.userId,

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Moon, Sun, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import useTheme from "@/lib/useTheme";
@@ -26,7 +26,6 @@ export const SettingsBar: React.FC<SettingsBarProps> = ({ className = "" }) => {
   const { theme, toggle } = useTheme();
   const { language, setLanguage, isLoading } = useLanguage();
   const { t } = useTranslation();
-  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const languages: Array<{ code: Language; label: string; emoji: string }> = [
     { code: "en", label: t("language.en"), emoji: "🇬🇧" },
@@ -38,14 +37,13 @@ export const SettingsBar: React.FC<SettingsBarProps> = ({ className = "" }) => {
   const handleLanguageChange = async (lang: Language) => {
     if (lang !== language) {
       await setLanguage(lang);
-      setDropdownOpen(false);
     }
   };
 
   return (
     <div className={`flex items-center gap-2 ${className}`}>
       {/* Language Switcher Dropdown */}
-      <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
+      <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
             variant="outline"
@@ -68,7 +66,9 @@ export const SettingsBar: React.FC<SettingsBarProps> = ({ className = "" }) => {
           {languages.map((lang) => (
             <DropdownMenuItem
               key={lang.code}
-              onClick={() => handleLanguageChange(lang.code)}
+              onSelect={() => {
+                void handleLanguageChange(lang.code);
+              }}
               className="cursor-pointer flex items-center gap-3"
             >
               <span className="text-lg">{lang.emoji}</span>

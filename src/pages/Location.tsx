@@ -43,9 +43,9 @@ const Location = () => {
       
       toast.success(t("common.success"));
       navigate("/farm-size");
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error saving location:", error);
-      toast.error(error.message || "Failed to save location. Please try again.");
+      toast.error(error instanceof Error ? error.message : "Failed to save location. Please try again.");
     } finally {
       setIsLoading(false);
     }

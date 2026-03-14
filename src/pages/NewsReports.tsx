@@ -180,8 +180,9 @@ const NewsReports = () => {
 
   return (
     <div className="p-4 md:p-8">
+      <div className="mx-auto max-w-7xl rounded-[28px] border border-border/70 bg-card/95 p-3 md:p-5 shadow-[0_12px_40px_rgba(0,0,0,0.08)]">
       {/* Hero Header */}
-      <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg mb-8">
+      <div className="bg-white dark:bg-gray-800 shadow-lg rounded-2xl mb-8 border border-border/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
           <div className="text-center mb-6 md:mb-8">
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
@@ -362,6 +363,7 @@ const NewsReports = () => {
             </div>
           </TabsContent>
         </Tabs>
+      </div>
       </div>
     </div>
   );
