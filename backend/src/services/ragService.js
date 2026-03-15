@@ -4,8 +4,32 @@ import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const knowledgeBasePath = path.join(__dirname, "..", "data", "agriKnowledge.json");
-const knowledgeBase = JSON.parse(fs.readFileSync(knowledgeBasePath, "utf-8"));
+const knowledgeBaseDir = path.join(__dirname, "..", "data", "kb");
+const legacyKnowledgeBasePath = path.join(__dirname, "..", "data", "agriKnowledge.json");
+
+const loadKnowledgeBase = () => {
+  if (fs.existsSync(knowledgeBaseDir)) {
+    const files = fs
+      .readdirSync(knowledgeBaseDir)
+      .filter((name) => /^\d{2}_.+\.json$/i.test(name))
+      .sort();
+
+    if (files.length) {
+      return files.flatMap((name) => {
+        const filePath = path.join(knowledgeBaseDir, name);
+        return JSON.parse(fs.readFileSync(filePath, "utf-8"));
+      });
+    }
+  }
+
+  if (fs.existsSync(legacyKnowledgeBasePath)) {
+    return JSON.parse(fs.readFileSync(legacyKnowledgeBasePath, "utf-8"));
+  }
+
+  return [];
+};
+
+const knowledgeBase = loadKnowledgeBase();
 
 const EMBEDDING_MODEL = process.env.RAG_EMBEDDING_MODEL || "sentence-transformers/all-MiniLM-L6-v2";
 const HF_ROUTER_BASE_URL = process.env.HF_ROUTER_BASE_URL || "https://router.huggingface.co/hf-inference/models";
@@ -29,11 +53,13 @@ const normalizeSynonyms = (text = "") => {
   return normalized;
 };
 
+const normalizeText = (text = "") => normalizeSynonyms(text).normalize("NFKC").trim();
+
 const tokenize = (text = "") =>
-  normalizeSynonyms(text)
-    .replace(/[^a-z0-9\s]/g, " ")
+  normalizeText(text)
+    .replace(/[^a-z0-9\u0900-\u097f\s]/gi, " ")
     .split(/\s+/)
-    .filter((token) => token.length > 2);
+    .filter((token) => token.length > 1);
 
 const scoreDocument = (queryTokens, docTokens) => {
   if (!queryTokens.length || !docTokens.length) return 0;
@@ -49,13 +75,44 @@ const scoreDocument = (queryTokens, docTokens) => {
   return score;
 };
 
-const toIndexText = (entry) =>
-  `${entry.title || ""} ${entry.titleHi || ""} ${entry.content || ""} ${entry.contentHi || ""} ${entry.category || ""} ${(entry.tags || []).join(" ")}`;
+const toIndexPayload = (entry) => {
+  const title = `${entry.title || ""} ${entry.titleHi || ""}`;
+  const queryText = `${entry.farmer_query || ""} ${entry.farmer_query_en || ""}`;
+  const content = `${entry.content || ""} ${entry.contentHi || ""}`;
+  const tags = `${(entry.tags || []).join(" ")}`;
+  const metadata = `${entry.category || ""} ${entry.crop_id || ""} ${entry.stage || ""} ${entry.region || ""} ${entry.season || ""}`;
+
+  return {
+    indexText: `${title} ${queryText} ${content} ${tags} ${metadata}`,
+    normalizedTitle: normalizeText(title),
+    normalizedQueryText: normalizeText(queryText),
+    titleTokens: tokenize(title),
+    queryTokens: tokenize(queryText),
+    contentTokens: tokenize(content),
+    tagTokens: tokenize(tags),
+    metadataTokens: tokenize(metadata),
+  };
+};
+
+const scoreLexical = (queryTokens, normalizedQuery, doc) => {
+  const titleScore = scoreDocument(queryTokens, doc.titleTokens) * 3.5;
+  const queryScore = scoreDocument(queryTokens, doc.queryTokens) * 4.5;
+  const contentScore = scoreDocument(queryTokens, doc.contentTokens) * 1;
+  const tagScore = scoreDocument(queryTokens, doc.tagTokens) * 2;
+  const metadataScore = scoreDocument(queryTokens, doc.metadataTokens) * 1.5;
+
+  let exactBoost = 0;
+  if (normalizedQuery) {
+    if (doc.normalizedQueryText.includes(normalizedQuery)) exactBoost += 16;
+    if (doc.normalizedTitle.includes(normalizedQuery)) exactBoost += 8;
+  }
+
+  return titleScore + queryScore + contentScore + tagScore + metadataScore + exactBoost;
+};
 
 let cachedIndex = knowledgeBase.map((entry) => ({
   ...entry,
-  indexText: toIndexText(entry),
-  tokens: tokenize(toIndexText(entry)),
+  ...toIndexPayload(entry),
 }));
 
 let embeddingState = {
@@ -143,8 +200,7 @@ const warmEmbeddingIndex = async (hf) => {
 export const rebuildKnowledgeIndex = () => {
   cachedIndex = knowledgeBase.map((entry) => ({
     ...entry,
-    indexText: toIndexText(entry),
-    tokens: tokenize(toIndexText(entry)),
+    ...toIndexPayload(entry),
   }));
   embeddingState = { ready: false, failed: false, vectors: new Map() };
   return cachedIndex.length;
@@ -152,6 +208,7 @@ export const rebuildKnowledgeIndex = () => {
 
 export const retrieveRelevantKnowledge = async ({ query, topK = 3, hf = null }) => {
   const queryTokens = tokenize(query);
+  const normalizedQuery = normalizeText(query);
   let queryVector = null;
   let useSemantic = false;
 
@@ -165,7 +222,7 @@ export const retrieveRelevantKnowledge = async ({ query, topK = 3, hf = null }) 
 
   const scored = cachedIndex
     .map((doc) => {
-      const lexicalScore = scoreDocument(queryTokens, doc.tokens);
+      const lexicalScore = scoreLexical(queryTokens, normalizedQuery, doc);
       let semanticScore = 0;
 
       if (useSemantic) {
@@ -180,9 +237,24 @@ export const retrieveRelevantKnowledge = async ({ query, topK = 3, hf = null }) 
       };
     })
     .filter((doc) => doc.score > 0)
-    .sort((a, b) => b.score - a.score)
+    .sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score;
+      return (a.id || "").localeCompare(b.id || "");
+    })
     .slice(0, topK)
-    .map(({ tokens, indexText, ...doc }) => doc);
+    .map(
+      ({
+        indexText,
+        normalizedTitle,
+        normalizedQueryText,
+        titleTokens,
+        queryTokens: docQueryTokens,
+        contentTokens,
+        tagTokens,
+        metadataTokens,
+        ...doc
+      }) => doc
+    );
 
   return scored;
 };
