@@ -65,7 +65,7 @@ const Auth = () => {
           await updateProfile({ name });
         }
         toast.success(t("common.success"));
-        navigate("/dashboard");
+        navigate(result.onboardingCompleted ? "/dashboard" : "/hi");
       } else {
         toast.error(result.message || t("auth.loginFailed"));
       }

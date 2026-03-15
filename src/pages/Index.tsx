@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import bg from "@/assets/farm-field-bg.jpg";
 import { useTranslation } from "react-i18next";
 
@@ -13,6 +14,10 @@ const Index = () => {
       style={{ backgroundImage: `url(${bg})` }}
     >
       <div className="absolute inset-0 bg-black/25" />
+
+      <div className="absolute top-4 right-4 z-20">
+        <LanguageSwitcher variant="icon" className="bg-white/90 hover:bg-white text-black" />
+      </div>
 
       <div className="relative z-10 text-center space-y-8 px-4">
         <div>

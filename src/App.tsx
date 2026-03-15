@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
 import { LanguageProvider } from "@/context/LanguageContext";
 import Index from "./pages/Index";
@@ -25,7 +25,7 @@ import Layout from "./components/Layout";
 const queryClient = new QueryClient();
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const { isAuthenticated, loading } = useAuth();
+  const { isAuthenticated, onboardingCompleted, loading } = useAuth();
 
   if (loading) {
     return null;
@@ -35,18 +35,43 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     return <Navigate to="/signin" replace />;
   }
 
+  if (!onboardingCompleted) {
+    return <Navigate to="/hi" replace />;
+  }
+
   return <>{children}</>;
 };
 
 const OnboardingRoute = ({ children }: { children: React.ReactNode }) => {
-  const { isAuthenticated, loading } = useAuth();
+  const { isAuthenticated, onboardingCompleted, loading } = useAuth();
+  const location = useLocation();
+  const publicPaths = ["/", "/signin", "/signup"];
+  const onboardingPaths = ["/hi", "/location", "/farm-size", "/crops-select", "/farm-distribution", "/completion"];
 
   if (loading) {
     return null;
   }
 
-  if (isAuthenticated) {
+  if (!isAuthenticated) {
+    if (publicPaths.includes(location.pathname)) {
+      return <>{children}</>;
+    }
+    return <Navigate to="/signin" replace />;
+  }
+
+  if (isAuthenticated && onboardingCompleted) {
+    if (location.pathname === "/completion") {
+      return <>{children}</>;
+    }
     return <Navigate to="/dashboard" replace />;
+  }
+
+  if (isAuthenticated && !onboardingCompleted && publicPaths.includes(location.pathname)) {
+    return <Navigate to="/hi" replace />;
+  }
+
+  if (isAuthenticated && !onboardingCompleted && onboardingPaths.includes(location.pathname)) {
+    return <>{children}</>;
   }
 
   return <>{children}</>;

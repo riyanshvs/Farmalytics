@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { api } from "@/services/api";
+import { useAuth } from "@/context/AuthContext";
 
 const cropIcons: Record<string, string> = {
   Potato: "🥔",
@@ -19,6 +20,7 @@ const cropIcons: Record<string, string> = {
 const FarmDistribution = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { markOnboardingComplete } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const stored = typeof window !== "undefined" ? localStorage.getItem("selectedCrops") : null;
   const selectedNames: string[] = stored ? JSON.parse(stored) : [];
@@ -52,6 +54,8 @@ const FarmDistribution = () => {
       } catch (apiError) {
         console.warn("API save failed, data stored locally:", apiError);
       }
+
+      markOnboardingComplete();
       
       toast.success(t("common.success"));
       navigate("/completion");
