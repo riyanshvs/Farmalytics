@@ -1,0 +1,1486 @@
+{
+  "phase": 3,
+  "objective": "RAG retrieval quality hardening",
+  "generated_at": "2026-03-15T06:28:58.332Z",
+  "duration_ms": 5649,
+  "config": {
+    "max_cases_per_category": 20,
+    "top_k": 5
+  },
+  "corpus": {
+    "total_entries": 2272,
+    "categories": [
+      "crop_stage",
+      "irrigation",
+      "market",
+      "pest_disease",
+      "post_harvest",
+      "scheme",
+      "soil_health"
+    ]
+  },
+  "tests": {
+    "total": 280,
+    "top1_exact": 206,
+    "top3_exact": 245,
+    "top5_exact": 250,
+    "scheme_tests": 40,
+    "top1_scheme_name_match": 40,
+    "top3_scheme_name_match": 40,
+    "top5_scheme_name_match": 40,
+    "strict_misses_with_scheme_top5_match": 30,
+    "top1_crop_match": 241,
+    "top1_stage_match": 217,
+    "top1_category_match": 273,
+    "top1_quality_ok": 280,
+    "misses": 30,
+    "top1_exact_rate": 0.7357,
+    "top3_exact_rate": 0.875,
+    "top5_exact_rate": 0.8929,
+    "top1_scheme_name_match_rate": 1,
+    "top3_scheme_name_match_rate": 1,
+    "top5_scheme_name_match_rate": 1,
+    "top1_crop_match_rate": 0.8607,
+    "top1_stage_match_rate": 0.775,
+    "top1_category_match_rate": 0.975,
+    "top1_quality_ok_rate": 1,
+    "avg_exact_rank": 1.284
+  },
+  "by_category": {
+    "crop_stage": {
+      "tests": 40,
+      "top1_exact": 30,
+      "top3_exact": 39,
+      "top5_exact": 40,
+      "scheme_tests": 0,
+      "top1_scheme_name_match": 0,
+      "top3_scheme_name_match": 0,
+      "top5_scheme_name_match": 0,
+      "strict_misses_with_scheme_top5_match": 0,
+      "top1_crop_match": 39,
+      "top1_stage_match": 33,
+      "top1_category_match": 33,
+      "top1_quality_ok": 40,
+      "avg_exact_rank": 1.325,
+      "exact_rank_count": 40,
+      "exact_rank_total": 53,
+      "misses": 0,
+      "top1_exact_rate": 0.75,
+      "top3_exact_rate": 0.975,
+      "top5_exact_rate": 1,
+      "top1_scheme_name_match_rate": null,
+      "top3_scheme_name_match_rate": null,
+      "top5_scheme_name_match_rate": null,
+      "top1_crop_match_rate": 0.975,
+      "top1_stage_match_rate": 0.825,
+      "top1_category_match_rate": 0.825,
+      "top1_quality_ok_rate": 1
+    },
+    "pest_disease": {
+      "tests": 40,
+      "top1_exact": 14,
+      "top3_exact": 40,
+      "top5_exact": 40,
+      "scheme_tests": 0,
+      "top1_scheme_name_match": 0,
+      "top3_scheme_name_match": 0,
+      "top5_scheme_name_match": 0,
+      "strict_misses_with_scheme_top5_match": 0,
+      "top1_crop_match": 40,
+      "top1_stage_match": 14,
+      "top1_category_match": 40,
+      "top1_quality_ok": 40,
+      "avg_exact_rank": 1.95,
+      "exact_rank_count": 40,
+      "exact_rank_total": 78,
+      "misses": 0,
+      "top1_exact_rate": 0.35,
+      "top3_exact_rate": 1,
+      "top5_exact_rate": 1,
+      "top1_scheme_name_match_rate": null,
+      "top3_scheme_name_match_rate": null,
+      "top5_scheme_name_match_rate": null,
+      "top1_crop_match_rate": 1,
+      "top1_stage_match_rate": 0.35,
+      "top1_category_match_rate": 1,
+      "top1_quality_ok_rate": 1
+    },
+    "soil_health": {
+      "tests": 40,
+      "top1_exact": 40,
+      "top3_exact": 40,
+      "top5_exact": 40,
+      "scheme_tests": 0,
+      "top1_scheme_name_match": 0,
+      "top3_scheme_name_match": 0,
+      "top5_scheme_name_match": 0,
+      "strict_misses_with_scheme_top5_match": 0,
+      "top1_crop_match": 40,
+      "top1_stage_match": 40,
+      "top1_category_match": 40,
+      "top1_quality_ok": 40,
+      "avg_exact_rank": 1,
+      "exact_rank_count": 40,
+      "exact_rank_total": 40,
+      "misses": 0,
+      "top1_exact_rate": 1,
+      "top3_exact_rate": 1,
+      "top5_exact_rate": 1,
+      "top1_scheme_name_match_rate": null,
+      "top3_scheme_name_match_rate": null,
+      "top5_scheme_name_match_rate": null,
+      "top1_crop_match_rate": 1,
+      "top1_stage_match_rate": 1,
+      "top1_category_match_rate": 1,
+      "top1_quality_ok_rate": 1
+    },
+    "irrigation": {
+      "tests": 40,
+      "top1_exact": 40,
+      "top3_exact": 40,
+      "top5_exact": 40,
+      "scheme_tests": 0,
+      "top1_scheme_name_match": 0,
+      "top3_scheme_name_match": 0,
+      "top5_scheme_name_match": 0,
+      "strict_misses_with_scheme_top5_match": 0,
+      "top1_crop_match": 40,
+      "top1_stage_match": 40,
+      "top1_category_match": 40,
+      "top1_quality_ok": 40,
+      "avg_exact_rank": 1,
+      "exact_rank_count": 40,
+      "exact_rank_total": 40,
+      "misses": 0,
+      "top1_exact_rate": 1,
+      "top3_exact_rate": 1,
+      "top5_exact_rate": 1,
+      "top1_scheme_name_match_rate": null,
+      "top3_scheme_name_match_rate": null,
+      "top5_scheme_name_match_rate": null,
+      "top1_crop_match_rate": 1,
+      "top1_stage_match_rate": 1,
+      "top1_category_match_rate": 1,
+      "top1_quality_ok_rate": 1
+    },
+    "scheme": {
+      "tests": 40,
+      "top1_exact": 2,
+      "top3_exact": 6,
+      "top5_exact": 10,
+      "scheme_tests": 40,
+      "top1_scheme_name_match": 40,
+      "top3_scheme_name_match": 40,
+      "top5_scheme_name_match": 40,
+      "strict_misses_with_scheme_top5_match": 30,
+      "top1_crop_match": 2,
+      "top1_stage_match": 10,
+      "top1_category_match": 40,
+      "top1_quality_ok": 40,
+      "avg_exact_rank": 3,
+      "exact_rank_count": 10,
+      "exact_rank_total": 30,
+      "misses": 30,
+      "top1_exact_rate": 0.05,
+      "top3_exact_rate": 0.15,
+      "top5_exact_rate": 0.25,
+      "top1_scheme_name_match_rate": 1,
+      "top3_scheme_name_match_rate": 1,
+      "top5_scheme_name_match_rate": 1,
+      "top1_crop_match_rate": 0.05,
+      "top1_stage_match_rate": 0.25,
+      "top1_category_match_rate": 1,
+      "top1_quality_ok_rate": 1
+    },
+    "post_harvest": {
+      "tests": 40,
+      "top1_exact": 40,
+      "top3_exact": 40,
+      "top5_exact": 40,
+      "scheme_tests": 0,
+      "top1_scheme_name_match": 0,
+      "top3_scheme_name_match": 0,
+      "top5_scheme_name_match": 0,
+      "strict_misses_with_scheme_top5_match": 0,
+      "top1_crop_match": 40,
+      "top1_stage_match": 40,
+      "top1_category_match": 40,
+      "top1_quality_ok": 40,
+      "avg_exact_rank": 1,
+      "exact_rank_count": 40,
+      "exact_rank_total": 40,
+      "misses": 0,
+      "top1_exact_rate": 1,
+      "top3_exact_rate": 1,
+      "top5_exact_rate": 1,
+      "top1_scheme_name_match_rate": null,
+      "top3_scheme_name_match_rate": null,
+      "top5_scheme_name_match_rate": null,
+      "top1_crop_match_rate": 1,
+      "top1_stage_match_rate": 1,
+      "top1_category_match_rate": 1,
+      "top1_quality_ok_rate": 1
+    },
+    "market": {
+      "tests": 40,
+      "top1_exact": 40,
+      "top3_exact": 40,
+      "top5_exact": 40,
+      "scheme_tests": 0,
+      "top1_scheme_name_match": 0,
+      "top3_scheme_name_match": 0,
+      "top5_scheme_name_match": 0,
+      "strict_misses_with_scheme_top5_match": 0,
+      "top1_crop_match": 40,
+      "top1_stage_match": 40,
+      "top1_category_match": 40,
+      "top1_quality_ok": 40,
+      "avg_exact_rank": 1,
+      "exact_rank_count": 40,
+      "exact_rank_total": 40,
+      "misses": 0,
+      "top1_exact_rate": 1,
+      "top3_exact_rate": 1,
+      "top5_exact_rate": 1,
+      "top1_scheme_name_match_rate": null,
+      "top3_scheme_name_match_rate": null,
+      "top5_scheme_name_match_rate": null,
+      "top1_crop_match_rate": 1,
+      "top1_stage_match_rate": 1,
+      "top1_category_match_rate": 1,
+      "top1_quality_ok_rate": 1
+    }
+  },
+  "by_language": {
+    "hi": {
+      "tests": 252,
+      "top1_exact": 197,
+      "top3_exact": 234,
+      "top5_exact": 237,
+      "scheme_tests": 20,
+      "top1_scheme_name_match": 20,
+      "top3_scheme_name_match": 20,
+      "top5_scheme_name_match": 20,
+      "strict_misses_with_scheme_top5_match": 15,
+      "top1_crop_match": 232,
+      "top1_stage_match": 204,
+      "top1_category_match": 245,
+      "top1_quality_ok": 252,
+      "avg_exact_rank": 1.257,
+      "exact_rank_count": 237,
+      "exact_rank_total": 298,
+      "misses": 15,
+      "top1_exact_rate": 0.7817,
+      "top3_exact_rate": 0.9286,
+      "top5_exact_rate": 0.9405,
+      "top1_scheme_name_match_rate": 1,
+      "top3_scheme_name_match_rate": 1,
+      "top5_scheme_name_match_rate": 1,
+      "top1_crop_match_rate": 0.9206,
+      "top1_stage_match_rate": 0.8095,
+      "top1_category_match_rate": 0.9722,
+      "top1_quality_ok_rate": 1
+    },
+    "en": {
+      "tests": 28,
+      "top1_exact": 9,
+      "top3_exact": 11,
+      "top5_exact": 13,
+      "scheme_tests": 20,
+      "top1_scheme_name_match": 20,
+      "top3_scheme_name_match": 20,
+      "top5_scheme_name_match": 20,
+      "strict_misses_with_scheme_top5_match": 15,
+      "top1_crop_match": 9,
+      "top1_stage_match": 13,
+      "top1_category_match": 28,
+      "top1_quality_ok": 28,
+      "avg_exact_rank": 1.769,
+      "exact_rank_count": 13,
+      "exact_rank_total": 23,
+      "misses": 15,
+      "top1_exact_rate": 0.3214,
+      "top3_exact_rate": 0.3929,
+      "top5_exact_rate": 0.4643,
+      "top1_scheme_name_match_rate": 1,
+      "top3_scheme_name_match_rate": 1,
+      "top5_scheme_name_match_rate": 1,
+      "top1_crop_match_rate": 0.3214,
+      "top1_stage_match_rate": 0.4643,
+      "top1_category_match_rate": 1,
+      "top1_quality_ok_rate": 1
+    }
+  },
+  "misses_preview": [
+    {
+      "expected_id": "kb-sc-okra-all-india-0031",
+      "expected_category": "scheme",
+      "expected_crop": "okra",
+      "query": "PM-KISAN का लाभ लेने के लिए क्या प्रक्रिया है?",
+      "language": "hi",
+      "top_results": [
+        {
+          "id": "kb-sc-banana-all-india-0271",
+          "category": "scheme",
+          "crop_id": "banana",
+          "stage": "nursery"
+        },
+        {
+          "id": "kb-sc-barley-all-india-0001",
+          "category": "scheme",
+          "crop_id": "barley",
+          "stage": "vegetative"
+        },
+        {
+          "id": "kb-sc-brinjal-all-india-0071",
+          "category": "scheme",
+          "crop_id": "brinjal",
+          "stage": "nursery"
+        },
+        {
+          "id": "kb-sc-broccoli-all-india-0131",
+          "category": "scheme",
+          "crop_id": "broccoli",
+          "stage": "fruiting"
+        },
+        {
+          "id": "kb-sc-capsicum-all-india-0081",
+          "category": "scheme",
+          "crop_id": "capsicum",
+          "stage": "vegetative"
+        }
+      ]
+    },
+    {
+      "expected_id": "kb-sc-okra-all-india-0031",
+      "expected_category": "scheme",
+      "expected_crop": "okra",
+      "query": "What is the process to apply for PM-KISAN?",
+      "language": "en",
+      "top_results": [
+        {
+          "id": "kb-sc-banana-all-india-0271",
+          "category": "scheme",
+          "crop_id": "banana",
+          "stage": "nursery"
+        },
+        {
+          "id": "kb-sc-barley-all-india-0001",
+          "category": "scheme",
+          "crop_id": "barley",
+          "stage": "vegetative"
+        },
+        {
+          "id": "kb-sc-brinjal-all-india-0071",
+          "category": "scheme",
+          "crop_id": "brinjal",
+          "stage": "nursery"
+        },
+        {
+          "id": "kb-sc-broccoli-all-india-0131",
+          "category": "scheme",
+          "crop_id": "broccoli",
+          "stage": "fruiting"
+        },
+        {
+          "id": "kb-sc-capsicum-all-india-0081",
+          "category": "scheme",
+          "crop_id": "capsicum",
+          "stage": "vegetative"
+        }
+      ]
+    },
+    {
+      "expected_id": "kb-sc-grapes-all-india-0046",
+      "expected_category": "scheme",
+      "expected_crop": "grapes",
+      "query": "e-NAM का लाभ लेने के लिए क्या प्रक्रिया है?",
+      "language": "hi",
+      "top_results": [
+        {
+          "id": "kb-sc-apple-all-india-0146",
+          "category": "scheme",
+          "crop_id": "apple",
+          "stage": "flowering"
+        },
+        {
+          "id": "kb-sc-arhar-all-india-0056",
+          "category": "scheme",
+          "crop_id": "arhar",
+          "stage": "transplanting"
+        },
+        {
+          "id": "kb-sc-bajra-all-india-0166",
+          "category": "scheme",
+          "crop_id": "bajra",
+          "stage": "sowing"
+        },
+        {
+          "id": "kb-sc-banana-all-india-0016",
+          "category": "scheme",
+          "crop_id": "banana",
+          "stage": "transplanting"
+        },
+        {
+          "id": "kb-sc-barley-all-india-0256",
+          "category": "scheme",
+          "crop_id": "barley",
+          "stage": "transplanting"
+        }
+      ]
+    },
+    {
+      "expected_id": "kb-sc-grapes-all-india-0046",
+      "expected_category": "scheme",
+      "expected_crop": "grapes",
+      "query": "What is the process to apply for e-NAM?",
+      "language": "en",
+      "top_results": [
+        {
+          "id": "kb-sc-apple-all-india-0146",
+          "category": "scheme",
+          "crop_id": "apple",
+          "stage": "flowering"
+        },
+        {
+          "id": "kb-sc-arhar-all-india-0056",
+          "category": "scheme",
+          "crop_id": "arhar",
+          "stage": "transplanting"
+        },
+        {
+          "id": "kb-sc-bajra-all-india-0166",
+          "category": "scheme",
+          "crop_id": "bajra",
+          "stage": "sowing"
+        },
+        {
+          "id": "kb-sc-banana-all-india-0016",
+          "category": "scheme",
+          "crop_id": "banana",
+          "stage": "transplanting"
+        },
+        {
+          "id": "kb-sc-barley-all-india-0256",
+          "category": "scheme",
+          "crop_id": "barley",
+          "stage": "transplanting"
+        }
+      ]
+    },
+    {
+      "expected_id": "kb-sc-groundnut-all-india-0061",
+      "expected_category": "scheme",
+      "expected_crop": "groundnut",
+      "query": "PM-KISAN का लाभ लेने के लिए क्या प्रक्रिया है?",
+      "language": "hi",
+      "top_results": [
+        {
+          "id": "kb-sc-banana-all-india-0271",
+          "category": "scheme",
+          "crop_id": "banana",
+          "stage": "nursery"
+        },
+        {
+          "id": "kb-sc-barley-all-india-0001",
+          "category": "scheme",
+          "crop_id": "barley",
+          "stage": "vegetative"
+        },
+        {
+          "id": "kb-sc-brinjal-all-india-0071",
+          "category": "scheme",
+          "crop_id": "brinjal",
+          "stage": "nursery"
+        },
+        {
+          "id": "kb-sc-broccoli-all-india-0131",
+          "category": "scheme",
+          "crop_id": "broccoli",
+          "stage": "fruiting"
+        },
+        {
+          "id": "kb-sc-capsicum-all-india-0081",
+          "category": "scheme",
+          "crop_id": "capsicum",
+          "stage": "vegetative"
+        }
+      ]
+    },
+    {
+      "expected_id": "kb-sc-groundnut-all-india-0061",
+      "expected_category": "scheme",
+      "expected_crop": "groundnut",
+      "query": "What is the process to apply for PM-KISAN?",
+      "language": "en",
+      "top_results": [
+        {
+          "id": "kb-sc-banana-all-india-0271",
+          "category": "scheme",
+          "crop_id": "banana",
+          "stage": "nursery"
+        },
+        {
+          "id": "kb-sc-barley-all-india-0001",
+          "category": "scheme",
+          "crop_id": "barley",
+          "stage": "vegetative"
+        },
+        {
+          "id": "kb-sc-brinjal-all-india-0071",
+          "category": "scheme",
+          "crop_id": "brinjal",
+          "stage": "nursery"
+        },
+        {
+          "id": "kb-sc-broccoli-all-india-0131",
+          "category": "scheme",
+          "crop_id": "broccoli",
+          "stage": "fruiting"
+        },
+        {
+          "id": "kb-sc-capsicum-all-india-0081",
+          "category": "scheme",
+          "crop_id": "capsicum",
+          "stage": "vegetative"
+        }
+      ]
+    },
+    {
+      "expected_id": "kb-sc-carrot-all-india-0076",
+      "expected_category": "scheme",
+      "expected_crop": "carrot",
+      "query": "e-NAM का लाभ लेने के लिए क्या प्रक्रिया है?",
+      "language": "hi",
+      "top_results": [
+        {
+          "id": "kb-sc-apple-all-india-0146",
+          "category": "scheme",
+          "crop_id": "apple",
+          "stage": "flowering"
+        },
+        {
+          "id": "kb-sc-arhar-all-india-0056",
+          "category": "scheme",
+          "crop_id": "arhar",
+          "stage": "transplanting"
+        },
+        {
+          "id": "kb-sc-bajra-all-india-0166",
+          "category": "scheme",
+          "crop_id": "bajra",
+          "stage": "sowing"
+        },
+        {
+          "id": "kb-sc-banana-all-india-0016",
+          "category": "scheme",
+          "crop_id": "banana",
+          "stage": "transplanting"
+        },
+        {
+          "id": "kb-sc-barley-all-india-0256",
+          "category": "scheme",
+          "crop_id": "barley",
+          "stage": "transplanting"
+        }
+      ]
+    },
+    {
+      "expected_id": "kb-sc-carrot-all-india-0076",
+      "expected_category": "scheme",
+      "expected_crop": "carrot",
+      "query": "What is the process to apply for e-NAM?",
+      "language": "en",
+      "top_results": [
+        {
+          "id": "kb-sc-apple-all-india-0146",
+          "category": "scheme",
+          "crop_id": "apple",
+          "stage": "flowering"
+        },
+        {
+          "id": "kb-sc-arhar-all-india-0056",
+          "category": "scheme",
+          "crop_id": "arhar",
+          "stage": "transplanting"
+        },
+        {
+          "id": "kb-sc-bajra-all-india-0166",
+          "category": "scheme",
+          "crop_id": "bajra",
+          "stage": "sowing"
+        },
+        {
+          "id": "kb-sc-banana-all-india-0016",
+          "category": "scheme",
+          "crop_id": "banana",
+          "stage": "transplanting"
+        },
+        {
+          "id": "kb-sc-barley-all-india-0256",
+          "category": "scheme",
+          "crop_id": "barley",
+          "stage": "transplanting"
+        }
+      ]
+    },
+    {
+      "expected_id": "kb-sc-muskmelon-all-india-0091",
+      "expected_category": "scheme",
+      "expected_crop": "muskmelon",
+      "query": "PM-KISAN का लाभ लेने के लिए क्या प्रक्रिया है?",
+      "language": "hi",
+      "top_results": [
+        {
+          "id": "kb-sc-banana-all-india-0271",
+          "category": "scheme",
+          "crop_id": "banana",
+          "stage": "nursery"
+        },
+        {
+          "id": "kb-sc-barley-all-india-0001",
+          "category": "scheme",
+          "crop_id": "barley",
+          "stage": "vegetative"
+        },
+        {
+          "id": "kb-sc-brinjal-all-india-0071",
+          "category": "scheme",
+          "crop_id": "brinjal",
+          "stage": "nursery"
+        },
+        {
+          "id": "kb-sc-broccoli-all-india-0131",
+          "category": "scheme",
+          "crop_id": "broccoli",
+          "stage": "fruiting"
+        },
+        {
+          "id": "kb-sc-capsicum-all-india-0081",
+          "category": "scheme",
+          "crop_id": "capsicum",
+          "stage": "vegetative"
+        }
+      ]
+    },
+    {
+      "expected_id": "kb-sc-muskmelon-all-india-0091",
+      "expected_category": "scheme",
+      "expected_crop": "muskmelon",
+      "query": "What is the process to apply for PM-KISAN?",
+      "language": "en",
+      "top_results": [
+        {
+          "id": "kb-sc-banana-all-india-0271",
+          "category": "scheme",
+          "crop_id": "banana",
+          "stage": "nursery"
+        },
+        {
+          "id": "kb-sc-barley-all-india-0001",
+          "category": "scheme",
+          "crop_id": "barley",
+          "stage": "vegetative"
+        },
+        {
+          "id": "kb-sc-brinjal-all-india-0071",
+          "category": "scheme",
+          "crop_id": "brinjal",
+          "stage": "nursery"
+        },
+        {
+          "id": "kb-sc-broccoli-all-india-0131",
+          "category": "scheme",
+          "crop_id": "broccoli",
+          "stage": "fruiting"
+        },
+        {
+          "id": "kb-sc-capsicum-all-india-0081",
+          "category": "scheme",
+          "crop_id": "capsicum",
+          "stage": "vegetative"
+        }
+      ]
+    },
+    {
+      "expected_id": "kb-sc-lentil-all-india-0106",
+      "expected_category": "scheme",
+      "expected_crop": "lentil",
+      "query": "e-NAM का लाभ लेने के लिए क्या प्रक्रिया है?",
+      "language": "hi",
+      "top_results": [
+        {
+          "id": "kb-sc-apple-all-india-0146",
+          "category": "scheme",
+          "crop_id": "apple",
+          "stage": "flowering"
+        },
+        {
+          "id": "kb-sc-arhar-all-india-0056",
+          "category": "scheme",
+          "crop_id": "arhar",
+          "stage": "transplanting"
+        },
+        {
+          "id": "kb-sc-bajra-all-india-0166",
+          "category": "scheme",
+          "crop_id": "bajra",
+          "stage": "sowing"
+        },
+        {
+          "id": "kb-sc-banana-all-india-0016",
+          "category": "scheme",
+          "crop_id": "banana",
+          "stage": "transplanting"
+        },
+        {
+          "id": "kb-sc-barley-all-india-0256",
+          "category": "scheme",
+          "crop_id": "barley",
+          "stage": "transplanting"
+        }
+      ]
+    },
+    {
+      "expected_id": "kb-sc-lentil-all-india-0106",
+      "expected_category": "scheme",
+      "expected_crop": "lentil",
+      "query": "What is the process to apply for e-NAM?",
+      "language": "en",
+      "top_results": [
+        {
+          "id": "kb-sc-apple-all-india-0146",
+          "category": "scheme",
+          "crop_id": "apple",
+          "stage": "flowering"
+        },
+        {
+          "id": "kb-sc-arhar-all-india-0056",
+          "category": "scheme",
+          "crop_id": "arhar",
+          "stage": "transplanting"
+        },
+        {
+          "id": "kb-sc-bajra-all-india-0166",
+          "category": "scheme",
+          "crop_id": "bajra",
+          "stage": "sowing"
+        },
+        {
+          "id": "kb-sc-banana-all-india-0016",
+          "category": "scheme",
+          "crop_id": "banana",
+          "stage": "transplanting"
+        },
+        {
+          "id": "kb-sc-barley-all-india-0256",
+          "category": "scheme",
+          "crop_id": "barley",
+          "stage": "transplanting"
+        }
+      ]
+    },
+    {
+      "expected_id": "kb-sc-papaya-all-india-0121",
+      "expected_category": "scheme",
+      "expected_crop": "papaya",
+      "query": "PM-KISAN का लाभ लेने के लिए क्या प्रक्रिया है?",
+      "language": "hi",
+      "top_results": [
+        {
+          "id": "kb-sc-banana-all-india-0271",
+          "category": "scheme",
+          "crop_id": "banana",
+          "stage": "nursery"
+        },
+        {
+          "id": "kb-sc-barley-all-india-0001",
+          "category": "scheme",
+          "crop_id": "barley",
+          "stage": "vegetative"
+        },
+        {
+          "id": "kb-sc-brinjal-all-india-0071",
+          "category": "scheme",
+          "crop_id": "brinjal",
+          "stage": "nursery"
+        },
+        {
+          "id": "kb-sc-broccoli-all-india-0131",
+          "category": "scheme",
+          "crop_id": "broccoli",
+          "stage": "fruiting"
+        },
+        {
+          "id": "kb-sc-capsicum-all-india-0081",
+          "category": "scheme",
+          "crop_id": "capsicum",
+          "stage": "vegetative"
+        }
+      ]
+    },
+    {
+      "expected_id": "kb-sc-papaya-all-india-0121",
+      "expected_category": "scheme",
+      "expected_crop": "papaya",
+      "query": "What is the process to apply for PM-KISAN?",
+      "language": "en",
+      "top_results": [
+        {
+          "id": "kb-sc-banana-all-india-0271",
+          "category": "scheme",
+          "crop_id": "banana",
+          "stage": "nursery"
+        },
+        {
+          "id": "kb-sc-barley-all-india-0001",
+          "category": "scheme",
+          "crop_id": "barley",
+          "stage": "vegetative"
+        },
+        {
+          "id": "kb-sc-brinjal-all-india-0071",
+          "category": "scheme",
+          "crop_id": "brinjal",
+          "stage": "nursery"
+        },
+        {
+          "id": "kb-sc-broccoli-all-india-0131",
+          "category": "scheme",
+          "crop_id": "broccoli",
+          "stage": "fruiting"
+        },
+        {
+          "id": "kb-sc-capsicum-all-india-0081",
+          "category": "scheme",
+          "crop_id": "capsicum",
+          "stage": "vegetative"
+        }
+      ]
+    },
+    {
+      "expected_id": "kb-sc-fenugreek-all-india-0136",
+      "expected_category": "scheme",
+      "expected_crop": "fenugreek",
+      "query": "e-NAM का लाभ लेने के लिए क्या प्रक्रिया है?",
+      "language": "hi",
+      "top_results": [
+        {
+          "id": "kb-sc-apple-all-india-0146",
+          "category": "scheme",
+          "crop_id": "apple",
+          "stage": "flowering"
+        },
+        {
+          "id": "kb-sc-arhar-all-india-0056",
+          "category": "scheme",
+          "crop_id": "arhar",
+          "stage": "transplanting"
+        },
+        {
+          "id": "kb-sc-bajra-all-india-0166",
+          "category": "scheme",
+          "crop_id": "bajra",
+          "stage": "sowing"
+        },
+        {
+          "id": "kb-sc-banana-all-india-0016",
+          "category": "scheme",
+          "crop_id": "banana",
+          "stage": "transplanting"
+        },
+        {
+          "id": "kb-sc-barley-all-india-0256",
+          "category": "scheme",
+          "crop_id": "barley",
+          "stage": "transplanting"
+        }
+      ]
+    },
+    {
+      "expected_id": "kb-sc-fenugreek-all-india-0136",
+      "expected_category": "scheme",
+      "expected_crop": "fenugreek",
+      "query": "What is the process to apply for e-NAM?",
+      "language": "en",
+      "top_results": [
+        {
+          "id": "kb-sc-apple-all-india-0146",
+          "category": "scheme",
+          "crop_id": "apple",
+          "stage": "flowering"
+        },
+        {
+          "id": "kb-sc-arhar-all-india-0056",
+          "category": "scheme",
+          "crop_id": "arhar",
+          "stage": "transplanting"
+        },
+        {
+          "id": "kb-sc-bajra-all-india-0166",
+          "category": "scheme",
+          "crop_id": "bajra",
+          "stage": "sowing"
+        },
+        {
+          "id": "kb-sc-banana-all-india-0016",
+          "category": "scheme",
+          "crop_id": "banana",
+          "stage": "transplanting"
+        },
+        {
+          "id": "kb-sc-barley-all-india-0256",
+          "category": "scheme",
+          "crop_id": "barley",
+          "stage": "transplanting"
+        }
+      ]
+    },
+    {
+      "expected_id": "kb-sc-coconut-all-india-0151",
+      "expected_category": "scheme",
+      "expected_crop": "coconut",
+      "query": "PM-KISAN का लाभ लेने के लिए क्या प्रक्रिया है?",
+      "language": "hi",
+      "top_results": [
+        {
+          "id": "kb-sc-banana-all-india-0271",
+          "category": "scheme",
+          "crop_id": "banana",
+          "stage": "nursery"
+        },
+        {
+          "id": "kb-sc-barley-all-india-0001",
+          "category": "scheme",
+          "crop_id": "barley",
+          "stage": "vegetative"
+        },
+        {
+          "id": "kb-sc-brinjal-all-india-0071",
+          "category": "scheme",
+          "crop_id": "brinjal",
+          "stage": "nursery"
+        },
+        {
+          "id": "kb-sc-broccoli-all-india-0131",
+          "category": "scheme",
+          "crop_id": "broccoli",
+          "stage": "fruiting"
+        },
+        {
+          "id": "kb-sc-capsicum-all-india-0081",
+          "category": "scheme",
+          "crop_id": "capsicum",
+          "stage": "vegetative"
+        }
+      ]
+    },
+    {
+      "expected_id": "kb-sc-coconut-all-india-0151",
+      "expected_category": "scheme",
+      "expected_crop": "coconut",
+      "query": "What is the process to apply for PM-KISAN?",
+      "language": "en",
+      "top_results": [
+        {
+          "id": "kb-sc-banana-all-india-0271",
+          "category": "scheme",
+          "crop_id": "banana",
+          "stage": "nursery"
+        },
+        {
+          "id": "kb-sc-barley-all-india-0001",
+          "category": "scheme",
+          "crop_id": "barley",
+          "stage": "vegetative"
+        },
+        {
+          "id": "kb-sc-brinjal-all-india-0071",
+          "category": "scheme",
+          "crop_id": "brinjal",
+          "stage": "nursery"
+        },
+        {
+          "id": "kb-sc-broccoli-all-india-0131",
+          "category": "scheme",
+          "crop_id": "broccoli",
+          "stage": "fruiting"
+        },
+        {
+          "id": "kb-sc-capsicum-all-india-0081",
+          "category": "scheme",
+          "crop_id": "capsicum",
+          "stage": "vegetative"
+        }
+      ]
+    },
+    {
+      "expected_id": "kb-sc-garlic-all-india-0181",
+      "expected_category": "scheme",
+      "expected_crop": "garlic",
+      "query": "PM-KISAN का लाभ लेने के लिए क्या प्रक्रिया है?",
+      "language": "hi",
+      "top_results": [
+        {
+          "id": "kb-sc-banana-all-india-0271",
+          "category": "scheme",
+          "crop_id": "banana",
+          "stage": "nursery"
+        },
+        {
+          "id": "kb-sc-barley-all-india-0001",
+          "category": "scheme",
+          "crop_id": "barley",
+          "stage": "vegetative"
+        },
+        {
+          "id": "kb-sc-brinjal-all-india-0071",
+          "category": "scheme",
+          "crop_id": "brinjal",
+          "stage": "nursery"
+        },
+        {
+          "id": "kb-sc-broccoli-all-india-0131",
+          "category": "scheme",
+          "crop_id": "broccoli",
+          "stage": "fruiting"
+        },
+        {
+          "id": "kb-sc-capsicum-all-india-0081",
+          "category": "scheme",
+          "crop_id": "capsicum",
+          "stage": "vegetative"
+        }
+      ]
+    },
+    {
+      "expected_id": "kb-sc-garlic-all-india-0181",
+      "expected_category": "scheme",
+      "expected_crop": "garlic",
+      "query": "What is the process to apply for PM-KISAN?",
+      "language": "en",
+      "top_results": [
+        {
+          "id": "kb-sc-banana-all-india-0271",
+          "category": "scheme",
+          "crop_id": "banana",
+          "stage": "nursery"
+        },
+        {
+          "id": "kb-sc-barley-all-india-0001",
+          "category": "scheme",
+          "crop_id": "barley",
+          "stage": "vegetative"
+        },
+        {
+          "id": "kb-sc-brinjal-all-india-0071",
+          "category": "scheme",
+          "crop_id": "brinjal",
+          "stage": "nursery"
+        },
+        {
+          "id": "kb-sc-broccoli-all-india-0131",
+          "category": "scheme",
+          "crop_id": "broccoli",
+          "stage": "fruiting"
+        },
+        {
+          "id": "kb-sc-capsicum-all-india-0081",
+          "category": "scheme",
+          "crop_id": "capsicum",
+          "stage": "vegetative"
+        }
+      ]
+    },
+    {
+      "expected_id": "kb-sc-cotton-deccan-all-india-0196",
+      "expected_category": "scheme",
+      "expected_crop": "cotton_deccan",
+      "query": "e-NAM का लाभ लेने के लिए क्या प्रक्रिया है?",
+      "language": "hi",
+      "top_results": [
+        {
+          "id": "kb-sc-apple-all-india-0146",
+          "category": "scheme",
+          "crop_id": "apple",
+          "stage": "flowering"
+        },
+        {
+          "id": "kb-sc-arhar-all-india-0056",
+          "category": "scheme",
+          "crop_id": "arhar",
+          "stage": "transplanting"
+        },
+        {
+          "id": "kb-sc-bajra-all-india-0166",
+          "category": "scheme",
+          "crop_id": "bajra",
+          "stage": "sowing"
+        },
+        {
+          "id": "kb-sc-banana-all-india-0016",
+          "category": "scheme",
+          "crop_id": "banana",
+          "stage": "transplanting"
+        },
+        {
+          "id": "kb-sc-barley-all-india-0256",
+          "category": "scheme",
+          "crop_id": "barley",
+          "stage": "transplanting"
+        }
+      ]
+    },
+    {
+      "expected_id": "kb-sc-cotton-deccan-all-india-0196",
+      "expected_category": "scheme",
+      "expected_crop": "cotton_deccan",
+      "query": "What is the process to apply for e-NAM?",
+      "language": "en",
+      "top_results": [
+        {
+          "id": "kb-sc-apple-all-india-0146",
+          "category": "scheme",
+          "crop_id": "apple",
+          "stage": "flowering"
+        },
+        {
+          "id": "kb-sc-arhar-all-india-0056",
+          "category": "scheme",
+          "crop_id": "arhar",
+          "stage": "transplanting"
+        },
+        {
+          "id": "kb-sc-bajra-all-india-0166",
+          "category": "scheme",
+          "crop_id": "bajra",
+          "stage": "sowing"
+        },
+        {
+          "id": "kb-sc-banana-all-india-0016",
+          "category": "scheme",
+          "crop_id": "banana",
+          "stage": "transplanting"
+        },
+        {
+          "id": "kb-sc-barley-all-india-0256",
+          "category": "scheme",
+          "crop_id": "barley",
+          "stage": "transplanting"
+        }
+      ]
+    },
+    {
+      "expected_id": "kb-sc-urad-all-india-0211",
+      "expected_category": "scheme",
+      "expected_crop": "urad",
+      "query": "PM-KISAN का लाभ लेने के लिए क्या प्रक्रिया है?",
+      "language": "hi",
+      "top_results": [
+        {
+          "id": "kb-sc-banana-all-india-0271",
+          "category": "scheme",
+          "crop_id": "banana",
+          "stage": "nursery"
+        },
+        {
+          "id": "kb-sc-barley-all-india-0001",
+          "category": "scheme",
+          "crop_id": "barley",
+          "stage": "vegetative"
+        },
+        {
+          "id": "kb-sc-brinjal-all-india-0071",
+          "category": "scheme",
+          "crop_id": "brinjal",
+          "stage": "nursery"
+        },
+        {
+          "id": "kb-sc-broccoli-all-india-0131",
+          "category": "scheme",
+          "crop_id": "broccoli",
+          "stage": "fruiting"
+        },
+        {
+          "id": "kb-sc-capsicum-all-india-0081",
+          "category": "scheme",
+          "crop_id": "capsicum",
+          "stage": "vegetative"
+        }
+      ]
+    },
+    {
+      "expected_id": "kb-sc-urad-all-india-0211",
+      "expected_category": "scheme",
+      "expected_crop": "urad",
+      "query": "What is the process to apply for PM-KISAN?",
+      "language": "en",
+      "top_results": [
+        {
+          "id": "kb-sc-banana-all-india-0271",
+          "category": "scheme",
+          "crop_id": "banana",
+          "stage": "nursery"
+        },
+        {
+          "id": "kb-sc-barley-all-india-0001",
+          "category": "scheme",
+          "crop_id": "barley",
+          "stage": "vegetative"
+        },
+        {
+          "id": "kb-sc-brinjal-all-india-0071",
+          "category": "scheme",
+          "crop_id": "brinjal",
+          "stage": "nursery"
+        },
+        {
+          "id": "kb-sc-broccoli-all-india-0131",
+          "category": "scheme",
+          "crop_id": "broccoli",
+          "stage": "fruiting"
+        },
+        {
+          "id": "kb-sc-capsicum-all-india-0081",
+          "category": "scheme",
+          "crop_id": "capsicum",
+          "stage": "vegetative"
+        }
+      ]
+    },
+    {
+      "expected_id": "kb-sc-cauliflower-all-india-0226",
+      "expected_category": "scheme",
+      "expected_crop": "cauliflower",
+      "query": "e-NAM का लाभ लेने के लिए क्या प्रक्रिया है?",
+      "language": "hi",
+      "top_results": [
+        {
+          "id": "kb-sc-apple-all-india-0146",
+          "category": "scheme",
+          "crop_id": "apple",
+          "stage": "flowering"
+        },
+        {
+          "id": "kb-sc-arhar-all-india-0056",
+          "category": "scheme",
+          "crop_id": "arhar",
+          "stage": "transplanting"
+        },
+        {
+          "id": "kb-sc-bajra-all-india-0166",
+          "category": "scheme",
+          "crop_id": "bajra",
+          "stage": "sowing"
+        },
+        {
+          "id": "kb-sc-banana-all-india-0016",
+          "category": "scheme",
+          "crop_id": "banana",
+          "stage": "transplanting"
+        },
+        {
+          "id": "kb-sc-barley-all-india-0256",
+          "category": "scheme",
+          "crop_id": "barley",
+          "stage": "transplanting"
+        }
+      ]
+    },
+    {
+      "expected_id": "kb-sc-cauliflower-all-india-0226",
+      "expected_category": "scheme",
+      "expected_crop": "cauliflower",
+      "query": "What is the process to apply for e-NAM?",
+      "language": "en",
+      "top_results": [
+        {
+          "id": "kb-sc-apple-all-india-0146",
+          "category": "scheme",
+          "crop_id": "apple",
+          "stage": "flowering"
+        },
+        {
+          "id": "kb-sc-arhar-all-india-0056",
+          "category": "scheme",
+          "crop_id": "arhar",
+          "stage": "transplanting"
+        },
+        {
+          "id": "kb-sc-bajra-all-india-0166",
+          "category": "scheme",
+          "crop_id": "bajra",
+          "stage": "sowing"
+        },
+        {
+          "id": "kb-sc-banana-all-india-0016",
+          "category": "scheme",
+          "crop_id": "banana",
+          "stage": "transplanting"
+        },
+        {
+          "id": "kb-sc-barley-all-india-0256",
+          "category": "scheme",
+          "crop_id": "barley",
+          "stage": "transplanting"
+        }
+      ]
+    },
+    {
+      "expected_id": "kb-sc-ginger-all-india-0241",
+      "expected_category": "scheme",
+      "expected_crop": "ginger",
+      "query": "PM-KISAN का लाभ लेने के लिए क्या प्रक्रिया है?",
+      "language": "hi",
+      "top_results": [
+        {
+          "id": "kb-sc-banana-all-india-0271",
+          "category": "scheme",
+          "crop_id": "banana",
+          "stage": "nursery"
+        },
+        {
+          "id": "kb-sc-barley-all-india-0001",
+          "category": "scheme",
+          "crop_id": "barley",
+          "stage": "vegetative"
+        },
+        {
+          "id": "kb-sc-brinjal-all-india-0071",
+          "category": "scheme",
+          "crop_id": "brinjal",
+          "stage": "nursery"
+        },
+        {
+          "id": "kb-sc-broccoli-all-india-0131",
+          "category": "scheme",
+          "crop_id": "broccoli",
+          "stage": "fruiting"
+        },
+        {
+          "id": "kb-sc-capsicum-all-india-0081",
+          "category": "scheme",
+          "crop_id": "capsicum",
+          "stage": "vegetative"
+        }
+      ]
+    },
+    {
+      "expected_id": "kb-sc-ginger-all-india-0241",
+      "expected_category": "scheme",
+      "expected_crop": "ginger",
+      "query": "What is the process to apply for PM-KISAN?",
+      "language": "en",
+      "top_results": [
+        {
+          "id": "kb-sc-banana-all-india-0271",
+          "category": "scheme",
+          "crop_id": "banana",
+          "stage": "nursery"
+        },
+        {
+          "id": "kb-sc-barley-all-india-0001",
+          "category": "scheme",
+          "crop_id": "barley",
+          "stage": "vegetative"
+        },
+        {
+          "id": "kb-sc-brinjal-all-india-0071",
+          "category": "scheme",
+          "crop_id": "brinjal",
+          "stage": "nursery"
+        },
+        {
+          "id": "kb-sc-broccoli-all-india-0131",
+          "category": "scheme",
+          "crop_id": "broccoli",
+          "stage": "fruiting"
+        },
+        {
+          "id": "kb-sc-capsicum-all-india-0081",
+          "category": "scheme",
+          "crop_id": "capsicum",
+          "stage": "vegetative"
+        }
+      ]
+    },
+    {
+      "expected_id": "kb-sc-okra-all-india-0286",
+      "expected_category": "scheme",
+      "expected_crop": "okra",
+      "query": "e-NAM का लाभ लेने के लिए क्या प्रक्रिया है?",
+      "language": "hi",
+      "top_results": [
+        {
+          "id": "kb-sc-apple-all-india-0146",
+          "category": "scheme",
+          "crop_id": "apple",
+          "stage": "flowering"
+        },
+        {
+          "id": "kb-sc-arhar-all-india-0056",
+          "category": "scheme",
+          "crop_id": "arhar",
+          "stage": "transplanting"
+        },
+        {
+          "id": "kb-sc-bajra-all-india-0166",
+          "category": "scheme",
+          "crop_id": "bajra",
+          "stage": "sowing"
+        },
+        {
+          "id": "kb-sc-banana-all-india-0016",
+          "category": "scheme",
+          "crop_id": "banana",
+          "stage": "transplanting"
+        },
+        {
+          "id": "kb-sc-barley-all-india-0256",
+          "category": "scheme",
+          "crop_id": "barley",
+          "stage": "transplanting"
+        }
+      ]
+    },
+    {
+      "expected_id": "kb-sc-okra-all-india-0286",
+      "expected_category": "scheme",
+      "expected_crop": "okra",
+      "query": "What is the process to apply for e-NAM?",
+      "language": "en",
+      "top_results": [
+        {
+          "id": "kb-sc-apple-all-india-0146",
+          "category": "scheme",
+          "crop_id": "apple",
+          "stage": "flowering"
+        },
+        {
+          "id": "kb-sc-arhar-all-india-0056",
+          "category": "scheme",
+          "crop_id": "arhar",
+          "stage": "transplanting"
+        },
+        {
+          "id": "kb-sc-bajra-all-india-0166",
+          "category": "scheme",
+          "crop_id": "bajra",
+          "stage": "sowing"
+        },
+        {
+          "id": "kb-sc-banana-all-india-0016",
+          "category": "scheme",
+          "crop_id": "banana",
+          "stage": "transplanting"
+        },
+        {
+          "id": "kb-sc-barley-all-india-0256",
+          "category": "scheme",
+          "crop_id": "barley",
+          "stage": "transplanting"
+        }
+      ]
+    }
+  ]
+}

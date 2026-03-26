@@ -1,0 +1,429 @@
+[
+  {
+    "crop_id": "wheat",
+    "season": "rabi",
+    "regions": [
+      "north_india",
+      "central_india",
+      "west_india"
+    ],
+    "confidence": "high"
+  },
+  {
+    "crop_id": "rice",
+    "season": "kharif",
+    "regions": [
+      "north_india",
+      "south_india",
+      "east_india",
+      "west_india",
+      "central_india",
+      "north_east"
+    ],
+    "confidence": "high"
+  },
+  {
+    "crop_id": "maize",
+    "season": "kharif",
+    "regions": [
+      "north_india",
+      "south_india",
+      "east_india",
+      "west_india",
+      "central_india",
+      "north_east"
+    ],
+    "confidence": "high"
+  },
+  {
+    "crop_id": "mustard",
+    "season": "rabi",
+    "regions": [
+      "north_india",
+      "east_india",
+      "central_india"
+    ],
+    "confidence": "high"
+  },
+  {
+    "crop_id": "cotton",
+    "season": "kharif",
+    "regions": [
+      "west_india",
+      "central_india",
+      "south_india"
+    ],
+    "confidence": "high"
+  },
+  {
+    "crop_id": "soybean",
+    "season": "kharif",
+    "regions": [
+      "central_india",
+      "west_india"
+    ],
+    "confidence": "high"
+  },
+  {
+    "crop_id": "potato",
+    "season": "rabi",
+    "regions": [
+      "north_india",
+      "east_india"
+    ],
+    "confidence": "high"
+  },
+  {
+    "crop_id": "onion",
+    "season": "rabi",
+    "regions": [
+      "west_india",
+      "central_india",
+      "south_india"
+    ],
+    "confidence": "high"
+  },
+  {
+    "crop_id": "sugarcane",
+    "season": "perennial",
+    "regions": [
+      "north_india",
+      "south_india",
+      "west_india",
+      "central_india"
+    ],
+    "confidence": "high"
+  },
+  {
+    "crop_id": "tomato",
+    "season": "perennial",
+    "regions": [
+      "all_india"
+    ],
+    "confidence": "high"
+  },
+  {
+    "crop_id": "barley",
+    "season": "rabi",
+    "regions": [
+      "north_india"
+    ],
+    "confidence": "low"
+  },
+  {
+    "crop_id": "chickpea",
+    "season": "rabi",
+    "regions": [
+      "central_india"
+    ],
+    "confidence": "low"
+  },
+  {
+    "crop_id": "lentil",
+    "season": "rabi",
+    "regions": [
+      "north_india",
+      "east_india"
+    ],
+    "confidence": "low"
+  },
+  {
+    "crop_id": "arhar",
+    "season": "kharif",
+    "regions": [
+      "east_india"
+    ],
+    "confidence": "low"
+  },
+  {
+    "crop_id": "moong",
+    "season": "kharif",
+    "regions": [
+      "all_india"
+    ],
+    "confidence": "low"
+  },
+  {
+    "crop_id": "urad",
+    "season": "kharif",
+    "regions": [
+      "all_india"
+    ],
+    "confidence": "low"
+  },
+  {
+    "crop_id": "pea",
+    "season": "rabi",
+    "regions": [
+      "north_india"
+    ],
+    "confidence": "low"
+  },
+  {
+    "crop_id": "groundnut",
+    "season": "kharif",
+    "regions": [
+      "south_india",
+      "west_india"
+    ],
+    "confidence": "low"
+  },
+  {
+    "crop_id": "sesame",
+    "season": "kharif",
+    "regions": [
+      "all_india"
+    ],
+    "confidence": "low"
+  },
+  {
+    "crop_id": "sunflower",
+    "season": "rabi",
+    "regions": [
+      "all_india"
+    ],
+    "confidence": "low"
+  },
+  {
+    "crop_id": "bajra",
+    "season": "kharif",
+    "regions": [
+      "west_india"
+    ],
+    "confidence": "low"
+  },
+  {
+    "crop_id": "jowar",
+    "season": "kharif",
+    "regions": [
+      "west_india"
+    ],
+    "confidence": "low"
+  },
+  {
+    "crop_id": "ragi",
+    "season": "kharif",
+    "regions": [
+      "south_india"
+    ],
+    "confidence": "low"
+  },
+  {
+    "crop_id": "banana",
+    "season": "perennial",
+    "regions": [
+      "south_india"
+    ],
+    "confidence": "low"
+  },
+  {
+    "crop_id": "mango",
+    "season": "perennial",
+    "regions": [
+      "south_india"
+    ],
+    "confidence": "low"
+  },
+  {
+    "crop_id": "guava",
+    "season": "perennial",
+    "regions": [
+      "all_india"
+    ],
+    "confidence": "low"
+  },
+  {
+    "crop_id": "papaya",
+    "season": "perennial",
+    "regions": [
+      "all_india"
+    ],
+    "confidence": "low"
+  },
+  {
+    "crop_id": "brinjal",
+    "season": "perennial",
+    "regions": [
+      "all_india"
+    ],
+    "confidence": "low"
+  },
+  {
+    "crop_id": "cauliflower",
+    "season": "rabi",
+    "regions": [
+      "north_india",
+      "east_india"
+    ],
+    "confidence": "low"
+  },
+  {
+    "crop_id": "cabbage",
+    "season": "rabi",
+    "regions": [
+      "north_india",
+      "east_india"
+    ],
+    "confidence": "low"
+  },
+  {
+    "crop_id": "carrot",
+    "season": "rabi",
+    "regions": [
+      "north_india"
+    ],
+    "confidence": "low"
+  },
+  {
+    "crop_id": "chilli",
+    "season": "kharif",
+    "regions": [
+      "south_india"
+    ],
+    "confidence": "low"
+  },
+  {
+    "crop_id": "cucumber",
+    "season": "zaid",
+    "regions": [
+      "all_india"
+    ],
+    "confidence": "low"
+  },
+  {
+    "crop_id": "garlic",
+    "season": "rabi",
+    "regions": [
+      "north_india"
+    ],
+    "confidence": "low"
+  },
+  {
+    "crop_id": "broccoli",
+    "season": "rabi",
+    "regions": [
+      "north_india"
+    ],
+    "confidence": "low"
+  },
+  {
+    "crop_id": "capsicum",
+    "season": "rabi",
+    "regions": [
+      "south_india"
+    ],
+    "confidence": "low"
+  },
+  {
+    "crop_id": "okra",
+    "season": "kharif",
+    "regions": [
+      "all_india"
+    ],
+    "confidence": "low"
+  },
+  {
+    "crop_id": "spinach",
+    "season": "rabi",
+    "regions": [
+      "all_india"
+    ],
+    "confidence": "low"
+  },
+  {
+    "crop_id": "fenugreek",
+    "season": "rabi",
+    "regions": [
+      "north_india",
+      "west_india"
+    ],
+    "confidence": "low"
+  },
+  {
+    "crop_id": "turmeric",
+    "season": "kharif",
+    "regions": [
+      "south_india",
+      "north_east"
+    ],
+    "confidence": "low"
+  },
+  {
+    "crop_id": "ginger",
+    "season": "kharif",
+    "regions": [
+      "north_east",
+      "south_india"
+    ],
+    "confidence": "low"
+  },
+  {
+    "crop_id": "watermelon",
+    "season": "zaid",
+    "regions": [
+      "all_india"
+    ],
+    "confidence": "low"
+  },
+  {
+    "crop_id": "muskmelon",
+    "season": "zaid",
+    "regions": [
+      "all_india"
+    ],
+    "confidence": "low"
+  },
+  {
+    "crop_id": "cotton_deccan",
+    "season": "kharif",
+    "regions": [
+      "west_india",
+      "central_india",
+      "south_india"
+    ],
+    "confidence": "low"
+  },
+  {
+    "crop_id": "apple",
+    "season": "perennial",
+    "regions": [
+      "north_india"
+    ],
+    "confidence": "low"
+  },
+  {
+    "crop_id": "grapes",
+    "season": "perennial",
+    "regions": [
+      "west_india",
+      "south_india"
+    ],
+    "confidence": "low"
+  },
+  {
+    "crop_id": "pomegranate",
+    "season": "perennial",
+    "regions": [
+      "west_india"
+    ],
+    "confidence": "low"
+  },
+  {
+    "crop_id": "coconut",
+    "season": "perennial",
+    "regions": [
+      "south_india",
+      "east_india"
+    ],
+    "confidence": "low"
+  },
+  {
+    "crop_id": "jute",
+    "season": "kharif",
+    "regions": [
+      "east_india",
+      "north_east"
+    ],
+    "confidence": "low"
+  }
+]

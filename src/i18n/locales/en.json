@@ -1,0 +1,305 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "save": "Save",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit",
+    "edit": "Edit",
+    "delete": "Delete",
+    "close": "Close",
+    "open": "Open",
+    "search": "Search",
+    "home": "Home"
+  },
+  "auth": {
+    "title": "Welcome to Farmalytics",
+    "subtitle": "Your farming companion",
+    "loginFailed": "Login failed. Please try again.",
+    "nameLabel": "Your Name",
+    "namePlaceholder": "Enter your name",
+    "skip": "Skip for now",
+    "checkConsole": "For testing, check your browser console (F12) for debug output"
+  },
+  "welcome": {
+    "hiTitle": "Hi, {{name}}!",
+    "hiSubtitle": "Let's set up your farm profile",
+    "locationTitle": "Where is your farm?",
+    "locationSubtitle": "Select your state and district",
+    "stateLabel": "State",
+    "districtLabel": "District",
+    "selectState": "Select State",
+    "selectDistrict": "Select District",
+    "farmSizeTitle": "How big is your farm?",
+    "farmSizeSubtitle": "Enter your total land area",
+    "farmSizeLabel": "Farm Size (acres)",
+    "farmSizePlaceholder": "e.g., 5",
+    "cropsTitle": "What do you grow?",
+    "cropsSubtitle": "Select the crops you cultivate",
+    "distributionTitle": "How is your land distributed?",
+    "distributionSubtitle": "Enter area for each crop",
+    "areaLabel": "Area (acres)",
+    "areaPlaceholder": "e.g., 2.5",
+    "addCrop": "Add Crop",
+    "completeTitle": "You're all set!",
+    "completeSubtitle": "Your farm profile has been created",
+    "goToDashboard": "Go to Dashboard"
+  },
+  "dashboard": {
+    "title": "Home",
+    "weather": "Weather",
+    "soil": "Soil",
+    "fieldDistribution": "Field Distribution",
+    "yourCrops": "Your Crops",
+    "viewAll": "View All",
+    "cropsPrice": "Crops & Price",
+    "weatherSoil": "Weather & Soil",
+    "newsReports": "News Reports",
+    "alerts": "Alerts",
+    "profile": "Profile",
+    "settings": "Settings",
+    "logout": "Logout",
+    "temperature": "Temperature",
+    "humidity": "Humidity",
+    "windSpeed": "Wind Speed",
+    "pressure": "Pressure"
+  },
+  "chatbot": {
+    "title": "Kissan Sahayk",
+    "subtitle": "Agricultural Assistant",
+    "placeholder": "Ask your question...",
+    "loading": "Thinking...",
+    "initialMessage": "Hello! I'm ready to answer your questions.",
+    "error": "Some error occurred. Please try again.",
+    "send": "Send"
+  },
+  "soil": {
+    "ph": "pH Level",
+    "moisture": "Moisture",
+    "nitrogen": "Nitrogen",
+    "phosphorus": "Phosphorus",
+    "potassium": "Potassium",
+    "temperature": "Temperature",
+    "type": "Soil Type",
+    "recommendations": "Recommendations",
+    "alerts": "Soil Alerts"
+  },
+  "language": {
+    "label": "Language",
+    "en": "English",
+    "hi": "हिंदी",
+    "selectLanguage": "Select Language"
+  },
+  "weather": {
+    "title": "Weather & Soil",
+    "currentWeather": "Current Weather",
+    "forecast": "5-Day Forecast",
+    "hourlyTemperature": "Hourly Temperature",
+    "soilAnalysis": "Soil Analysis",
+    "soilOverview": "Soil Overview",
+    "nutrientLevels": "Nutrient Levels",
+    "uvIndex": "UV Index",
+    "visibility": "Visibility",
+    "low": "Low",
+    "moderate": "Moderate",
+    "high": "High",
+    "veryHigh": "Very High"
+  },
+  "crops": {
+    "title": "Your Crops",
+    "price": "Price",
+    "change": "Change",
+    "market": "Market",
+    "addCrop": "Add Crop",
+    "removeCrop": "Remove Crop",
+    "selectCrops": "Select Crops"
+  },
+  "alerts": {
+    "title": "Alerts",
+    "noAlerts": "No alerts at the moment",
+    "weather": "Weather Alert",
+    "pest": "Pest Alert",
+    "disease": "Disease Alert",
+    "price": "Price Alert"
+  },
+  "news": {
+    "title": "News & Reports",
+    "latest": "Latest News",
+    "marketPrice": "Market Prices",
+    "farmingTips": "Farming Tips",
+    "weatherForecast": "Weather Forecast"
+  },
+  "pages": {
+    "index": {
+      "subtitle": "Your Personalized Farm Analytics Dashboard",
+      "signIn": "Sign In",
+      "signUp": "Sign Up"
+    },
+    "completion": {
+      "welcome": "Welcome {{name}}",
+      "ready": "Your Personalized Dashboard is Ready"
+    },
+    "notFound": {
+      "message": "Oops! Page not found",
+      "returnHome": "Return to Home"
+    },
+    "comingSoon": {
+      "title": "Coming Soon",
+      "subtitle": "This feature is currently under development. Stay tuned!",
+      "backToDashboard": "Back to Dashboard"
+    },
+    "dashboard": {
+      "soilNeutral": "Neutral",
+      "soilHigh": "High",
+      "soilRequired": "Required"
+    },
+    "profile": {
+      "name": "Name",
+      "namePlaceholder": "Enter your name",
+      "email": "Email",
+      "phone": "Phone",
+      "saveChanges": "Save Changes",
+      "saving": "Saving...",
+      "nameRequired": "Name is required",
+      "nameRequiredDescription": "Please enter your name before saving.",
+      "updated": "Profile updated",
+      "updatedDescription": "Your profile details were saved successfully."
+    },
+    "cropsPrice": {
+      "title": "Farm",
+      "totalValue": "Total Value",
+      "lastMonth": "Last Month",
+      "jan25": "Jan'25",
+      "dec24": "Dec'24",
+      "nov24": "Nov'24",
+      "perKg": "kg",
+      "crops": {
+        "potato": "Potato",
+        "onion": "Onion",
+        "tomato": "Tomato",
+        "cucumber": "Cucumber",
+        "garlic": "Garlic",
+        "ginger": "Ginger",
+        "others": "Others"
+      }
+    },
+    "weatherSoil": {
+      "title": "Climate",
+      "today": "TODAY",
+      "tomorrow": "TOMORROW",
+      "clear": "Clear",
+      "stormy": "Stormy",
+      "rainy": "Rainy",
+      "hourlyForecast": "24-HOUR FORECAST",
+      "reminders": "Reminders",
+      "reminder1": "1. Add Fertilisers",
+      "reminder2": "2. Add pesticides",
+      "reminder3": "3. Add water",
+      "reminder4": "4. Harvest after at least 3 months"
+    },
+    "newsReports": {
+      "title": "News & Information Hub",
+      "subtitle": "Stay updated with the latest agricultural news, market trends, and farming insights",
+      "searchPlaceholder": "Search news, reports, and updates...",
+      "allCategories": "All Categories",
+      "categoryGovernmentPolicy": "Government Policy",
+      "categoryWeatherAlert": "Weather Alert",
+      "categoryMarketUpdate": "Market Update",
+      "categoryTechnology": "Technology",
+      "categorySuccessStory": "Success Story",
+      "priority": "Priority",
+      "all": "All",
+      "critical": "Critical",
+      "high": "High",
+      "medium": "Medium",
+      "refresh": "Refresh",
+      "latestNews": "Latest News",
+      "marketReports": "Market Reports",
+      "readMore": "Read More",
+      "noNewsFound": "No news found",
+      "adjustFilters": "Try adjusting your search or filter criteria.",
+      "loadMoreNews": "Load More News",
+      "download": "Download",
+      "keyHighlights": "Key Highlights:"
+    },
+    "alerts": {
+      "title": "Alerts & Notifications",
+      "subtitle": "Stay informed about farming conditions and opportunities",
+      "refresh": "Refresh",
+      "filterByType": "Filter by type",
+      "allTypes": "All Types",
+      "typeWeather": "Weather",
+      "typePest": "Pest",
+      "typeMarket": "Market",
+      "typeGovernment": "Government",
+      "typeSoil": "Soil",
+      "filterByPriority": "Filter by priority",
+      "allPriorities": "All Priorities",
+      "priorityCritical": "Critical",
+      "priorityHigh": "High",
+      "priorityMedium": "Medium",
+      "priorityLow": "Low",
+      "alertsTab": "Alerts ({{count}})",
+      "allCaughtUp": "All caught up!",
+      "noAlertsForFilters": "No alerts match your current filters.",
+      "markRead": "Mark Read",
+      "recommendedActions": "Recommended Actions:",
+      "notificationPreferences": "Notification Preferences",
+      "alertsLabel": "Alerts",
+      "criticalPriority": "Critical Priority",
+      "highPriority": "High Priority",
+      "mediumPriority": "Medium Priority",
+      "lowPriority": "Low Priority",
+      "alertSummary": "Alert Summary",
+      "alert1": {
+        "title": "Heavy Rainfall Warning",
+        "message": "Heavy to very heavy rainfall expected in your area from March 10-12. Take immediate precautions for crop protection.",
+        "actions": {
+          "0": "Secure crops",
+          "1": "Check drainage",
+          "2": "Monitor soil moisture"
+        }
+      },
+      "alert2": {
+        "title": "Pest Alert: Aphid Infestation Detected",
+        "message": "Early signs of aphid infestation detected in nearby tomato fields. Monitor your crops closely.",
+        "actions": {
+          "0": "Inspect crops",
+          "1": "Apply organic pesticides",
+          "2": "Contact extension officer"
+        }
+      },
+      "alert3": {
+        "title": "Price Surge Alert",
+        "message": "Onion prices have increased by 15% in local markets. Consider timing your harvest strategically.",
+        "actions": {
+          "0": "Check current prices",
+          "1": "Plan storage",
+          "2": "Consider early harvest"
+        }
+      },
+      "alert4": {
+        "title": "New Subsidy Scheme Available",
+        "message": "PM-KISAN scheme applications are now open. Eligible farmers can apply for the next installment.",
+        "actions": {
+          "0": "Check eligibility",
+          "1": "Apply online",
+          "2": "Contact local office"
+        }
+      },
+      "alert5": {
+        "title": "Soil Moisture Update",
+        "message": "Current soil moisture levels are optimal for most crops. No irrigation needed in the next 48 hours.",
+        "actions": {
+          "0": "Monitor weather",
+          "1": "Check soil sensors",
+          "2": "Plan irrigation"
+        }
+      }
+    }
+  }
+}

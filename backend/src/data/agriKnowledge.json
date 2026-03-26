@@ -1,0 +1,3402 @@
+[
+  {
+    "id": "kb-0001",
+    "title": "wheat sowing guide",
+    "titleHi": "गेहूं बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "wheat",
+    "stage": "sowing",
+    "region": "central-india",
+    "content": "For wheat sowing in central-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "मध्य भारत में गेहूं की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "wheat",
+      "गेहूं",
+      "sowing",
+      "बुवाई",
+      "central-india",
+      "मध्य भारत"
+    ]
+  },
+  {
+    "id": "kb-0002",
+    "title": "wheat vegetative guide",
+    "titleHi": "गेहूं वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "wheat",
+    "stage": "vegetative",
+    "region": "west-india",
+    "content": "During vegetative stage of wheat in west-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "पश्चिम भारत में गेहूं की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "wheat",
+      "गेहूं",
+      "vegetative",
+      "वृद्धि",
+      "west-india",
+      "पश्चिम भारत"
+    ]
+  },
+  {
+    "id": "kb-0003",
+    "title": "wheat flowering guide",
+    "titleHi": "गेहूं फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "wheat",
+    "stage": "flowering",
+    "region": "east-india",
+    "content": "At flowering stage of wheat in east-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "पूर्व भारत में गेहूं की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "wheat",
+      "गेहूं",
+      "flowering",
+      "फूल अवस्था",
+      "east-india",
+      "पूर्व भारत"
+    ]
+  },
+  {
+    "id": "kb-0004",
+    "title": "wheat harvest guide",
+    "titleHi": "गेहूं कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "wheat",
+    "stage": "harvest",
+    "region": "south-india",
+    "content": "For wheat harvest in south-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "दक्षिण भारत में गेहूं की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "wheat",
+      "गेहूं",
+      "harvest",
+      "कटाई",
+      "south-india",
+      "दक्षिण भारत"
+    ]
+  },
+  {
+    "id": "kb-0005",
+    "title": "rice sowing guide",
+    "titleHi": "धान बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "rice",
+    "stage": "sowing",
+    "region": "north-india",
+    "content": "For rice sowing in north-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "उत्तर भारत में धान की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "rice",
+      "धान",
+      "sowing",
+      "बुवाई",
+      "north-india",
+      "उत्तर भारत"
+    ]
+  },
+  {
+    "id": "kb-0006",
+    "title": "rice vegetative guide",
+    "titleHi": "धान वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "rice",
+    "stage": "vegetative",
+    "region": "central-india",
+    "content": "During vegetative stage of rice in central-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "मध्य भारत में धान की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "rice",
+      "धान",
+      "vegetative",
+      "वृद्धि",
+      "central-india",
+      "मध्य भारत"
+    ]
+  },
+  {
+    "id": "kb-0007",
+    "title": "rice flowering guide",
+    "titleHi": "धान फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "rice",
+    "stage": "flowering",
+    "region": "west-india",
+    "content": "At flowering stage of rice in west-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "पश्चिम भारत में धान की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "rice",
+      "धान",
+      "flowering",
+      "फूल अवस्था",
+      "west-india",
+      "पश्चिम भारत"
+    ]
+  },
+  {
+    "id": "kb-0008",
+    "title": "rice harvest guide",
+    "titleHi": "धान कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "rice",
+    "stage": "harvest",
+    "region": "east-india",
+    "content": "For rice harvest in east-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "पूर्व भारत में धान की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "rice",
+      "धान",
+      "harvest",
+      "कटाई",
+      "east-india",
+      "पूर्व भारत"
+    ]
+  },
+  {
+    "id": "kb-0009",
+    "title": "paddy sowing guide",
+    "titleHi": "धान बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "paddy",
+    "stage": "sowing",
+    "region": "south-india",
+    "content": "For paddy sowing in south-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "दक्षिण भारत में धान की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "paddy",
+      "धान",
+      "sowing",
+      "बुवाई",
+      "south-india",
+      "दक्षिण भारत"
+    ]
+  },
+  {
+    "id": "kb-0010",
+    "title": "paddy vegetative guide",
+    "titleHi": "धान वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "paddy",
+    "stage": "vegetative",
+    "region": "north-india",
+    "content": "During vegetative stage of paddy in north-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "उत्तर भारत में धान की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "paddy",
+      "धान",
+      "vegetative",
+      "वृद्धि",
+      "north-india",
+      "उत्तर भारत"
+    ]
+  },
+  {
+    "id": "kb-0011",
+    "title": "paddy flowering guide",
+    "titleHi": "धान फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "paddy",
+    "stage": "flowering",
+    "region": "central-india",
+    "content": "At flowering stage of paddy in central-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "मध्य भारत में धान की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "paddy",
+      "धान",
+      "flowering",
+      "फूल अवस्था",
+      "central-india",
+      "मध्य भारत"
+    ]
+  },
+  {
+    "id": "kb-0012",
+    "title": "paddy harvest guide",
+    "titleHi": "धान कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "paddy",
+    "stage": "harvest",
+    "region": "west-india",
+    "content": "For paddy harvest in west-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "पश्चिम भारत में धान की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "paddy",
+      "धान",
+      "harvest",
+      "कटाई",
+      "west-india",
+      "पश्चिम भारत"
+    ]
+  },
+  {
+    "id": "kb-0013",
+    "title": "mustard sowing guide",
+    "titleHi": "सरसों बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "mustard",
+    "stage": "sowing",
+    "region": "east-india",
+    "content": "For mustard sowing in east-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "पूर्व भारत में सरसों की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "mustard",
+      "सरसों",
+      "sowing",
+      "बुवाई",
+      "east-india",
+      "पूर्व भारत"
+    ]
+  },
+  {
+    "id": "kb-0014",
+    "title": "mustard vegetative guide",
+    "titleHi": "सरसों वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "mustard",
+    "stage": "vegetative",
+    "region": "south-india",
+    "content": "During vegetative stage of mustard in south-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "दक्षिण भारत में सरसों की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "mustard",
+      "सरसों",
+      "vegetative",
+      "वृद्धि",
+      "south-india",
+      "दक्षिण भारत"
+    ]
+  },
+  {
+    "id": "kb-0015",
+    "title": "mustard flowering guide",
+    "titleHi": "सरसों फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "mustard",
+    "stage": "flowering",
+    "region": "north-india",
+    "content": "At flowering stage of mustard in north-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "उत्तर भारत में सरसों की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "mustard",
+      "सरसों",
+      "flowering",
+      "फूल अवस्था",
+      "north-india",
+      "उत्तर भारत"
+    ]
+  },
+  {
+    "id": "kb-0016",
+    "title": "mustard harvest guide",
+    "titleHi": "सरसों कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "mustard",
+    "stage": "harvest",
+    "region": "central-india",
+    "content": "For mustard harvest in central-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "मध्य भारत में सरसों की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "mustard",
+      "सरसों",
+      "harvest",
+      "कटाई",
+      "central-india",
+      "मध्य भारत"
+    ]
+  },
+  {
+    "id": "kb-0017",
+    "title": "chana sowing guide",
+    "titleHi": "चना बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "chana",
+    "stage": "sowing",
+    "region": "west-india",
+    "content": "For chana sowing in west-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "पश्चिम भारत में चना की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "chana",
+      "चना",
+      "sowing",
+      "बुवाई",
+      "west-india",
+      "पश्चिम भारत"
+    ]
+  },
+  {
+    "id": "kb-0018",
+    "title": "chana vegetative guide",
+    "titleHi": "चना वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "chana",
+    "stage": "vegetative",
+    "region": "east-india",
+    "content": "During vegetative stage of chana in east-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "पूर्व भारत में चना की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "chana",
+      "चना",
+      "vegetative",
+      "वृद्धि",
+      "east-india",
+      "पूर्व भारत"
+    ]
+  },
+  {
+    "id": "kb-0019",
+    "title": "chana flowering guide",
+    "titleHi": "चना फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "chana",
+    "stage": "flowering",
+    "region": "south-india",
+    "content": "At flowering stage of chana in south-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "दक्षिण भारत में चना की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "chana",
+      "चना",
+      "flowering",
+      "फूल अवस्था",
+      "south-india",
+      "दक्षिण भारत"
+    ]
+  },
+  {
+    "id": "kb-0020",
+    "title": "chana harvest guide",
+    "titleHi": "चना कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "chana",
+    "stage": "harvest",
+    "region": "north-india",
+    "content": "For chana harvest in north-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "उत्तर भारत में चना की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "chana",
+      "चना",
+      "harvest",
+      "कटाई",
+      "north-india",
+      "उत्तर भारत"
+    ]
+  },
+  {
+    "id": "kb-0021",
+    "title": "lentil sowing guide",
+    "titleHi": "मसूर बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "lentil",
+    "stage": "sowing",
+    "region": "central-india",
+    "content": "For lentil sowing in central-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "मध्य भारत में मसूर की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "lentil",
+      "मसूर",
+      "sowing",
+      "बुवाई",
+      "central-india",
+      "मध्य भारत"
+    ]
+  },
+  {
+    "id": "kb-0022",
+    "title": "lentil vegetative guide",
+    "titleHi": "मसूर वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "lentil",
+    "stage": "vegetative",
+    "region": "west-india",
+    "content": "During vegetative stage of lentil in west-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "पश्चिम भारत में मसूर की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "lentil",
+      "मसूर",
+      "vegetative",
+      "वृद्धि",
+      "west-india",
+      "पश्चिम भारत"
+    ]
+  },
+  {
+    "id": "kb-0023",
+    "title": "lentil flowering guide",
+    "titleHi": "मसूर फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "lentil",
+    "stage": "flowering",
+    "region": "east-india",
+    "content": "At flowering stage of lentil in east-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "पूर्व भारत में मसूर की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "lentil",
+      "मसूर",
+      "flowering",
+      "फूल अवस्था",
+      "east-india",
+      "पूर्व भारत"
+    ]
+  },
+  {
+    "id": "kb-0024",
+    "title": "lentil harvest guide",
+    "titleHi": "मसूर कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "lentil",
+    "stage": "harvest",
+    "region": "south-india",
+    "content": "For lentil harvest in south-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "दक्षिण भारत में मसूर की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "lentil",
+      "मसूर",
+      "harvest",
+      "कटाई",
+      "south-india",
+      "दक्षिण भारत"
+    ]
+  },
+  {
+    "id": "kb-0025",
+    "title": "pea sowing guide",
+    "titleHi": "मटर बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "pea",
+    "stage": "sowing",
+    "region": "north-india",
+    "content": "For pea sowing in north-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "उत्तर भारत में मटर की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "pea",
+      "मटर",
+      "sowing",
+      "बुवाई",
+      "north-india",
+      "उत्तर भारत"
+    ]
+  },
+  {
+    "id": "kb-0026",
+    "title": "pea vegetative guide",
+    "titleHi": "मटर वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "pea",
+    "stage": "vegetative",
+    "region": "central-india",
+    "content": "During vegetative stage of pea in central-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "मध्य भारत में मटर की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "pea",
+      "मटर",
+      "vegetative",
+      "वृद्धि",
+      "central-india",
+      "मध्य भारत"
+    ]
+  },
+  {
+    "id": "kb-0027",
+    "title": "pea flowering guide",
+    "titleHi": "मटर फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "pea",
+    "stage": "flowering",
+    "region": "west-india",
+    "content": "At flowering stage of pea in west-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "पश्चिम भारत में मटर की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "pea",
+      "मटर",
+      "flowering",
+      "फूल अवस्था",
+      "west-india",
+      "पश्चिम भारत"
+    ]
+  },
+  {
+    "id": "kb-0028",
+    "title": "pea harvest guide",
+    "titleHi": "मटर कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "pea",
+    "stage": "harvest",
+    "region": "east-india",
+    "content": "For pea harvest in east-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "पूर्व भारत में मटर की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "pea",
+      "मटर",
+      "harvest",
+      "कटाई",
+      "east-india",
+      "पूर्व भारत"
+    ]
+  },
+  {
+    "id": "kb-0029",
+    "title": "maize sowing guide",
+    "titleHi": "मक्का बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "maize",
+    "stage": "sowing",
+    "region": "south-india",
+    "content": "For maize sowing in south-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "दक्षिण भारत में मक्का की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "maize",
+      "मक्का",
+      "sowing",
+      "बुवाई",
+      "south-india",
+      "दक्षिण भारत"
+    ]
+  },
+  {
+    "id": "kb-0030",
+    "title": "maize vegetative guide",
+    "titleHi": "मक्का वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "maize",
+    "stage": "vegetative",
+    "region": "north-india",
+    "content": "During vegetative stage of maize in north-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "उत्तर भारत में मक्का की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "maize",
+      "मक्का",
+      "vegetative",
+      "वृद्धि",
+      "north-india",
+      "उत्तर भारत"
+    ]
+  },
+  {
+    "id": "kb-0031",
+    "title": "maize flowering guide",
+    "titleHi": "मक्का फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "maize",
+    "stage": "flowering",
+    "region": "central-india",
+    "content": "At flowering stage of maize in central-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "मध्य भारत में मक्का की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "maize",
+      "मक्का",
+      "flowering",
+      "फूल अवस्था",
+      "central-india",
+      "मध्य भारत"
+    ]
+  },
+  {
+    "id": "kb-0032",
+    "title": "maize harvest guide",
+    "titleHi": "मक्का कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "maize",
+    "stage": "harvest",
+    "region": "west-india",
+    "content": "For maize harvest in west-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "पश्चिम भारत में मक्का की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "maize",
+      "मक्का",
+      "harvest",
+      "कटाई",
+      "west-india",
+      "पश्चिम भारत"
+    ]
+  },
+  {
+    "id": "kb-0033",
+    "title": "bajra sowing guide",
+    "titleHi": "बाजरा बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "bajra",
+    "stage": "sowing",
+    "region": "east-india",
+    "content": "For bajra sowing in east-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "पूर्व भारत में बाजरा की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "bajra",
+      "बाजरा",
+      "sowing",
+      "बुवाई",
+      "east-india",
+      "पूर्व भारत"
+    ]
+  },
+  {
+    "id": "kb-0034",
+    "title": "bajra vegetative guide",
+    "titleHi": "बाजरा वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "bajra",
+    "stage": "vegetative",
+    "region": "south-india",
+    "content": "During vegetative stage of bajra in south-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "दक्षिण भारत में बाजरा की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "bajra",
+      "बाजरा",
+      "vegetative",
+      "वृद्धि",
+      "south-india",
+      "दक्षिण भारत"
+    ]
+  },
+  {
+    "id": "kb-0035",
+    "title": "bajra flowering guide",
+    "titleHi": "बाजरा फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "bajra",
+    "stage": "flowering",
+    "region": "north-india",
+    "content": "At flowering stage of bajra in north-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "उत्तर भारत में बाजरा की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "bajra",
+      "बाजरा",
+      "flowering",
+      "फूल अवस्था",
+      "north-india",
+      "उत्तर भारत"
+    ]
+  },
+  {
+    "id": "kb-0036",
+    "title": "bajra harvest guide",
+    "titleHi": "बाजरा कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "bajra",
+    "stage": "harvest",
+    "region": "central-india",
+    "content": "For bajra harvest in central-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "मध्य भारत में बाजरा की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "bajra",
+      "बाजरा",
+      "harvest",
+      "कटाई",
+      "central-india",
+      "मध्य भारत"
+    ]
+  },
+  {
+    "id": "kb-0037",
+    "title": "jowar sowing guide",
+    "titleHi": "ज्वार बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "jowar",
+    "stage": "sowing",
+    "region": "west-india",
+    "content": "For jowar sowing in west-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "पश्चिम भारत में ज्वार की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "jowar",
+      "ज्वार",
+      "sowing",
+      "बुवाई",
+      "west-india",
+      "पश्चिम भारत"
+    ]
+  },
+  {
+    "id": "kb-0038",
+    "title": "jowar vegetative guide",
+    "titleHi": "ज्वार वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "jowar",
+    "stage": "vegetative",
+    "region": "east-india",
+    "content": "During vegetative stage of jowar in east-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "पूर्व भारत में ज्वार की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "jowar",
+      "ज्वार",
+      "vegetative",
+      "वृद्धि",
+      "east-india",
+      "पूर्व भारत"
+    ]
+  },
+  {
+    "id": "kb-0039",
+    "title": "jowar flowering guide",
+    "titleHi": "ज्वार फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "jowar",
+    "stage": "flowering",
+    "region": "south-india",
+    "content": "At flowering stage of jowar in south-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "दक्षिण भारत में ज्वार की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "jowar",
+      "ज्वार",
+      "flowering",
+      "फूल अवस्था",
+      "south-india",
+      "दक्षिण भारत"
+    ]
+  },
+  {
+    "id": "kb-0040",
+    "title": "jowar harvest guide",
+    "titleHi": "ज्वार कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "jowar",
+    "stage": "harvest",
+    "region": "north-india",
+    "content": "For jowar harvest in north-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "उत्तर भारत में ज्वार की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "jowar",
+      "ज्वार",
+      "harvest",
+      "कटाई",
+      "north-india",
+      "उत्तर भारत"
+    ]
+  },
+  {
+    "id": "kb-0041",
+    "title": "cotton sowing guide",
+    "titleHi": "कपास बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "cotton",
+    "stage": "sowing",
+    "region": "central-india",
+    "content": "For cotton sowing in central-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "मध्य भारत में कपास की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "cotton",
+      "कपास",
+      "sowing",
+      "बुवाई",
+      "central-india",
+      "मध्य भारत"
+    ]
+  },
+  {
+    "id": "kb-0042",
+    "title": "cotton vegetative guide",
+    "titleHi": "कपास वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "cotton",
+    "stage": "vegetative",
+    "region": "west-india",
+    "content": "During vegetative stage of cotton in west-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "पश्चिम भारत में कपास की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "cotton",
+      "कपास",
+      "vegetative",
+      "वृद्धि",
+      "west-india",
+      "पश्चिम भारत"
+    ]
+  },
+  {
+    "id": "kb-0043",
+    "title": "cotton flowering guide",
+    "titleHi": "कपास फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "cotton",
+    "stage": "flowering",
+    "region": "east-india",
+    "content": "At flowering stage of cotton in east-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "पूर्व भारत में कपास की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "cotton",
+      "कपास",
+      "flowering",
+      "फूल अवस्था",
+      "east-india",
+      "पूर्व भारत"
+    ]
+  },
+  {
+    "id": "kb-0044",
+    "title": "cotton harvest guide",
+    "titleHi": "कपास कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "cotton",
+    "stage": "harvest",
+    "region": "south-india",
+    "content": "For cotton harvest in south-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "दक्षिण भारत में कपास की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "cotton",
+      "कपास",
+      "harvest",
+      "कटाई",
+      "south-india",
+      "दक्षिण भारत"
+    ]
+  },
+  {
+    "id": "kb-0045",
+    "title": "soybean sowing guide",
+    "titleHi": "सोयाबीन बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "soybean",
+    "stage": "sowing",
+    "region": "north-india",
+    "content": "For soybean sowing in north-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "उत्तर भारत में सोयाबीन की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "soybean",
+      "सोयाबीन",
+      "sowing",
+      "बुवाई",
+      "north-india",
+      "उत्तर भारत"
+    ]
+  },
+  {
+    "id": "kb-0046",
+    "title": "soybean vegetative guide",
+    "titleHi": "सोयाबीन वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "soybean",
+    "stage": "vegetative",
+    "region": "central-india",
+    "content": "During vegetative stage of soybean in central-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "मध्य भारत में सोयाबीन की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "soybean",
+      "सोयाबीन",
+      "vegetative",
+      "वृद्धि",
+      "central-india",
+      "मध्य भारत"
+    ]
+  },
+  {
+    "id": "kb-0047",
+    "title": "soybean flowering guide",
+    "titleHi": "सोयाबीन फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "soybean",
+    "stage": "flowering",
+    "region": "west-india",
+    "content": "At flowering stage of soybean in west-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "पश्चिम भारत में सोयाबीन की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "soybean",
+      "सोयाबीन",
+      "flowering",
+      "फूल अवस्था",
+      "west-india",
+      "पश्चिम भारत"
+    ]
+  },
+  {
+    "id": "kb-0048",
+    "title": "soybean harvest guide",
+    "titleHi": "सोयाबीन कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "soybean",
+    "stage": "harvest",
+    "region": "east-india",
+    "content": "For soybean harvest in east-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "पूर्व भारत में सोयाबीन की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "soybean",
+      "सोयाबीन",
+      "harvest",
+      "कटाई",
+      "east-india",
+      "पूर्व भारत"
+    ]
+  },
+  {
+    "id": "kb-0049",
+    "title": "groundnut sowing guide",
+    "titleHi": "मूंगफली बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "groundnut",
+    "stage": "sowing",
+    "region": "south-india",
+    "content": "For groundnut sowing in south-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "दक्षिण भारत में मूंगफली की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "groundnut",
+      "मूंगफली",
+      "sowing",
+      "बुवाई",
+      "south-india",
+      "दक्षिण भारत"
+    ]
+  },
+  {
+    "id": "kb-0050",
+    "title": "groundnut vegetative guide",
+    "titleHi": "मूंगफली वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "groundnut",
+    "stage": "vegetative",
+    "region": "north-india",
+    "content": "During vegetative stage of groundnut in north-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "उत्तर भारत में मूंगफली की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "groundnut",
+      "मूंगफली",
+      "vegetative",
+      "वृद्धि",
+      "north-india",
+      "उत्तर भारत"
+    ]
+  },
+  {
+    "id": "kb-0051",
+    "title": "groundnut flowering guide",
+    "titleHi": "मूंगफली फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "groundnut",
+    "stage": "flowering",
+    "region": "central-india",
+    "content": "At flowering stage of groundnut in central-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "मध्य भारत में मूंगफली की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "groundnut",
+      "मूंगफली",
+      "flowering",
+      "फूल अवस्था",
+      "central-india",
+      "मध्य भारत"
+    ]
+  },
+  {
+    "id": "kb-0052",
+    "title": "groundnut harvest guide",
+    "titleHi": "मूंगफली कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "groundnut",
+    "stage": "harvest",
+    "region": "west-india",
+    "content": "For groundnut harvest in west-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "पश्चिम भारत में मूंगफली की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "groundnut",
+      "मूंगफली",
+      "harvest",
+      "कटाई",
+      "west-india",
+      "पश्चिम भारत"
+    ]
+  },
+  {
+    "id": "kb-0053",
+    "title": "sugarcane sowing guide",
+    "titleHi": "गन्ना बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "sugarcane",
+    "stage": "sowing",
+    "region": "east-india",
+    "content": "For sugarcane sowing in east-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "पूर्व भारत में गन्ना की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "sugarcane",
+      "गन्ना",
+      "sowing",
+      "बुवाई",
+      "east-india",
+      "पूर्व भारत"
+    ]
+  },
+  {
+    "id": "kb-0054",
+    "title": "sugarcane vegetative guide",
+    "titleHi": "गन्ना वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "sugarcane",
+    "stage": "vegetative",
+    "region": "south-india",
+    "content": "During vegetative stage of sugarcane in south-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "दक्षिण भारत में गन्ना की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "sugarcane",
+      "गन्ना",
+      "vegetative",
+      "वृद्धि",
+      "south-india",
+      "दक्षिण भारत"
+    ]
+  },
+  {
+    "id": "kb-0055",
+    "title": "sugarcane flowering guide",
+    "titleHi": "गन्ना फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "sugarcane",
+    "stage": "flowering",
+    "region": "north-india",
+    "content": "At flowering stage of sugarcane in north-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "उत्तर भारत में गन्ना की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "sugarcane",
+      "गन्ना",
+      "flowering",
+      "फूल अवस्था",
+      "north-india",
+      "उत्तर भारत"
+    ]
+  },
+  {
+    "id": "kb-0056",
+    "title": "sugarcane harvest guide",
+    "titleHi": "गन्ना कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "sugarcane",
+    "stage": "harvest",
+    "region": "central-india",
+    "content": "For sugarcane harvest in central-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "मध्य भारत में गन्ना की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "sugarcane",
+      "गन्ना",
+      "harvest",
+      "कटाई",
+      "central-india",
+      "मध्य भारत"
+    ]
+  },
+  {
+    "id": "kb-0057",
+    "title": "potato sowing guide",
+    "titleHi": "आलू बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "potato",
+    "stage": "sowing",
+    "region": "west-india",
+    "content": "For potato sowing in west-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "पश्चिम भारत में आलू की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "potato",
+      "आलू",
+      "sowing",
+      "बुवाई",
+      "west-india",
+      "पश्चिम भारत"
+    ]
+  },
+  {
+    "id": "kb-0058",
+    "title": "potato vegetative guide",
+    "titleHi": "आलू वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "potato",
+    "stage": "vegetative",
+    "region": "east-india",
+    "content": "During vegetative stage of potato in east-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "पूर्व भारत में आलू की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "potato",
+      "आलू",
+      "vegetative",
+      "वृद्धि",
+      "east-india",
+      "पूर्व भारत"
+    ]
+  },
+  {
+    "id": "kb-0059",
+    "title": "potato flowering guide",
+    "titleHi": "आलू फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "potato",
+    "stage": "flowering",
+    "region": "south-india",
+    "content": "At flowering stage of potato in south-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "दक्षिण भारत में आलू की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "potato",
+      "आलू",
+      "flowering",
+      "फूल अवस्था",
+      "south-india",
+      "दक्षिण भारत"
+    ]
+  },
+  {
+    "id": "kb-0060",
+    "title": "potato harvest guide",
+    "titleHi": "आलू कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "potato",
+    "stage": "harvest",
+    "region": "north-india",
+    "content": "For potato harvest in north-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "उत्तर भारत में आलू की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "potato",
+      "आलू",
+      "harvest",
+      "कटाई",
+      "north-india",
+      "उत्तर भारत"
+    ]
+  },
+  {
+    "id": "kb-0061",
+    "title": "onion sowing guide",
+    "titleHi": "प्याज बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "onion",
+    "stage": "sowing",
+    "region": "central-india",
+    "content": "For onion sowing in central-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "मध्य भारत में प्याज की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "onion",
+      "प्याज",
+      "sowing",
+      "बुवाई",
+      "central-india",
+      "मध्य भारत"
+    ]
+  },
+  {
+    "id": "kb-0062",
+    "title": "onion vegetative guide",
+    "titleHi": "प्याज वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "onion",
+    "stage": "vegetative",
+    "region": "west-india",
+    "content": "During vegetative stage of onion in west-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "पश्चिम भारत में प्याज की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "onion",
+      "प्याज",
+      "vegetative",
+      "वृद्धि",
+      "west-india",
+      "पश्चिम भारत"
+    ]
+  },
+  {
+    "id": "kb-0063",
+    "title": "onion flowering guide",
+    "titleHi": "प्याज फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "onion",
+    "stage": "flowering",
+    "region": "east-india",
+    "content": "At flowering stage of onion in east-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "पूर्व भारत में प्याज की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "onion",
+      "प्याज",
+      "flowering",
+      "फूल अवस्था",
+      "east-india",
+      "पूर्व भारत"
+    ]
+  },
+  {
+    "id": "kb-0064",
+    "title": "onion harvest guide",
+    "titleHi": "प्याज कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "onion",
+    "stage": "harvest",
+    "region": "south-india",
+    "content": "For onion harvest in south-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "दक्षिण भारत में प्याज की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "onion",
+      "प्याज",
+      "harvest",
+      "कटाई",
+      "south-india",
+      "दक्षिण भारत"
+    ]
+  },
+  {
+    "id": "kb-0065",
+    "title": "tomato sowing guide",
+    "titleHi": "टमाटर बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "tomato",
+    "stage": "sowing",
+    "region": "north-india",
+    "content": "For tomato sowing in north-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "उत्तर भारत में टमाटर की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "tomato",
+      "टमाटर",
+      "sowing",
+      "बुवाई",
+      "north-india",
+      "उत्तर भारत"
+    ]
+  },
+  {
+    "id": "kb-0066",
+    "title": "tomato vegetative guide",
+    "titleHi": "टमाटर वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "tomato",
+    "stage": "vegetative",
+    "region": "central-india",
+    "content": "During vegetative stage of tomato in central-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "मध्य भारत में टमाटर की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "tomato",
+      "टमाटर",
+      "vegetative",
+      "वृद्धि",
+      "central-india",
+      "मध्य भारत"
+    ]
+  },
+  {
+    "id": "kb-0067",
+    "title": "tomato flowering guide",
+    "titleHi": "टमाटर फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "tomato",
+    "stage": "flowering",
+    "region": "west-india",
+    "content": "At flowering stage of tomato in west-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "पश्चिम भारत में टमाटर की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "tomato",
+      "टमाटर",
+      "flowering",
+      "फूल अवस्था",
+      "west-india",
+      "पश्चिम भारत"
+    ]
+  },
+  {
+    "id": "kb-0068",
+    "title": "tomato harvest guide",
+    "titleHi": "टमाटर कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "tomato",
+    "stage": "harvest",
+    "region": "east-india",
+    "content": "For tomato harvest in east-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "पूर्व भारत में टमाटर की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "tomato",
+      "टमाटर",
+      "harvest",
+      "कटाई",
+      "east-india",
+      "पूर्व भारत"
+    ]
+  },
+  {
+    "id": "kb-0069",
+    "title": "cucumber sowing guide",
+    "titleHi": "खीरा बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "cucumber",
+    "stage": "sowing",
+    "region": "south-india",
+    "content": "For cucumber sowing in south-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "दक्षिण भारत में खीरा की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "cucumber",
+      "खीरा",
+      "sowing",
+      "बुवाई",
+      "south-india",
+      "दक्षिण भारत"
+    ]
+  },
+  {
+    "id": "kb-0070",
+    "title": "cucumber vegetative guide",
+    "titleHi": "खीरा वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "cucumber",
+    "stage": "vegetative",
+    "region": "north-india",
+    "content": "During vegetative stage of cucumber in north-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "उत्तर भारत में खीरा की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "cucumber",
+      "खीरा",
+      "vegetative",
+      "वृद्धि",
+      "north-india",
+      "उत्तर भारत"
+    ]
+  },
+  {
+    "id": "kb-0071",
+    "title": "cucumber flowering guide",
+    "titleHi": "खीरा फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "cucumber",
+    "stage": "flowering",
+    "region": "central-india",
+    "content": "At flowering stage of cucumber in central-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "मध्य भारत में खीरा की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "cucumber",
+      "खीरा",
+      "flowering",
+      "फूल अवस्था",
+      "central-india",
+      "मध्य भारत"
+    ]
+  },
+  {
+    "id": "kb-0072",
+    "title": "cucumber harvest guide",
+    "titleHi": "खीरा कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "cucumber",
+    "stage": "harvest",
+    "region": "west-india",
+    "content": "For cucumber harvest in west-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "पश्चिम भारत में खीरा की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "cucumber",
+      "खीरा",
+      "harvest",
+      "कटाई",
+      "west-india",
+      "पश्चिम भारत"
+    ]
+  },
+  {
+    "id": "kb-0073",
+    "title": "brinjal sowing guide",
+    "titleHi": "बैंगन बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "brinjal",
+    "stage": "sowing",
+    "region": "east-india",
+    "content": "For brinjal sowing in east-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "पूर्व भारत में बैंगन की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "brinjal",
+      "बैंगन",
+      "sowing",
+      "बुवाई",
+      "east-india",
+      "पूर्व भारत"
+    ]
+  },
+  {
+    "id": "kb-0074",
+    "title": "brinjal vegetative guide",
+    "titleHi": "बैंगन वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "brinjal",
+    "stage": "vegetative",
+    "region": "south-india",
+    "content": "During vegetative stage of brinjal in south-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "दक्षिण भारत में बैंगन की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "brinjal",
+      "बैंगन",
+      "vegetative",
+      "वृद्धि",
+      "south-india",
+      "दक्षिण भारत"
+    ]
+  },
+  {
+    "id": "kb-0075",
+    "title": "brinjal flowering guide",
+    "titleHi": "बैंगन फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "brinjal",
+    "stage": "flowering",
+    "region": "north-india",
+    "content": "At flowering stage of brinjal in north-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "उत्तर भारत में बैंगन की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "brinjal",
+      "बैंगन",
+      "flowering",
+      "फूल अवस्था",
+      "north-india",
+      "उत्तर भारत"
+    ]
+  },
+  {
+    "id": "kb-0076",
+    "title": "brinjal harvest guide",
+    "titleHi": "बैंगन कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "brinjal",
+    "stage": "harvest",
+    "region": "central-india",
+    "content": "For brinjal harvest in central-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "मध्य भारत में बैंगन की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "brinjal",
+      "बैंगन",
+      "harvest",
+      "कटाई",
+      "central-india",
+      "मध्य भारत"
+    ]
+  },
+  {
+    "id": "kb-0077",
+    "title": "chilli sowing guide",
+    "titleHi": "मिर्च बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "chilli",
+    "stage": "sowing",
+    "region": "west-india",
+    "content": "For chilli sowing in west-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "पश्चिम भारत में मिर्च की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "chilli",
+      "मिर्च",
+      "sowing",
+      "बुवाई",
+      "west-india",
+      "पश्चिम भारत"
+    ]
+  },
+  {
+    "id": "kb-0078",
+    "title": "chilli vegetative guide",
+    "titleHi": "मिर्च वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "chilli",
+    "stage": "vegetative",
+    "region": "east-india",
+    "content": "During vegetative stage of chilli in east-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "पूर्व भारत में मिर्च की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "chilli",
+      "मिर्च",
+      "vegetative",
+      "वृद्धि",
+      "east-india",
+      "पूर्व भारत"
+    ]
+  },
+  {
+    "id": "kb-0079",
+    "title": "chilli flowering guide",
+    "titleHi": "मिर्च फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "chilli",
+    "stage": "flowering",
+    "region": "south-india",
+    "content": "At flowering stage of chilli in south-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "दक्षिण भारत में मिर्च की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "chilli",
+      "मिर्च",
+      "flowering",
+      "फूल अवस्था",
+      "south-india",
+      "दक्षिण भारत"
+    ]
+  },
+  {
+    "id": "kb-0080",
+    "title": "chilli harvest guide",
+    "titleHi": "मिर्च कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "chilli",
+    "stage": "harvest",
+    "region": "north-india",
+    "content": "For chilli harvest in north-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "उत्तर भारत में मिर्च की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "chilli",
+      "मिर्च",
+      "harvest",
+      "कटाई",
+      "north-india",
+      "उत्तर भारत"
+    ]
+  },
+  {
+    "id": "kb-0081",
+    "title": "turmeric sowing guide",
+    "titleHi": "हल्दी बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "turmeric",
+    "stage": "sowing",
+    "region": "central-india",
+    "content": "For turmeric sowing in central-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "मध्य भारत में हल्दी की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "turmeric",
+      "हल्दी",
+      "sowing",
+      "बुवाई",
+      "central-india",
+      "मध्य भारत"
+    ]
+  },
+  {
+    "id": "kb-0082",
+    "title": "turmeric vegetative guide",
+    "titleHi": "हल्दी वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "turmeric",
+    "stage": "vegetative",
+    "region": "west-india",
+    "content": "During vegetative stage of turmeric in west-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "पश्चिम भारत में हल्दी की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "turmeric",
+      "हल्दी",
+      "vegetative",
+      "वृद्धि",
+      "west-india",
+      "पश्चिम भारत"
+    ]
+  },
+  {
+    "id": "kb-0083",
+    "title": "turmeric flowering guide",
+    "titleHi": "हल्दी फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "turmeric",
+    "stage": "flowering",
+    "region": "east-india",
+    "content": "At flowering stage of turmeric in east-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "पूर्व भारत में हल्दी की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "turmeric",
+      "हल्दी",
+      "flowering",
+      "फूल अवस्था",
+      "east-india",
+      "पूर्व भारत"
+    ]
+  },
+  {
+    "id": "kb-0084",
+    "title": "turmeric harvest guide",
+    "titleHi": "हल्दी कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "turmeric",
+    "stage": "harvest",
+    "region": "south-india",
+    "content": "For turmeric harvest in south-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "दक्षिण भारत में हल्दी की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "turmeric",
+      "हल्दी",
+      "harvest",
+      "कटाई",
+      "south-india",
+      "दक्षिण भारत"
+    ]
+  },
+  {
+    "id": "kb-0085",
+    "title": "garlic sowing guide",
+    "titleHi": "लहसुन बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "garlic",
+    "stage": "sowing",
+    "region": "north-india",
+    "content": "For garlic sowing in north-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "उत्तर भारत में लहसुन की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "garlic",
+      "लहसुन",
+      "sowing",
+      "बुवाई",
+      "north-india",
+      "उत्तर भारत"
+    ]
+  },
+  {
+    "id": "kb-0086",
+    "title": "garlic vegetative guide",
+    "titleHi": "लहसुन वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "garlic",
+    "stage": "vegetative",
+    "region": "central-india",
+    "content": "During vegetative stage of garlic in central-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "मध्य भारत में लहसुन की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "garlic",
+      "लहसुन",
+      "vegetative",
+      "वृद्धि",
+      "central-india",
+      "मध्य भारत"
+    ]
+  },
+  {
+    "id": "kb-0087",
+    "title": "garlic flowering guide",
+    "titleHi": "लहसुन फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "garlic",
+    "stage": "flowering",
+    "region": "west-india",
+    "content": "At flowering stage of garlic in west-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "पश्चिम भारत में लहसुन की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "garlic",
+      "लहसुन",
+      "flowering",
+      "फूल अवस्था",
+      "west-india",
+      "पश्चिम भारत"
+    ]
+  },
+  {
+    "id": "kb-0088",
+    "title": "garlic harvest guide",
+    "titleHi": "लहसुन कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "garlic",
+    "stage": "harvest",
+    "region": "east-india",
+    "content": "For garlic harvest in east-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "पूर्व भारत में लहसुन की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "garlic",
+      "लहसुन",
+      "harvest",
+      "कटाई",
+      "east-india",
+      "पूर्व भारत"
+    ]
+  },
+  {
+    "id": "kb-0089",
+    "title": "coriander sowing guide",
+    "titleHi": "धनिया बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "coriander",
+    "stage": "sowing",
+    "region": "south-india",
+    "content": "For coriander sowing in south-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "दक्षिण भारत में धनिया की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "coriander",
+      "धनिया",
+      "sowing",
+      "बुवाई",
+      "south-india",
+      "दक्षिण भारत"
+    ]
+  },
+  {
+    "id": "kb-0090",
+    "title": "coriander vegetative guide",
+    "titleHi": "धनिया वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "coriander",
+    "stage": "vegetative",
+    "region": "north-india",
+    "content": "During vegetative stage of coriander in north-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "उत्तर भारत में धनिया की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "coriander",
+      "धनिया",
+      "vegetative",
+      "वृद्धि",
+      "north-india",
+      "उत्तर भारत"
+    ]
+  },
+  {
+    "id": "kb-0091",
+    "title": "coriander flowering guide",
+    "titleHi": "धनिया फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "coriander",
+    "stage": "flowering",
+    "region": "central-india",
+    "content": "At flowering stage of coriander in central-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "मध्य भारत में धनिया की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "coriander",
+      "धनिया",
+      "flowering",
+      "फूल अवस्था",
+      "central-india",
+      "मध्य भारत"
+    ]
+  },
+  {
+    "id": "kb-0092",
+    "title": "coriander harvest guide",
+    "titleHi": "धनिया कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "coriander",
+    "stage": "harvest",
+    "region": "west-india",
+    "content": "For coriander harvest in west-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "पश्चिम भारत में धनिया की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "coriander",
+      "धनिया",
+      "harvest",
+      "कटाई",
+      "west-india",
+      "पश्चिम भारत"
+    ]
+  },
+  {
+    "id": "kb-0093",
+    "title": "cauliflower sowing guide",
+    "titleHi": "फूलगोभी बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "cauliflower",
+    "stage": "sowing",
+    "region": "east-india",
+    "content": "For cauliflower sowing in east-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "पूर्व भारत में फूलगोभी की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "cauliflower",
+      "फूलगोभी",
+      "sowing",
+      "बुवाई",
+      "east-india",
+      "पूर्व भारत"
+    ]
+  },
+  {
+    "id": "kb-0094",
+    "title": "cauliflower vegetative guide",
+    "titleHi": "फूलगोभी वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "cauliflower",
+    "stage": "vegetative",
+    "region": "south-india",
+    "content": "During vegetative stage of cauliflower in south-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "दक्षिण भारत में फूलगोभी की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "cauliflower",
+      "फूलगोभी",
+      "vegetative",
+      "वृद्धि",
+      "south-india",
+      "दक्षिण भारत"
+    ]
+  },
+  {
+    "id": "kb-0095",
+    "title": "cauliflower flowering guide",
+    "titleHi": "फूलगोभी फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "cauliflower",
+    "stage": "flowering",
+    "region": "north-india",
+    "content": "At flowering stage of cauliflower in north-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "उत्तर भारत में फूलगोभी की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "cauliflower",
+      "फूलगोभी",
+      "flowering",
+      "फूल अवस्था",
+      "north-india",
+      "उत्तर भारत"
+    ]
+  },
+  {
+    "id": "kb-0096",
+    "title": "cauliflower harvest guide",
+    "titleHi": "फूलगोभी कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "cauliflower",
+    "stage": "harvest",
+    "region": "central-india",
+    "content": "For cauliflower harvest in central-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "मध्य भारत में फूलगोभी की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "cauliflower",
+      "फूलगोभी",
+      "harvest",
+      "कटाई",
+      "central-india",
+      "मध्य भारत"
+    ]
+  },
+  {
+    "id": "kb-0097",
+    "title": "cabbage sowing guide",
+    "titleHi": "पत्ता गोभी बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "cabbage",
+    "stage": "sowing",
+    "region": "west-india",
+    "content": "For cabbage sowing in west-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "पश्चिम भारत में पत्ता गोभी की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "cabbage",
+      "पत्ता गोभी",
+      "sowing",
+      "बुवाई",
+      "west-india",
+      "पश्चिम भारत"
+    ]
+  },
+  {
+    "id": "kb-0098",
+    "title": "cabbage vegetative guide",
+    "titleHi": "पत्ता गोभी वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "cabbage",
+    "stage": "vegetative",
+    "region": "east-india",
+    "content": "During vegetative stage of cabbage in east-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "पूर्व भारत में पत्ता गोभी की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "cabbage",
+      "पत्ता गोभी",
+      "vegetative",
+      "वृद्धि",
+      "east-india",
+      "पूर्व भारत"
+    ]
+  },
+  {
+    "id": "kb-0099",
+    "title": "cabbage flowering guide",
+    "titleHi": "पत्ता गोभी फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "cabbage",
+    "stage": "flowering",
+    "region": "south-india",
+    "content": "At flowering stage of cabbage in south-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "दक्षिण भारत में पत्ता गोभी की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "cabbage",
+      "पत्ता गोभी",
+      "flowering",
+      "फूल अवस्था",
+      "south-india",
+      "दक्षिण भारत"
+    ]
+  },
+  {
+    "id": "kb-0100",
+    "title": "cabbage harvest guide",
+    "titleHi": "पत्ता गोभी कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "cabbage",
+    "stage": "harvest",
+    "region": "north-india",
+    "content": "For cabbage harvest in north-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "उत्तर भारत में पत्ता गोभी की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "cabbage",
+      "पत्ता गोभी",
+      "harvest",
+      "कटाई",
+      "north-india",
+      "उत्तर भारत"
+    ]
+  },
+  {
+    "id": "kb-0101",
+    "title": "okra sowing guide",
+    "titleHi": "भिंडी बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "okra",
+    "stage": "sowing",
+    "region": "central-india",
+    "content": "For okra sowing in central-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "मध्य भारत में भिंडी की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "okra",
+      "भिंडी",
+      "sowing",
+      "बुवाई",
+      "central-india",
+      "मध्य भारत"
+    ]
+  },
+  {
+    "id": "kb-0102",
+    "title": "okra vegetative guide",
+    "titleHi": "भिंडी वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "okra",
+    "stage": "vegetative",
+    "region": "west-india",
+    "content": "During vegetative stage of okra in west-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "पश्चिम भारत में भिंडी की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "okra",
+      "भिंडी",
+      "vegetative",
+      "वृद्धि",
+      "west-india",
+      "पश्चिम भारत"
+    ]
+  },
+  {
+    "id": "kb-0103",
+    "title": "okra flowering guide",
+    "titleHi": "भिंडी फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "okra",
+    "stage": "flowering",
+    "region": "east-india",
+    "content": "At flowering stage of okra in east-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "पूर्व भारत में भिंडी की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "okra",
+      "भिंडी",
+      "flowering",
+      "फूल अवस्था",
+      "east-india",
+      "पूर्व भारत"
+    ]
+  },
+  {
+    "id": "kb-0104",
+    "title": "okra harvest guide",
+    "titleHi": "भिंडी कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "okra",
+    "stage": "harvest",
+    "region": "south-india",
+    "content": "For okra harvest in south-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "दक्षिण भारत में भिंडी की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "okra",
+      "भिंडी",
+      "harvest",
+      "कटाई",
+      "south-india",
+      "दक्षिण भारत"
+    ]
+  },
+  {
+    "id": "kb-0105",
+    "title": "banana sowing guide",
+    "titleHi": "केला बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "banana",
+    "stage": "sowing",
+    "region": "north-india",
+    "content": "For banana sowing in north-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "उत्तर भारत में केला की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "banana",
+      "केला",
+      "sowing",
+      "बुवाई",
+      "north-india",
+      "उत्तर भारत"
+    ]
+  },
+  {
+    "id": "kb-0106",
+    "title": "banana vegetative guide",
+    "titleHi": "केला वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "banana",
+    "stage": "vegetative",
+    "region": "central-india",
+    "content": "During vegetative stage of banana in central-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "मध्य भारत में केला की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "banana",
+      "केला",
+      "vegetative",
+      "वृद्धि",
+      "central-india",
+      "मध्य भारत"
+    ]
+  },
+  {
+    "id": "kb-0107",
+    "title": "banana flowering guide",
+    "titleHi": "केला फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "banana",
+    "stage": "flowering",
+    "region": "west-india",
+    "content": "At flowering stage of banana in west-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "पश्चिम भारत में केला की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "banana",
+      "केला",
+      "flowering",
+      "फूल अवस्था",
+      "west-india",
+      "पश्चिम भारत"
+    ]
+  },
+  {
+    "id": "kb-0108",
+    "title": "banana harvest guide",
+    "titleHi": "केला कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "banana",
+    "stage": "harvest",
+    "region": "east-india",
+    "content": "For banana harvest in east-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "पूर्व भारत में केला की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "banana",
+      "केला",
+      "harvest",
+      "कटाई",
+      "east-india",
+      "पूर्व भारत"
+    ]
+  },
+  {
+    "id": "kb-0109",
+    "title": "mango sowing guide",
+    "titleHi": "आम बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "mango",
+    "stage": "sowing",
+    "region": "south-india",
+    "content": "For mango sowing in south-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "दक्षिण भारत में आम की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "mango",
+      "आम",
+      "sowing",
+      "बुवाई",
+      "south-india",
+      "दक्षिण भारत"
+    ]
+  },
+  {
+    "id": "kb-0110",
+    "title": "mango vegetative guide",
+    "titleHi": "आम वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "mango",
+    "stage": "vegetative",
+    "region": "north-india",
+    "content": "During vegetative stage of mango in north-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "उत्तर भारत में आम की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "mango",
+      "आम",
+      "vegetative",
+      "वृद्धि",
+      "north-india",
+      "उत्तर भारत"
+    ]
+  },
+  {
+    "id": "kb-0111",
+    "title": "mango flowering guide",
+    "titleHi": "आम फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "mango",
+    "stage": "flowering",
+    "region": "central-india",
+    "content": "At flowering stage of mango in central-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "मध्य भारत में आम की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "mango",
+      "आम",
+      "flowering",
+      "फूल अवस्था",
+      "central-india",
+      "मध्य भारत"
+    ]
+  },
+  {
+    "id": "kb-0112",
+    "title": "mango harvest guide",
+    "titleHi": "आम कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "mango",
+    "stage": "harvest",
+    "region": "west-india",
+    "content": "For mango harvest in west-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "पश्चिम भारत में आम की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "mango",
+      "आम",
+      "harvest",
+      "कटाई",
+      "west-india",
+      "पश्चिम भारत"
+    ]
+  },
+  {
+    "id": "kb-0113",
+    "title": "grapes sowing guide",
+    "titleHi": "अंगूर बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "grapes",
+    "stage": "sowing",
+    "region": "east-india",
+    "content": "For grapes sowing in east-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "पूर्व भारत में अंगूर की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "grapes",
+      "अंगूर",
+      "sowing",
+      "बुवाई",
+      "east-india",
+      "पूर्व भारत"
+    ]
+  },
+  {
+    "id": "kb-0114",
+    "title": "grapes vegetative guide",
+    "titleHi": "अंगूर वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "grapes",
+    "stage": "vegetative",
+    "region": "south-india",
+    "content": "During vegetative stage of grapes in south-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "दक्षिण भारत में अंगूर की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "grapes",
+      "अंगूर",
+      "vegetative",
+      "वृद्धि",
+      "south-india",
+      "दक्षिण भारत"
+    ]
+  },
+  {
+    "id": "kb-0115",
+    "title": "grapes flowering guide",
+    "titleHi": "अंगूर फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "grapes",
+    "stage": "flowering",
+    "region": "north-india",
+    "content": "At flowering stage of grapes in north-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "उत्तर भारत में अंगूर की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "grapes",
+      "अंगूर",
+      "flowering",
+      "फूल अवस्था",
+      "north-india",
+      "उत्तर भारत"
+    ]
+  },
+  {
+    "id": "kb-0116",
+    "title": "grapes harvest guide",
+    "titleHi": "अंगूर कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "grapes",
+    "stage": "harvest",
+    "region": "central-india",
+    "content": "For grapes harvest in central-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "मध्य भारत में अंगूर की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "grapes",
+      "अंगूर",
+      "harvest",
+      "कटाई",
+      "central-india",
+      "मध्य भारत"
+    ]
+  },
+  {
+    "id": "kb-0117",
+    "title": "apple sowing guide",
+    "titleHi": "सेब बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "apple",
+    "stage": "sowing",
+    "region": "west-india",
+    "content": "For apple sowing in west-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "पश्चिम भारत में सेब की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "apple",
+      "सेब",
+      "sowing",
+      "बुवाई",
+      "west-india",
+      "पश्चिम भारत"
+    ]
+  },
+  {
+    "id": "kb-0118",
+    "title": "apple vegetative guide",
+    "titleHi": "सेब वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "apple",
+    "stage": "vegetative",
+    "region": "east-india",
+    "content": "During vegetative stage of apple in east-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "पूर्व भारत में सेब की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "apple",
+      "सेब",
+      "vegetative",
+      "वृद्धि",
+      "east-india",
+      "पूर्व भारत"
+    ]
+  },
+  {
+    "id": "kb-0119",
+    "title": "apple flowering guide",
+    "titleHi": "सेब फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "apple",
+    "stage": "flowering",
+    "region": "south-india",
+    "content": "At flowering stage of apple in south-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "दक्षिण भारत में सेब की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "apple",
+      "सेब",
+      "flowering",
+      "फूल अवस्था",
+      "south-india",
+      "दक्षिण भारत"
+    ]
+  },
+  {
+    "id": "kb-0120",
+    "title": "apple harvest guide",
+    "titleHi": "सेब कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "apple",
+    "stage": "harvest",
+    "region": "north-india",
+    "content": "For apple harvest in north-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "उत्तर भारत में सेब की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "apple",
+      "सेब",
+      "harvest",
+      "कटाई",
+      "north-india",
+      "उत्तर भारत"
+    ]
+  },
+  {
+    "id": "kb-0121",
+    "title": "moong sowing guide",
+    "titleHi": "मूंग बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "moong",
+    "stage": "sowing",
+    "region": "central-india",
+    "content": "For moong sowing in central-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "मध्य भारत में मूंग की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "moong",
+      "मूंग",
+      "sowing",
+      "बुवाई",
+      "central-india",
+      "मध्य भारत"
+    ]
+  },
+  {
+    "id": "kb-0122",
+    "title": "moong vegetative guide",
+    "titleHi": "मूंग वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "moong",
+    "stage": "vegetative",
+    "region": "west-india",
+    "content": "During vegetative stage of moong in west-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "पश्चिम भारत में मूंग की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "moong",
+      "मूंग",
+      "vegetative",
+      "वृद्धि",
+      "west-india",
+      "पश्चिम भारत"
+    ]
+  },
+  {
+    "id": "kb-0123",
+    "title": "moong flowering guide",
+    "titleHi": "मूंग फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "moong",
+    "stage": "flowering",
+    "region": "east-india",
+    "content": "At flowering stage of moong in east-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "पूर्व भारत में मूंग की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "moong",
+      "मूंग",
+      "flowering",
+      "फूल अवस्था",
+      "east-india",
+      "पूर्व भारत"
+    ]
+  },
+  {
+    "id": "kb-0124",
+    "title": "moong harvest guide",
+    "titleHi": "मूंग कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "moong",
+    "stage": "harvest",
+    "region": "south-india",
+    "content": "For moong harvest in south-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "दक्षिण भारत में मूंग की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "moong",
+      "मूंग",
+      "harvest",
+      "कटाई",
+      "south-india",
+      "दक्षिण भारत"
+    ]
+  },
+  {
+    "id": "kb-0125",
+    "title": "urad sowing guide",
+    "titleHi": "उड़द बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "urad",
+    "stage": "sowing",
+    "region": "north-india",
+    "content": "For urad sowing in north-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "उत्तर भारत में उड़द की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "urad",
+      "उड़द",
+      "sowing",
+      "बुवाई",
+      "north-india",
+      "उत्तर भारत"
+    ]
+  },
+  {
+    "id": "kb-0126",
+    "title": "urad vegetative guide",
+    "titleHi": "उड़द वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "urad",
+    "stage": "vegetative",
+    "region": "central-india",
+    "content": "During vegetative stage of urad in central-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "मध्य भारत में उड़द की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "urad",
+      "उड़द",
+      "vegetative",
+      "वृद्धि",
+      "central-india",
+      "मध्य भारत"
+    ]
+  },
+  {
+    "id": "kb-0127",
+    "title": "urad flowering guide",
+    "titleHi": "उड़द फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "urad",
+    "stage": "flowering",
+    "region": "west-india",
+    "content": "At flowering stage of urad in west-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "पश्चिम भारत में उड़द की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "urad",
+      "उड़द",
+      "flowering",
+      "फूल अवस्था",
+      "west-india",
+      "पश्चिम भारत"
+    ]
+  },
+  {
+    "id": "kb-0128",
+    "title": "urad harvest guide",
+    "titleHi": "उड़द कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "urad",
+    "stage": "harvest",
+    "region": "east-india",
+    "content": "For urad harvest in east-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "पूर्व भारत में उड़द की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "urad",
+      "उड़द",
+      "harvest",
+      "कटाई",
+      "east-india",
+      "पूर्व भारत"
+    ]
+  },
+  {
+    "id": "kb-0129",
+    "title": "arhar sowing guide",
+    "titleHi": "अरहर बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "arhar",
+    "stage": "sowing",
+    "region": "south-india",
+    "content": "For arhar sowing in south-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "दक्षिण भारत में अरहर की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "arhar",
+      "अरहर",
+      "sowing",
+      "बुवाई",
+      "south-india",
+      "दक्षिण भारत"
+    ]
+  },
+  {
+    "id": "kb-0130",
+    "title": "arhar vegetative guide",
+    "titleHi": "अरहर वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "arhar",
+    "stage": "vegetative",
+    "region": "north-india",
+    "content": "During vegetative stage of arhar in north-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "उत्तर भारत में अरहर की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "arhar",
+      "अरहर",
+      "vegetative",
+      "वृद्धि",
+      "north-india",
+      "उत्तर भारत"
+    ]
+  },
+  {
+    "id": "kb-0131",
+    "title": "arhar flowering guide",
+    "titleHi": "अरहर फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "arhar",
+    "stage": "flowering",
+    "region": "central-india",
+    "content": "At flowering stage of arhar in central-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "मध्य भारत में अरहर की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "arhar",
+      "अरहर",
+      "flowering",
+      "फूल अवस्था",
+      "central-india",
+      "मध्य भारत"
+    ]
+  },
+  {
+    "id": "kb-0132",
+    "title": "arhar harvest guide",
+    "titleHi": "अरहर कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "arhar",
+    "stage": "harvest",
+    "region": "west-india",
+    "content": "For arhar harvest in west-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "पश्चिम भारत में अरहर की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "arhar",
+      "अरहर",
+      "harvest",
+      "कटाई",
+      "west-india",
+      "पश्चिम भारत"
+    ]
+  },
+  {
+    "id": "kb-0133",
+    "title": "sesame sowing guide",
+    "titleHi": "तिल बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "sesame",
+    "stage": "sowing",
+    "region": "east-india",
+    "content": "For sesame sowing in east-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "पूर्व भारत में तिल की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "sesame",
+      "तिल",
+      "sowing",
+      "बुवाई",
+      "east-india",
+      "पूर्व भारत"
+    ]
+  },
+  {
+    "id": "kb-0134",
+    "title": "sesame vegetative guide",
+    "titleHi": "तिल वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "sesame",
+    "stage": "vegetative",
+    "region": "south-india",
+    "content": "During vegetative stage of sesame in south-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "दक्षिण भारत में तिल की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "sesame",
+      "तिल",
+      "vegetative",
+      "वृद्धि",
+      "south-india",
+      "दक्षिण भारत"
+    ]
+  },
+  {
+    "id": "kb-0135",
+    "title": "sesame flowering guide",
+    "titleHi": "तिल फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "sesame",
+    "stage": "flowering",
+    "region": "north-india",
+    "content": "At flowering stage of sesame in north-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "उत्तर भारत में तिल की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "sesame",
+      "तिल",
+      "flowering",
+      "फूल अवस्था",
+      "north-india",
+      "उत्तर भारत"
+    ]
+  },
+  {
+    "id": "kb-0136",
+    "title": "sesame harvest guide",
+    "titleHi": "तिल कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "sesame",
+    "stage": "harvest",
+    "region": "central-india",
+    "content": "For sesame harvest in central-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "मध्य भारत में तिल की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "sesame",
+      "तिल",
+      "harvest",
+      "कटाई",
+      "central-india",
+      "मध्य भारत"
+    ]
+  },
+  {
+    "id": "kb-0137",
+    "title": "sunflower sowing guide",
+    "titleHi": "सूरजमुखी बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "sunflower",
+    "stage": "sowing",
+    "region": "west-india",
+    "content": "For sunflower sowing in west-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "पश्चिम भारत में सूरजमुखी की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "sunflower",
+      "सूरजमुखी",
+      "sowing",
+      "बुवाई",
+      "west-india",
+      "पश्चिम भारत"
+    ]
+  },
+  {
+    "id": "kb-0138",
+    "title": "sunflower vegetative guide",
+    "titleHi": "सूरजमुखी वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "sunflower",
+    "stage": "vegetative",
+    "region": "east-india",
+    "content": "During vegetative stage of sunflower in east-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "पूर्व भारत में सूरजमुखी की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "sunflower",
+      "सूरजमुखी",
+      "vegetative",
+      "वृद्धि",
+      "east-india",
+      "पूर्व भारत"
+    ]
+  },
+  {
+    "id": "kb-0139",
+    "title": "sunflower flowering guide",
+    "titleHi": "सूरजमुखी फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "sunflower",
+    "stage": "flowering",
+    "region": "south-india",
+    "content": "At flowering stage of sunflower in south-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "दक्षिण भारत में सूरजमुखी की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "sunflower",
+      "सूरजमुखी",
+      "flowering",
+      "फूल अवस्था",
+      "south-india",
+      "दक्षिण भारत"
+    ]
+  },
+  {
+    "id": "kb-0140",
+    "title": "sunflower harvest guide",
+    "titleHi": "सूरजमुखी कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "sunflower",
+    "stage": "harvest",
+    "region": "north-india",
+    "content": "For sunflower harvest in north-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "उत्तर भारत में सूरजमुखी की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "sunflower",
+      "सूरजमुखी",
+      "harvest",
+      "कटाई",
+      "north-india",
+      "उत्तर भारत"
+    ]
+  },
+  {
+    "id": "kb-0141",
+    "title": "barley sowing guide",
+    "titleHi": "जौ बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "barley",
+    "stage": "sowing",
+    "region": "central-india",
+    "content": "For barley sowing in central-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "मध्य भारत में जौ की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "barley",
+      "जौ",
+      "sowing",
+      "बुवाई",
+      "central-india",
+      "मध्य भारत"
+    ]
+  },
+  {
+    "id": "kb-0142",
+    "title": "barley vegetative guide",
+    "titleHi": "जौ वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "barley",
+    "stage": "vegetative",
+    "region": "west-india",
+    "content": "During vegetative stage of barley in west-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "पश्चिम भारत में जौ की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "barley",
+      "जौ",
+      "vegetative",
+      "वृद्धि",
+      "west-india",
+      "पश्चिम भारत"
+    ]
+  },
+  {
+    "id": "kb-0143",
+    "title": "barley flowering guide",
+    "titleHi": "जौ फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "barley",
+    "stage": "flowering",
+    "region": "east-india",
+    "content": "At flowering stage of barley in east-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "पूर्व भारत में जौ की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "barley",
+      "जौ",
+      "flowering",
+      "फूल अवस्था",
+      "east-india",
+      "पूर्व भारत"
+    ]
+  },
+  {
+    "id": "kb-0144",
+    "title": "barley harvest guide",
+    "titleHi": "जौ कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "barley",
+    "stage": "harvest",
+    "region": "south-india",
+    "content": "For barley harvest in south-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "दक्षिण भारत में जौ की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "barley",
+      "जौ",
+      "harvest",
+      "कटाई",
+      "south-india",
+      "दक्षिण भारत"
+    ]
+  },
+  {
+    "id": "kb-0145",
+    "title": "oats sowing guide",
+    "titleHi": "जई बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "oats",
+    "stage": "sowing",
+    "region": "north-india",
+    "content": "For oats sowing in north-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "उत्तर भारत में जई की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "oats",
+      "जई",
+      "sowing",
+      "बुवाई",
+      "north-india",
+      "उत्तर भारत"
+    ]
+  },
+  {
+    "id": "kb-0146",
+    "title": "oats vegetative guide",
+    "titleHi": "जई वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "oats",
+    "stage": "vegetative",
+    "region": "central-india",
+    "content": "During vegetative stage of oats in central-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "मध्य भारत में जई की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "oats",
+      "जई",
+      "vegetative",
+      "वृद्धि",
+      "central-india",
+      "मध्य भारत"
+    ]
+  },
+  {
+    "id": "kb-0147",
+    "title": "oats flowering guide",
+    "titleHi": "जई फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "oats",
+    "stage": "flowering",
+    "region": "west-india",
+    "content": "At flowering stage of oats in west-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "पश्चिम भारत में जई की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "oats",
+      "जई",
+      "flowering",
+      "फूल अवस्था",
+      "west-india",
+      "पश्चिम भारत"
+    ]
+  },
+  {
+    "id": "kb-0148",
+    "title": "oats harvest guide",
+    "titleHi": "जई कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "oats",
+    "stage": "harvest",
+    "region": "east-india",
+    "content": "For oats harvest in east-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "पूर्व भारत में जई की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "oats",
+      "जई",
+      "harvest",
+      "कटाई",
+      "east-india",
+      "पूर्व भारत"
+    ]
+  },
+  {
+    "id": "kb-0149",
+    "title": "fenugreek sowing guide",
+    "titleHi": "मेथी बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "fenugreek",
+    "stage": "sowing",
+    "region": "south-india",
+    "content": "For fenugreek sowing in south-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "दक्षिण भारत में मेथी की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "fenugreek",
+      "मेथी",
+      "sowing",
+      "बुवाई",
+      "south-india",
+      "दक्षिण भारत"
+    ]
+  },
+  {
+    "id": "kb-0150",
+    "title": "fenugreek vegetative guide",
+    "titleHi": "मेथी वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "fenugreek",
+    "stage": "vegetative",
+    "region": "north-india",
+    "content": "During vegetative stage of fenugreek in north-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "उत्तर भारत में मेथी की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "fenugreek",
+      "मेथी",
+      "vegetative",
+      "वृद्धि",
+      "north-india",
+      "उत्तर भारत"
+    ]
+  },
+  {
+    "id": "kb-0151",
+    "title": "fenugreek flowering guide",
+    "titleHi": "मेथी फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "fenugreek",
+    "stage": "flowering",
+    "region": "central-india",
+    "content": "At flowering stage of fenugreek in central-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "मध्य भारत में मेथी की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "fenugreek",
+      "मेथी",
+      "flowering",
+      "फूल अवस्था",
+      "central-india",
+      "मध्य भारत"
+    ]
+  },
+  {
+    "id": "kb-0152",
+    "title": "fenugreek harvest guide",
+    "titleHi": "मेथी कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "fenugreek",
+    "stage": "harvest",
+    "region": "west-india",
+    "content": "For fenugreek harvest in west-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "पश्चिम भारत में मेथी की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "fenugreek",
+      "मेथी",
+      "harvest",
+      "कटाई",
+      "west-india",
+      "पश्चिम भारत"
+    ]
+  },
+  {
+    "id": "kb-0153",
+    "title": "spinach sowing guide",
+    "titleHi": "पालक बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "spinach",
+    "stage": "sowing",
+    "region": "east-india",
+    "content": "For spinach sowing in east-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "पूर्व भारत में पालक की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "spinach",
+      "पालक",
+      "sowing",
+      "बुवाई",
+      "east-india",
+      "पूर्व भारत"
+    ]
+  },
+  {
+    "id": "kb-0154",
+    "title": "spinach vegetative guide",
+    "titleHi": "पालक वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "spinach",
+    "stage": "vegetative",
+    "region": "south-india",
+    "content": "During vegetative stage of spinach in south-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "दक्षिण भारत में पालक की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "spinach",
+      "पालक",
+      "vegetative",
+      "वृद्धि",
+      "south-india",
+      "दक्षिण भारत"
+    ]
+  },
+  {
+    "id": "kb-0155",
+    "title": "spinach flowering guide",
+    "titleHi": "पालक फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "spinach",
+    "stage": "flowering",
+    "region": "north-india",
+    "content": "At flowering stage of spinach in north-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "उत्तर भारत में पालक की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "spinach",
+      "पालक",
+      "flowering",
+      "फूल अवस्था",
+      "north-india",
+      "उत्तर भारत"
+    ]
+  },
+  {
+    "id": "kb-0156",
+    "title": "spinach harvest guide",
+    "titleHi": "पालक कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "spinach",
+    "stage": "harvest",
+    "region": "central-india",
+    "content": "For spinach harvest in central-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "मध्य भारत में पालक की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "spinach",
+      "पालक",
+      "harvest",
+      "कटाई",
+      "central-india",
+      "मध्य भारत"
+    ]
+  },
+  {
+    "id": "kb-0157",
+    "title": "watermelon sowing guide",
+    "titleHi": "तरबूज बुवाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "watermelon",
+    "stage": "sowing",
+    "region": "west-india",
+    "content": "For watermelon sowing in west-india, use certified seed, proper spacing, and moisture-balanced seedbed. Apply basal fertilizer as per soil test before or during sowing.",
+    "contentHi": "पश्चिम भारत में तरबूज की बुवाई के लिए प्रमाणित बीज, सही दूरी और नमी संतुलित खेत तैयार करें। मृदा जांच के अनुसार बेसल खाद दें।",
+    "tags": [
+      "watermelon",
+      "तरबूज",
+      "sowing",
+      "बुवाई",
+      "west-india",
+      "पश्चिम भारत"
+    ]
+  },
+  {
+    "id": "kb-0158",
+    "title": "watermelon vegetative guide",
+    "titleHi": "तरबूज वृद्धि मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "watermelon",
+    "stage": "vegetative",
+    "region": "east-india",
+    "content": "During vegetative stage of watermelon in east-india, prioritize weed control, split nitrogen application, and irrigation based on soil moisture. Monitor early pest incidence weekly.",
+    "contentHi": "पूर्व भारत में तरबूज की वृद्धि अवस्था में खरपतवार नियंत्रण, नाइट्रोजन की विभाजित मात्रा और नमी के आधार पर सिंचाई करें। साप्ताहिक कीट निगरानी करें।",
+    "tags": [
+      "watermelon",
+      "तरबूज",
+      "vegetative",
+      "वृद्धि",
+      "east-india",
+      "पूर्व भारत"
+    ]
+  },
+  {
+    "id": "kb-0159",
+    "title": "watermelon flowering guide",
+    "titleHi": "तरबूज फूल अवस्था मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "watermelon",
+    "stage": "flowering",
+    "region": "south-india",
+    "content": "At flowering stage of watermelon in south-india, avoid moisture stress, spray only in calm weather, and protect pollination by reducing unnecessary pesticide use.",
+    "contentHi": "दक्षिण भारत में तरबूज की फूल अवस्था में नमी तनाव न होने दें, शांत मौसम में ही स्प्रे करें और अनावश्यक कीटनाशक से परागण को नुकसान न पहुंचाएं।",
+    "tags": [
+      "watermelon",
+      "तरबूज",
+      "flowering",
+      "फूल अवस्था",
+      "south-india",
+      "दक्षिण भारत"
+    ]
+  },
+  {
+    "id": "kb-0160",
+    "title": "watermelon harvest guide",
+    "titleHi": "तरबूज कटाई मार्गदर्शिका",
+    "category": "crop-stage",
+    "crop": "watermelon",
+    "stage": "harvest",
+    "region": "north-india",
+    "content": "For watermelon harvest in north-india, harvest at proper maturity, keep produce dry, and compare mandi trend with MSP before selling.",
+    "contentHi": "उत्तर भारत में तरबूज की कटाई सही परिपक्वता पर करें, उपज को सूखा रखें और बेचने से पहले मंडी रुझान व MSP की तुलना करें।",
+    "tags": [
+      "watermelon",
+      "तरबूज",
+      "harvest",
+      "कटाई",
+      "north-india",
+      "उत्तर भारत"
+    ]
+  },
+  {
+    "id": "kb-0161",
+    "title": "aphid management checklist",
+    "titleHi": "माहू प्रबंधन चेकलिस्ट",
+    "category": "pest-disease",
+    "crop": "multi-crop",
+    "stage": "monitoring",
+    "region": "india",
+    "content": "For aphid management, scout fields twice weekly, remove heavily infested plants, use biological control where possible, and spray as per threshold and local advisory.",
+    "contentHi": "माहू प्रबंधन के लिए सप्ताह में दो बार निगरानी करें, अधिक प्रभावित पौधे हटाएं, जैविक नियंत्रण अपनाएं और आवश्यकता अनुसार स्थानीय सलाह के अनुसार स्प्रे करें।",
+    "tags": [
+      "aphid",
+      "माहू",
+      "pest",
+      "disease",
+      "ipm"
+    ]
+  },
+  {
+    "id": "kb-0162",
+    "title": "whitefly management checklist",
+    "titleHi": "सफेद मक्खी प्रबंधन चेकलिस्ट",
+    "category": "pest-disease",
+    "crop": "multi-crop",
+    "stage": "monitoring",
+    "region": "india",
+    "content": "For whitefly management, scout fields twice weekly, remove heavily infested plants, use biological control where possible, and spray as per threshold and local advisory.",
+    "contentHi": "सफेद मक्खी प्रबंधन के लिए सप्ताह में दो बार निगरानी करें, अधिक प्रभावित पौधे हटाएं, जैविक नियंत्रण अपनाएं और आवश्यकता अनुसार स्थानीय सलाह के अनुसार स्प्रे करें।",
+    "tags": [
+      "whitefly",
+      "सफेद मक्खी",
+      "pest",
+      "disease",
+      "ipm"
+    ]
+  },
+  {
+    "id": "kb-0163",
+    "title": "stem borer management checklist",
+    "titleHi": "तना छेदक प्रबंधन चेकलिस्ट",
+    "category": "pest-disease",
+    "crop": "multi-crop",
+    "stage": "monitoring",
+    "region": "india",
+    "content": "For stem borer management, scout fields twice weekly, remove heavily infested plants, use biological control where possible, and spray as per threshold and local advisory.",
+    "contentHi": "तना छेदक प्रबंधन के लिए सप्ताह में दो बार निगरानी करें, अधिक प्रभावित पौधे हटाएं, जैविक नियंत्रण अपनाएं और आवश्यकता अनुसार स्थानीय सलाह के अनुसार स्प्रे करें।",
+    "tags": [
+      "stem borer",
+      "तना छेदक",
+      "pest",
+      "disease",
+      "ipm"
+    ]
+  },
+  {
+    "id": "kb-0164",
+    "title": "leaf blight management checklist",
+    "titleHi": "पत्ती झुलसा प्रबंधन चेकलिस्ट",
+    "category": "pest-disease",
+    "crop": "multi-crop",
+    "stage": "monitoring",
+    "region": "india",
+    "content": "For leaf blight management, scout fields twice weekly, remove heavily infested plants, use biological control where possible, and spray as per threshold and local advisory.",
+    "contentHi": "पत्ती झुलसा प्रबंधन के लिए सप्ताह में दो बार निगरानी करें, अधिक प्रभावित पौधे हटाएं, जैविक नियंत्रण अपनाएं और आवश्यकता अनुसार स्थानीय सलाह के अनुसार स्प्रे करें।",
+    "tags": [
+      "leaf blight",
+      "पत्ती झुलसा",
+      "pest",
+      "disease",
+      "ipm"
+    ]
+  },
+  {
+    "id": "kb-0165",
+    "title": "powdery mildew management checklist",
+    "titleHi": "चूर्णिल फफूंद प्रबंधन चेकलिस्ट",
+    "category": "pest-disease",
+    "crop": "multi-crop",
+    "stage": "monitoring",
+    "region": "india",
+    "content": "For powdery mildew management, scout fields twice weekly, remove heavily infested plants, use biological control where possible, and spray as per threshold and local advisory.",
+    "contentHi": "चूर्णिल फफूंद प्रबंधन के लिए सप्ताह में दो बार निगरानी करें, अधिक प्रभावित पौधे हटाएं, जैविक नियंत्रण अपनाएं और आवश्यकता अनुसार स्थानीय सलाह के अनुसार स्प्रे करें।",
+    "tags": [
+      "powdery mildew",
+      "चूर्णिल फफूंद",
+      "pest",
+      "disease",
+      "ipm"
+    ]
+  },
+  {
+    "id": "kb-0166",
+    "title": "rust management checklist",
+    "titleHi": "रतुआ प्रबंधन चेकलिस्ट",
+    "category": "pest-disease",
+    "crop": "multi-crop",
+    "stage": "monitoring",
+    "region": "india",
+    "content": "For rust management, scout fields twice weekly, remove heavily infested plants, use biological control where possible, and spray as per threshold and local advisory.",
+    "contentHi": "रतुआ प्रबंधन के लिए सप्ताह में दो बार निगरानी करें, अधिक प्रभावित पौधे हटाएं, जैविक नियंत्रण अपनाएं और आवश्यकता अनुसार स्थानीय सलाह के अनुसार स्प्रे करें।",
+    "tags": [
+      "rust",
+      "रतुआ",
+      "pest",
+      "disease",
+      "ipm"
+    ]
+  },
+  {
+    "id": "kb-0167",
+    "title": "thrips management checklist",
+    "titleHi": "थ्रिप्स प्रबंधन चेकलिस्ट",
+    "category": "pest-disease",
+    "crop": "multi-crop",
+    "stage": "monitoring",
+    "region": "india",
+    "content": "For thrips management, scout fields twice weekly, remove heavily infested plants, use biological control where possible, and spray as per threshold and local advisory.",
+    "contentHi": "थ्रिप्स प्रबंधन के लिए सप्ताह में दो बार निगरानी करें, अधिक प्रभावित पौधे हटाएं, जैविक नियंत्रण अपनाएं और आवश्यकता अनुसार स्थानीय सलाह के अनुसार स्प्रे करें।",
+    "tags": [
+      "thrips",
+      "थ्रिप्स",
+      "pest",
+      "disease",
+      "ipm"
+    ]
+  },
+  {
+    "id": "kb-0168",
+    "title": "fruit borer management checklist",
+    "titleHi": "फल छेदक प्रबंधन चेकलिस्ट",
+    "category": "pest-disease",
+    "crop": "multi-crop",
+    "stage": "monitoring",
+    "region": "india",
+    "content": "For fruit borer management, scout fields twice weekly, remove heavily infested plants, use biological control where possible, and spray as per threshold and local advisory.",
+    "contentHi": "फल छेदक प्रबंधन के लिए सप्ताह में दो बार निगरानी करें, अधिक प्रभावित पौधे हटाएं, जैविक नियंत्रण अपनाएं और आवश्यकता अनुसार स्थानीय सलाह के अनुसार स्प्रे करें।",
+    "tags": [
+      "fruit borer",
+      "फल छेदक",
+      "pest",
+      "disease",
+      "ipm"
+    ]
+  },
+  {
+    "id": "kb-0169",
+    "title": "cutworm management checklist",
+    "titleHi": "कटवर्म प्रबंधन चेकलिस्ट",
+    "category": "pest-disease",
+    "crop": "multi-crop",
+    "stage": "monitoring",
+    "region": "india",
+    "content": "For cutworm management, scout fields twice weekly, remove heavily infested plants, use biological control where possible, and spray as per threshold and local advisory.",
+    "contentHi": "कटवर्म प्रबंधन के लिए सप्ताह में दो बार निगरानी करें, अधिक प्रभावित पौधे हटाएं, जैविक नियंत्रण अपनाएं और आवश्यकता अनुसार स्थानीय सलाह के अनुसार स्प्रे करें।",
+    "tags": [
+      "cutworm",
+      "कटवर्म",
+      "pest",
+      "disease",
+      "ipm"
+    ]
+  },
+  {
+    "id": "kb-0170",
+    "title": "wilt management checklist",
+    "titleHi": "मुरझान प्रबंधन चेकलिस्ट",
+    "category": "pest-disease",
+    "crop": "multi-crop",
+    "stage": "monitoring",
+    "region": "india",
+    "content": "For wilt management, scout fields twice weekly, remove heavily infested plants, use biological control where possible, and spray as per threshold and local advisory.",
+    "contentHi": "मुरझान प्रबंधन के लिए सप्ताह में दो बार निगरानी करें, अधिक प्रभावित पौधे हटाएं, जैविक नियंत्रण अपनाएं और आवश्यकता अनुसार स्थानीय सलाह के अनुसार स्प्रे करें।",
+    "tags": [
+      "wilt",
+      "मुरझान",
+      "pest",
+      "disease",
+      "ipm"
+    ]
+  },
+  {
+    "id": "kb-0171",
+    "title": "wheat MSP & mandi planning",
+    "titleHi": "गेहूं MSP और मंडी योजना",
+    "category": "market",
+    "crop": "wheat",
+    "stage": "harvest",
+    "region": "india",
+    "content": "Track wheat mandi rates over 3-5 days, compare with MSP where applicable, and include transport, quality grade, and storage costs before deciding to sell.",
+    "contentHi": "गेहूं के मंडी भाव 3-5 दिन ट्रैक करें, लागू होने पर MSP से तुलना करें, और बिक्री से पहले परिवहन, गुणवत्ता ग्रेड और भंडारण लागत जोड़ें।",
+    "tags": [
+      "wheat",
+      "गेहूं",
+      "msp",
+      "mandi",
+      "market"
+    ]
+  },
+  {
+    "id": "kb-0172",
+    "title": "paddy MSP & mandi planning",
+    "titleHi": "धान MSP और मंडी योजना",
+    "category": "market",
+    "crop": "paddy",
+    "stage": "harvest",
+    "region": "india",
+    "content": "Track paddy mandi rates over 3-5 days, compare with MSP where applicable, and include transport, quality grade, and storage costs before deciding to sell.",
+    "contentHi": "धान के मंडी भाव 3-5 दिन ट्रैक करें, लागू होने पर MSP से तुलना करें, और बिक्री से पहले परिवहन, गुणवत्ता ग्रेड और भंडारण लागत जोड़ें।",
+    "tags": [
+      "paddy",
+      "धान",
+      "msp",
+      "mandi",
+      "market"
+    ]
+  },
+  {
+    "id": "kb-0173",
+    "title": "chana MSP & mandi planning",
+    "titleHi": "चना MSP और मंडी योजना",
+    "category": "market",
+    "crop": "chana",
+    "stage": "harvest",
+    "region": "india",
+    "content": "Track chana mandi rates over 3-5 days, compare with MSP where applicable, and include transport, quality grade, and storage costs before deciding to sell.",
+    "contentHi": "चना के मंडी भाव 3-5 दिन ट्रैक करें, लागू होने पर MSP से तुलना करें, और बिक्री से पहले परिवहन, गुणवत्ता ग्रेड और भंडारण लागत जोड़ें।",
+    "tags": [
+      "chana",
+      "चना",
+      "msp",
+      "mandi",
+      "market"
+    ]
+  },
+  {
+    "id": "kb-0174",
+    "title": "mustard MSP & mandi planning",
+    "titleHi": "सरसों MSP और मंडी योजना",
+    "category": "market",
+    "crop": "mustard",
+    "stage": "harvest",
+    "region": "india",
+    "content": "Track mustard mandi rates over 3-5 days, compare with MSP where applicable, and include transport, quality grade, and storage costs before deciding to sell.",
+    "contentHi": "सरसों के मंडी भाव 3-5 दिन ट्रैक करें, लागू होने पर MSP से तुलना करें, और बिक्री से पहले परिवहन, गुणवत्ता ग्रेड और भंडारण लागत जोड़ें।",
+    "tags": [
+      "mustard",
+      "सरसों",
+      "msp",
+      "mandi",
+      "market"
+    ]
+  },
+  {
+    "id": "kb-0175",
+    "title": "masoor MSP & mandi planning",
+    "titleHi": "मसूर MSP और मंडी योजना",
+    "category": "market",
+    "crop": "masoor",
+    "stage": "harvest",
+    "region": "india",
+    "content": "Track masoor mandi rates over 3-5 days, compare with MSP where applicable, and include transport, quality grade, and storage costs before deciding to sell.",
+    "contentHi": "मसूर के मंडी भाव 3-5 दिन ट्रैक करें, लागू होने पर MSP से तुलना करें, और बिक्री से पहले परिवहन, गुणवत्ता ग्रेड और भंडारण लागत जोड़ें।",
+    "tags": [
+      "masoor",
+      "मसूर",
+      "msp",
+      "mandi",
+      "market"
+    ]
+  },
+  {
+    "id": "kb-0176",
+    "title": "cotton MSP & mandi planning",
+    "titleHi": "कपास MSP और मंडी योजना",
+    "category": "market",
+    "crop": "cotton",
+    "stage": "harvest",
+    "region": "india",
+    "content": "Track cotton mandi rates over 3-5 days, compare with MSP where applicable, and include transport, quality grade, and storage costs before deciding to sell.",
+    "contentHi": "कपास के मंडी भाव 3-5 दिन ट्रैक करें, लागू होने पर MSP से तुलना करें, और बिक्री से पहले परिवहन, गुणवत्ता ग्रेड और भंडारण लागत जोड़ें।",
+    "tags": [
+      "cotton",
+      "कपास",
+      "msp",
+      "mandi",
+      "market"
+    ]
+  },
+  {
+    "id": "kb-0177",
+    "title": "maize MSP & mandi planning",
+    "titleHi": "मक्का MSP और मंडी योजना",
+    "category": "market",
+    "crop": "maize",
+    "stage": "harvest",
+    "region": "india",
+    "content": "Track maize mandi rates over 3-5 days, compare with MSP where applicable, and include transport, quality grade, and storage costs before deciding to sell.",
+    "contentHi": "मक्का के मंडी भाव 3-5 दिन ट्रैक करें, लागू होने पर MSP से तुलना करें, और बिक्री से पहले परिवहन, गुणवत्ता ग्रेड और भंडारण लागत जोड़ें।",
+    "tags": [
+      "maize",
+      "मक्का",
+      "msp",
+      "mandi",
+      "market"
+    ]
+  },
+  {
+    "id": "kb-0178",
+    "title": "bajra MSP & mandi planning",
+    "titleHi": "बाजरा MSP और मंडी योजना",
+    "category": "market",
+    "crop": "bajra",
+    "stage": "harvest",
+    "region": "india",
+    "content": "Track bajra mandi rates over 3-5 days, compare with MSP where applicable, and include transport, quality grade, and storage costs before deciding to sell.",
+    "contentHi": "बाजरा के मंडी भाव 3-5 दिन ट्रैक करें, लागू होने पर MSP से तुलना करें, और बिक्री से पहले परिवहन, गुणवत्ता ग्रेड और भंडारण लागत जोड़ें।",
+    "tags": [
+      "bajra",
+      "बाजरा",
+      "msp",
+      "mandi",
+      "market"
+    ]
+  },
+  {
+    "id": "kb-0179",
+    "title": "jowar MSP & mandi planning",
+    "titleHi": "ज्वार MSP और मंडी योजना",
+    "category": "market",
+    "crop": "jowar",
+    "stage": "harvest",
+    "region": "india",
+    "content": "Track jowar mandi rates over 3-5 days, compare with MSP where applicable, and include transport, quality grade, and storage costs before deciding to sell.",
+    "contentHi": "ज्वार के मंडी भाव 3-5 दिन ट्रैक करें, लागू होने पर MSP से तुलना करें, और बिक्री से पहले परिवहन, गुणवत्ता ग्रेड और भंडारण लागत जोड़ें।",
+    "tags": [
+      "jowar",
+      "ज्वार",
+      "msp",
+      "mandi",
+      "market"
+    ]
+  },
+  {
+    "id": "kb-0180",
+    "title": "arhar MSP & mandi planning",
+    "titleHi": "अरहर MSP और मंडी योजना",
+    "category": "market",
+    "crop": "arhar",
+    "stage": "harvest",
+    "region": "india",
+    "content": "Track arhar mandi rates over 3-5 days, compare with MSP where applicable, and include transport, quality grade, and storage costs before deciding to sell.",
+    "contentHi": "अरहर के मंडी भाव 3-5 दिन ट्रैक करें, लागू होने पर MSP से तुलना करें, और बिक्री से पहले परिवहन, गुणवत्ता ग्रेड और भंडारण लागत जोड़ें।",
+    "tags": [
+      "arhar",
+      "अरहर",
+      "msp",
+      "mandi",
+      "market"
+    ]
+  }
+]
