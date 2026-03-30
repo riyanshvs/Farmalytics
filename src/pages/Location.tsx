@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { api } from "@/services/api";
+import { SettingsBar } from "@/components/SettingsBar";
 
 const Location = () => {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ const Location = () => {
     e.preventDefault();
     
     if (!formData.address || !formData.city || !formData.pincode || !formData.state || !formData.country) {
-      toast.error("Please fill in all fields");
+      toast.error(t("welcome.locationFillAllFields"));
       return;
     }
     
@@ -45,7 +46,7 @@ const Location = () => {
       navigate("/farm-size");
     } catch (error: unknown) {
       console.error("Error saving location:", error);
-      toast.error(error instanceof Error ? error.message : "Failed to save location. Please try again.");
+      toast.error(error instanceof Error ? error.message : t("welcome.locationSaveFailed"));
     } finally {
       setIsLoading(false);
     }
@@ -53,6 +54,10 @@ const Location = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-background px-4 py-8">
+      <div className="absolute top-6 right-6 z-20">
+        <SettingsBar />
+      </div>
+
       <h1 className="text-4xl md:text-6xl font-bold text-primary mb-12">
         {t("welcome.locationTitle")}
       </h1>
@@ -65,7 +70,7 @@ const Location = () => {
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input
             type="text"
-            placeholder="Address"
+            placeholder={t("welcome.addressLabel")}
             value={formData.address}
             onChange={(e) => setFormData({...formData, address: e.target.value})}
             className="h-12 rounded-xl border-b-2 border-t-0 border-l-0 border-r-0 rounded-none px-0"
@@ -73,7 +78,7 @@ const Location = () => {
           
           <Input
             type="text"
-            placeholder="City / District"
+            placeholder={t("welcome.districtLabel")}
             value={formData.city}
             onChange={(e) => setFormData({...formData, city: e.target.value})}
             className="h-12 rounded-xl border-b-2 border-t-0 border-l-0 border-r-0 rounded-none px-0"
@@ -81,7 +86,7 @@ const Location = () => {
           
           <Input
             type="text"
-            placeholder="Pincode"
+            placeholder={t("welcome.pincodeLabel")}
             value={formData.pincode}
             onChange={(e) => setFormData({...formData, pincode: e.target.value})}
             className="h-12 rounded-xl border-b-2 border-t-0 border-l-0 border-r-0 rounded-none px-0"
@@ -97,7 +102,7 @@ const Location = () => {
           
           <Input
             type="text"
-            placeholder="Country"
+            placeholder={t("welcome.countryLabel")}
             value={formData.country}
             onChange={(e) => setFormData({...formData, country: e.target.value})}
             className="h-12 rounded-xl border-b-2 border-t-0 border-l-0 border-r-0 rounded-none px-0"

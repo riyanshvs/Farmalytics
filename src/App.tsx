@@ -24,11 +24,23 @@ import Layout from "./components/Layout";
 
 const queryClient = new QueryClient();
 
+const AppLoadingScreen = () => (
+  <div className="flex min-h-screen items-center justify-center bg-background text-foreground">
+    <div className="flex flex-col items-center gap-4">
+      <span
+        className="h-10 w-10 animate-spin rounded-full border-4 border-muted border-t-primary"
+        aria-label="Loading"
+      />
+      <p className="text-sm text-muted-foreground">Loading Farmalytics...</p>
+    </div>
+  </div>
+);
+
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated, onboardingCompleted, loading } = useAuth();
 
   if (loading) {
-    return null;
+    return <AppLoadingScreen />;
   }
 
   if (!isAuthenticated) {
@@ -49,7 +61,10 @@ const OnboardingRoute = ({ children }: { children: React.ReactNode }) => {
   const onboardingPaths = ["/hi", "/location", "/farm-size", "/crops-select", "/farm-distribution", "/completion"];
 
   if (loading) {
-    return null;
+    if (publicPaths.includes(location.pathname)) {
+      return <>{children}</>;
+    }
+    return <AppLoadingScreen />;
   }
 
   if (!isAuthenticated) {

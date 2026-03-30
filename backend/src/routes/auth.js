@@ -51,7 +51,17 @@ router.put("/profile", authMiddleware, async (req, res) => {
 router.get("/me", authMiddleware, async (req, res) => {
   try {
     if (!canUseDatabase()) {
-      return res.status(503).json({ message: "Database unavailable" });
+      return res.status(200).json({
+        user: {
+          id: req.user?.userId,
+          email: req.user?.email || "",
+          name: req.user?.name || "",
+          language: "hi",
+          emailVerified: Boolean(req.user?.emailVerified),
+        },
+        degraded: true,
+        message: "Database unavailable, returned auth token profile",
+      });
     }
 
     const user = await User.findById(req.user?.userId).select("-__v");

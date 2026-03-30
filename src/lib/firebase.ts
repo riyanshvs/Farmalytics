@@ -8,9 +8,20 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
-if (!firebaseConfig.apiKey || !firebaseConfig.authDomain || !firebaseConfig.projectId || !firebaseConfig.appId) {
+const missingKeys = Object.entries(firebaseConfig)
+  .filter(([, value]) => !value)
+  .map(([key]) => key);
+
+export const isFirebaseClientReady = missingKeys.length === 0;
+
+export const getFirebaseClientConfigError = () => {
+  if (isFirebaseClientReady) return "";
+  return `Firebase config is incomplete. Missing: ${missingKeys.join(", ")}. Set VITE_FIREBASE_* env vars.`;
+};
+
+if (!isFirebaseClientReady) {
   // Keep startup non-fatal in development and surface configuration issues via console.
-  console.warn("Firebase config is incomplete. Set VITE_FIREBASE_* env vars before using auth.");
+  console.warn(getFirebaseClientConfigError());
 }
 
 const firebaseApp = initializeApp(firebaseConfig);

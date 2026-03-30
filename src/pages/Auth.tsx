@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,10 +6,18 @@ import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/context/AuthContext";
 import { SettingsBar } from "@/components/SettingsBar";
-import { RefreshCw, Mail, Lock, UserRound } from "lucide-react";
+import { RefreshCw, Mail, Lock, UserRound, Eye, EyeOff } from "lucide-react";
 import farmBg from "@/assets/farm-field-bg.jpg";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
-const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/;
+const MIN_PASSWORD_LENGTH = 8;
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -24,35 +32,45 @@ const Auth = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showSignupHint, setShowSignupHint] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  useEffect(() => {
+    setMode(location.pathname === "/signup" ? "signup" : "signin");
+  }, [location.pathname]);
 
   const title = useMemo(
-    () => (mode === "signup" ? "Create your Farmalytics account" : "Sign in to Farmalytics"),
-    [mode]
+    () =>
+      mode === "signup"
+        ? t("auth.signUpTitle")
+        : t("auth.signInTitle"),
+    [mode, t]
   );
 
   const subtitle = useMemo(
     () =>
       mode === "signup"
-        ? "Use email and password to continue."
-        : "Use your registered email and password.",
-    [mode]
+        ? t("auth.signUpSubtitle")
+        : t("auth.signInSubtitle"),
+    [mode, t]
   );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!email.includes("@")) {
-      toast.error("Enter a valid email address.");
+      toast.error(t("auth.emailInvalid"));
       return;
     }
 
-    if (!strongPasswordRegex.test(password)) {
-      toast.error("Password must be 8+ chars with uppercase, lowercase, number, and symbol.");
+    if (password.length < MIN_PASSWORD_LENGTH) {
+      toast.error(t("auth.passwordRule"));
       return;
     }
 
     if (mode === "signup" && password !== confirmPassword) {
-      toast.error("Password and confirm password do not match.");
+      toast.error(t("auth.passwordMismatch"));
       return;
     }
 
@@ -65,10 +83,13 @@ const Auth = () => {
 
       if (!result.success) {
         toast.error(result.message || t("auth.loginFailed"));
+        if (mode === "signin") {
+          setShowSignupHint(true);
+        }
         return;
       }
 
-      toast.success(mode === "signup" ? "Account created successfully" : t("common.success"));
+      toast.success(mode === "signup" ? t("auth.accountCreated") : t("common.success"));
       navigate(result.onboardingCompleted ? "/dashboard" : "/hi");
     } finally {
       setIsLoading(false);
@@ -77,7 +98,7 @@ const Auth = () => {
 
   const handleForgotPassword = async () => {
     if (!email.includes("@")) {
-      toast.error("Enter your email first to reset password.");
+      toast.error(t("auth.resetEmailPrompt"));
       return;
     }
 
@@ -85,10 +106,10 @@ const Auth = () => {
     try {
       const result = await sendPasswordReset(email);
       if (!result.success) {
-        toast.error(result.message || "Failed to send reset email.");
+        toast.error(result.message || t("auth.resetFailed"));
         return;
       }
-      toast.success("Password reset email sent. Check your inbox.");
+      toast.success(t("auth.resetSent"));
     } finally {
       setIsLoading(false);
     }
@@ -114,18 +135,18 @@ const Auth = () => {
             <Button
               type="button"
               variant={mode === "signin" ? "default" : "ghost"}
-              onClick={() => setMode("signin")}
+              onClick={() => navigate("/signin")}
               disabled={isLoading}
             >
-              Sign In
+              {t("auth.signInTab")}
             </Button>
             <Button
               type="button"
               variant={mode === "signup" ? "default" : "ghost"}
-              onClick={() => setMode("signup")}
+              onClick={() => navigate("/signup")}
               disabled={isLoading}
             >
-              Sign Up
+              {t("auth.signUpTab")}
             </Button>
           </div>
 
@@ -147,12 +168,12 @@ const Auth = () => {
             )}
 
             <div>
-              <label className="text-sm font-medium mb-2 block">Email</label>
+              <label className="text-sm font-medium mb-2 block">{t("auth.emailLabel")}</label>
               <div className="relative">
                 <Mail className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
                 <Input
                   type="email"
-                  placeholder="you@example.com"
+                  placeholder={t("auth.emailPlaceholder")}
                   value={email}
                   onChange={(e) => setEmail(e.target.value.trim())}
                   className="h-12 rounded-xl border-2 pl-9"
@@ -162,33 +183,49 @@ const Auth = () => {
             </div>
 
             <div>
-              <label className="text-sm font-medium mb-2 block">Password</label>
+              <label className="text-sm font-medium mb-2 block">{t("auth.passwordLabel")}</label>
               <div className="relative">
                 <Lock className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
                 <Input
-                  type="password"
-                  placeholder="Enter password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder={t("auth.passwordPlaceholder")}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="h-12 rounded-xl border-2 pl-9"
+                  className="h-12 rounded-xl border-2 pl-9 pr-10"
                   autoComplete={mode === "signup" ? "new-password" : "current-password"}
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  aria-label={showPassword ? t("auth.hidePassword") : t("auth.showPassword")}
+                >
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
               </div>
             </div>
 
             {mode === "signup" && (
               <div>
-                <label className="text-sm font-medium mb-2 block">Confirm Password</label>
+                <label className="text-sm font-medium mb-2 block">{t("auth.confirmPasswordLabel")}</label>
                 <div className="relative">
                   <Lock className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
                   <Input
-                    type="password"
-                    placeholder="Confirm password"
+                    type={showConfirmPassword ? "text" : "password"}
+                    placeholder={t("auth.confirmPasswordPlaceholder")}
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="h-12 rounded-xl border-2 pl-9"
+                    className="h-12 rounded-xl border-2 pl-9 pr-10"
                     autoComplete="new-password"
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword((prev) => !prev)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                    aria-label={showConfirmPassword ? t("auth.hidePassword") : t("auth.showPassword")}
+                  >
+                    {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
                 </div>
               </div>
             )}
@@ -204,9 +241,9 @@ const Auth = () => {
                   {t("common.loading")}
                 </span>
               ) : mode === "signup" ? (
-                "Create Account"
+                t("auth.createAccount")
               ) : (
-                "Sign In"
+                t("auth.signInButton")
               )}
             </Button>
 
@@ -218,12 +255,46 @@ const Auth = () => {
                 onClick={handleForgotPassword}
                 disabled={isLoading}
               >
-                Forgot password?
+                {t("auth.forgotPassword")}
               </Button>
             )}
           </form>
+
+          <p className="mt-6 text-center text-sm text-muted-foreground">
+            {mode === "signup" ? t("auth.existingUserPrompt") : t("auth.newUserPrompt")}{" "}
+            <button
+              type="button"
+              onClick={() => navigate(mode === "signup" ? "/signin" : "/signup")}
+              className="font-semibold text-primary underline-offset-4 hover:underline"
+              disabled={isLoading}
+            >
+              {mode === "signup" ? t("auth.loginAction") : t("auth.signUpAction")}
+            </button>
+          </p>
         </div>
       </div>
+
+      <Dialog open={showSignupHint} onOpenChange={setShowSignupHint}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("auth.signupHintTitle")}</DialogTitle>
+            <DialogDescription>{t("auth.signupHintDescription")}</DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowSignupHint(false)}>
+              {t("auth.signupHintStay")}
+            </Button>
+            <Button
+              onClick={() => {
+                setShowSignupHint(false);
+                navigate("/signup");
+              }}
+            >
+              {t("auth.signupHintGo")}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

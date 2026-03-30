@@ -9,7 +9,81 @@ import {
   signOut,
   updateProfile as updateFirebaseProfile,
 } from "firebase/auth";
-import { firebaseAuth } from "@/lib/firebase";
+import { firebaseAuth, getFirebaseClientConfigError, isFirebaseClientReady } from "@/lib/firebase";
+
+const ONBOARDING_COMPLETED_KEY = "onboardingCompleted";
+const AUTH_INIT_TIMEOUT_MS = 8000;
+
+const parseJsonArray = (value: string | null) => {
+  if (!value) return [];
+  try {
+    const parsed = JSON.parse(value);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+};
+
+const getLocalOnboardingStatus = () => {
+  const explicitFlag = localStorage.getItem(ONBOARDING_COMPLETED_KEY) === "true";
+  if (explicitFlag) return true;
+
+  const locationRaw = localStorage.getItem("userLocation");
+  const farmSizeRaw = localStorage.getItem("farmSize");
+  const crops = parseJsonArray(localStorage.getItem("selectedCrops"));
+  const distributions = parseJsonArray(localStorage.getItem("farmDistributions"));
+
+  let hasLocation = false;
+  if (locationRaw) {
+    try {
+      const location = JSON.parse(locationRaw) as { state?: string; district?: string };
+      hasLocation = Boolean(location?.state && location?.district);
+    } catch {
+      hasLocation = false;
+    }
+  }
+
+  const farmSize = Number(farmSizeRaw);
+  const hasFarmSize = Number.isFinite(farmSize) && farmSize > 0;
+  const hasCrops = crops.length > 0;
+  const hasDistributions =
+    distributions.length > 0 &&
+    distributions.every((item) => {
+      const record = item as { name?: string; area?: number };
+      return Boolean(record?.name) && typeof record?.area === "number" && record.area > 0;
+    });
+
+  return hasLocation && hasFarmSize && hasCrops && hasDistributions;
+};
+
+const mapFirebaseAuthError = (error: unknown, fallback: string) => {
+  const code =
+    typeof error === "object" &&
+    error !== null &&
+    "code" in error &&
+    typeof (error as { code?: unknown }).code === "string"
+      ? (error as { code: string }).code
+      : "";
+
+  switch (code) {
+    case "auth/invalid-email":
+      return "Invalid email address.";
+    case "auth/email-already-in-use":
+      return "This email is already registered. Please log in.";
+    case "auth/weak-password":
+      return "Password is too weak. Use a stronger password.";
+    case "auth/invalid-credential":
+    case "auth/wrong-password":
+    case "auth/user-not-found":
+      return "Invalid email or password.";
+    case "auth/too-many-requests":
+      return "Too many attempts. Please try again later.";
+    case "auth/network-request-failed":
+      return "Network error. Check your internet connection and try again.";
+    default:
+      return fallback;
+  }
+};
 
 interface User {
   id: string;
@@ -41,17 +115,52 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const { i18n } = useTranslation();
   const initializedRef = useRef(false);
 
+  const applyFirebaseFallbackUser = (firebaseUser: { uid: string; email: string | null; displayName: string | null; emailVerified: boolean }) => {
+    const { user: cachedUser } = getAuth();
+    const fallbackUser = {
+      id: (cachedUser as User | null)?.id || firebaseUser.uid,
+      email: (cachedUser as User | null)?.email || firebaseUser.email || "",
+      name: (cachedUser as User | null)?.name || firebaseUser.displayName || "",
+      language: (cachedUser as User | null)?.language || "hi",
+      emailVerified: firebaseUser.emailVerified,
+    };
+
+    setUser(fallbackUser);
+    setAuth(fallbackUser as Record<string, unknown>);
+    if (fallbackUser.name) {
+      localStorage.setItem("userName", fallbackUser.name);
+    }
+
+    if (fallbackUser.language && i18n.resolvedLanguage !== fallbackUser.language) {
+      void i18n.changeLanguage(fallbackUser.language);
+    }
+
+    const completed = getLocalOnboardingStatus();
+    setOnboardingCompleted(completed);
+    return completed;
+  };
+
   const syncProfile = async () => {
     const result = await api.auth.getProfile();
     if (!result.success || !result.user) {
-      clearAuth();
-      setUser(null);
-      setOnboardingCompleted(false);
-      return { success: false as const, message: result.message };
+      const firebaseUser = firebaseAuth.currentUser;
+      if (!firebaseUser) {
+        clearAuth();
+        setUser(null);
+        setOnboardingCompleted(false);
+        return { success: false as const, message: result.message };
+      }
+
+      const completed = applyFirebaseFallbackUser(firebaseUser);
+      setOnboardingCompleted(completed);
+      return { success: true as const, onboardingCompleted: completed };
     }
 
     setUser(result.user as User);
     setAuth(result.user as Record<string, unknown>);
+    if ((result.user as User).name) {
+      localStorage.setItem("userName", (result.user as User).name as string);
+    }
 
     const userLanguage = (result.user as User).language;
     if (userLanguage && i18n.resolvedLanguage !== userLanguage) {
@@ -64,36 +173,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return { success: true as const, onboardingCompleted: completed };
   };
 
-  const isFarmOnboardingComplete = (farm: unknown): boolean => {
-    if (!farm || typeof farm !== "object") return false;
-
-    const farmRecord = farm as {
-      location?: { state?: string; district?: string };
-      farmSize?: number;
-      selectedCrops?: string[];
-      distributions?: Array<{ name?: string; area?: number }>;
-    };
-
-    const hasLocation = !!farmRecord.location?.state && !!farmRecord.location?.district;
-    const hasFarmSize = typeof farmRecord.farmSize === "number" && farmRecord.farmSize > 0;
-    const hasCrops = Array.isArray(farmRecord.selectedCrops) && farmRecord.selectedCrops.length > 0;
-    const hasDistributions =
-      Array.isArray(farmRecord.distributions) &&
-      farmRecord.distributions.length > 0 &&
-      farmRecord.distributions.every(
-        (item) => !!item?.name && typeof item.area === "number" && item.area > 0
-      );
-
-    return hasLocation && hasFarmSize && hasCrops && hasDistributions;
-  };
-
   const fetchOnboardingStatus = async () => {
-    try {
-      const farmResponse = await api.farm.get();
-      return isFarmOnboardingComplete(farmResponse?.farm);
-    } catch {
-      return false;
-    }
+    return getLocalOnboardingStatus();
   };
 
   useEffect(() => {
@@ -101,6 +182,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       return;
     }
     initializedRef.current = true;
+
+    if (!isFirebaseClientReady) {
+      clearAuth();
+      setUser(null);
+      setOnboardingCompleted(false);
+      setLoading(false);
+      return;
+    }
+
+    const initTimeout = window.setTimeout(() => {
+      console.warn("Auth initialization timed out. Continuing without blocking UI.");
+      setLoading(false);
+    }, AUTH_INIT_TIMEOUT_MS);
 
     const { user: cachedUser } = getAuth();
     if (cachedUser) {
@@ -110,7 +204,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
     }
 
-    const unsub = onAuthStateChanged(firebaseAuth, async (firebaseUser) => {
+    const unsub = onAuthStateChanged(firebaseAuth, (firebaseUser) => {
+      window.clearTimeout(initTimeout);
+
       if (!firebaseUser) {
         clearAuth();
         setUser(null);
@@ -119,14 +215,42 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         return;
       }
 
-      await syncProfile();
+      const { user: cachedUser } = getAuth();
+      const immediateUser = {
+        id: (cachedUser as User | null)?.id || firebaseUser.uid,
+        email: (cachedUser as User | null)?.email || firebaseUser.email || "",
+        name: (cachedUser as User | null)?.name || firebaseUser.displayName || "",
+        language: (cachedUser as User | null)?.language || i18n.resolvedLanguage || "hi",
+        emailVerified: firebaseUser.emailVerified,
+      };
+
+      setUser(immediateUser);
+      setAuth(immediateUser as Record<string, unknown>);
+      setOnboardingCompleted(getLocalOnboardingStatus());
+
+      if (immediateUser.language && i18n.resolvedLanguage !== immediateUser.language) {
+        void i18n.changeLanguage(immediateUser.language);
+      }
+
+      // Do not block first paint on backend profile fetch.
       setLoading(false);
+
+      void syncProfile().catch((error) => {
+        console.error("Background profile sync failed:", error);
+      });
     });
 
-    return () => unsub();
+    return () => {
+      window.clearTimeout(initTimeout);
+      unsub();
+    };
   }, [i18n]);
 
   const register = async (email: string, password: string, name?: string) => {
+    if (!isFirebaseClientReady) {
+      return { success: false, message: getFirebaseClientConfigError() };
+    }
+
     try {
       const credential = await createUserWithEmailAndPassword(firebaseAuth, email.trim(), password);
       if (name?.trim()) {
@@ -134,35 +258,54 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
 
       const synced = await syncProfile();
+      if (!synced.success) {
+        const completed = applyFirebaseFallbackUser(credential.user);
+        return { success: true, onboardingCompleted: completed };
+      }
       if (name?.trim()) {
         await updateProfile({ name: name.trim() });
       }
       return synced.success
         ? { success: true, onboardingCompleted: synced.onboardingCompleted }
         : { success: false, message: synced.message || "Registration failed" };
-    } catch {
-      return { success: false, message: "Registration failed" };
+    } catch (error) {
+      return { success: false, message: mapFirebaseAuthError(error, "Registration failed") };
     }
   };
 
   const login = async (email: string, password: string) => {
+    if (!isFirebaseClientReady) {
+      return { success: false, message: getFirebaseClientConfigError() };
+    }
+
     try {
-      await signInWithEmailAndPassword(firebaseAuth, email.trim(), password);
+      const credential = await signInWithEmailAndPassword(firebaseAuth, email.trim(), password);
       const synced = await syncProfile();
+      if (!synced.success) {
+        const completed = applyFirebaseFallbackUser(credential.user);
+        return { success: true, onboardingCompleted: completed };
+      }
       return synced.success
         ? { success: true, onboardingCompleted: synced.onboardingCompleted }
         : { success: false, message: synced.message || "Login failed" };
-    } catch {
-      return { success: false, message: "Login failed" };
+    } catch (error) {
+      return { success: false, message: mapFirebaseAuthError(error, "Login failed") };
     }
   };
 
   const sendPasswordReset = async (email: string) => {
+    if (!isFirebaseClientReady) {
+      return { success: false, message: getFirebaseClientConfigError() };
+    }
+
     try {
       await sendPasswordResetEmail(firebaseAuth, email.trim());
       return { success: true, message: "Password reset email sent" };
-    } catch {
-      return { success: false, message: "Failed to send password reset email" };
+    } catch (error) {
+      return {
+        success: false,
+        message: mapFirebaseAuthError(error, "Failed to send password reset email"),
+      };
     }
   };
 
@@ -190,6 +333,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const markOnboardingComplete = () => {
+    localStorage.setItem(ONBOARDING_COMPLETED_KEY, "true");
     setOnboardingCompleted(true);
   };
 
