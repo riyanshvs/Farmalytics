@@ -16,7 +16,7 @@ const FarmSize = () => {
     e.preventDefault();
     
     if (!farmSize) {
-      toast.error("Please enter your farm size");
+      toast.error(t("welcome.enterFarmSize"));
       return;
     }
     
@@ -35,7 +35,7 @@ const FarmSize = () => {
       navigate("/crops-select");
     } catch (error: unknown) {
       console.error("Error saving farm size:", error);
-      toast.error(error instanceof Error ? error.message : "Failed to save farm size. Please try again.");
+      toast.error(error instanceof Error ? error.message : t("welcome.farmSizeSaveFailed"));
     } finally {
       setIsLoading(false);
     }

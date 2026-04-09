@@ -6,21 +6,18 @@ import { Plus } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { api } from "@/services/api";
-
-const crops = [
-  { name: "Potato", image: "🥔" },
-  { name: "Kheera", image: "🥒" },
-  { name: "Onion", image: "🧅" },
-  { name: "Garlic", image: "🧄" },
-  { name: "Tomato", image: "🍅" },
-  { name: "Ginger", image: "🫚" }
-];
+import { useLanguage } from "@/context/LanguageContext";
+import { cropsCatalog } from "@/data/cropsCatalog";
+import { safeJsonParse } from "@/lib/safeJson";
 
 const CropsSelect = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { language } = useLanguage();
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedCrops, setSelectedCrops] = useState<string[]>([]);
+  const [selectedCrops, setSelectedCrops] = useState<string[]>(
+    safeJsonParse<string[]>(localStorage.getItem("selectedCrops"), [])
+  );
   const [searchTerm, setSearchTerm] = useState("");
 
   const toggleCrop = (cropName: string) => {
@@ -33,7 +30,7 @@ const CropsSelect = () => {
 
   const handleNext = async () => {
     if (selectedCrops.length === 0) {
-      toast.error("Please select at least one crop");
+      toast.error(t("welcome.selectAtLeastOneCrop"));
       return;
     }
 
@@ -51,15 +48,20 @@ const CropsSelect = () => {
       navigate("/farm-distribution");
     } catch (error) {
       console.error("Error saving crops:", error);
-      toast.error("Failed to save crops. Please try again.");
+      toast.error(t("welcome.cropsSaveFailed"));
     } finally {
       setIsLoading(false);
     }
   };
 
-  const filteredCrops = crops.filter(crop =>
-    crop.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredCrops = cropsCatalog.filter((crop) => {
+    const search = searchTerm.trim().toLowerCase();
+    if (!search) return true;
+    return (
+      crop.nameEn.toLowerCase().includes(search) ||
+      crop.nameHi.toLowerCase().includes(search)
+    );
+  });
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-background px-4 py-8">
@@ -74,40 +76,42 @@ const CropsSelect = () => {
         
         <Input
           type="text"
-          placeholder="Search Crop, vegetable, fruits etc.."
+          placeholder={t("welcome.cropsSearchPlaceholder")}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="mb-8 h-12 rounded-xl border-b-2"
         />
-        
-        <div className="grid grid-cols-2 gap-4">
+
+        <div className="max-h-[460px] overflow-y-auto pr-2">
+          <div className="grid grid-cols-2 gap-4">
           {filteredCrops.map((crop) => (
             <button
-              key={crop.name}
-              onClick={() => toggleCrop(crop.name)}
+              key={crop.id}
+              onClick={() => toggleCrop(crop.id)}
               className={`flex items-center gap-4 p-4 rounded-2xl border-2 transition-all hover:shadow-lg ${
-                selectedCrops.includes(crop.name)
+                selectedCrops.includes(crop.id)
                   ? "border-primary bg-primary/5"
                   : "border-border bg-background"
               }`}
             >
               <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center text-3xl">
-                {crop.image}
+                {crop.emoji}
               </div>
               <span className="text-xl font-semibold flex-1 text-left">
-                {crop.name}
+                {language === "hi" ? crop.nameHi : crop.nameEn}
               </span>
               <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center ${
-                selectedCrops.includes(crop.name)
+                selectedCrops.includes(crop.id)
                   ? "bg-primary border-primary"
                   : "border-muted-foreground"
               }`}>
                 <Plus className={`w-5 h-5 ${
-                  selectedCrops.includes(crop.name) ? "text-white" : "text-primary"
+                  selectedCrops.includes(crop.id) ? "text-white" : "text-primary"
                 }`} />
               </div>
             </button>
           ))}
+          </div>
         </div>
       </div>
       <div className="w-full max-w-3xl mt-6 flex justify-end">

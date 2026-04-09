@@ -9,8 +9,9 @@ import { SettingsBar } from "@/components/SettingsBar";
 import { cn } from "@/lib/utils";
 
 const UserName = () => {
+  const { t } = useTranslation();
   const { user } = useAuth();
-  return <span className="font-semibold">{user?.name || "User"}</span>;
+  return <span className="font-semibold">{user?.name || t("layout.userFallback")}</span>;
 };
 
 interface LayoutProps {

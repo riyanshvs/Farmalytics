@@ -131,7 +131,7 @@ export const Chatbot = () => {
     });
 
     if (!result?.success) {
-      toast.error("Could not save feedback. Please try again.");
+      toast.error(t("chatbot.feedbackSaveFailed"));
       return;
     }
 
@@ -160,7 +160,7 @@ export const Chatbot = () => {
         {historyError && !historyLoading && (
           <div className="flex justify-center py-1">
             <Button variant="outline" size="sm" className="text-xs" onClick={() => conversationId && loadHistory(conversationId)}>
-              Retry loading history
+              {t("chatbot.retryLoadHistory")}
             </Button>
           </div>
         )}
@@ -168,7 +168,7 @@ export const Chatbot = () => {
         {historyLoading ? (
           <div className="flex items-center justify-center h-full text-muted-foreground text-sm">
             <Loader className="w-4 h-4 animate-spin mr-2" />
-            <span>Loading previous chat...</span>
+            <span>{t("chatbot.loadingPreviousChat")}</span>
           </div>
         ) : messages.length === 0 ? (
           <div className="flex items-center justify-center h-full text-muted-foreground text-sm">

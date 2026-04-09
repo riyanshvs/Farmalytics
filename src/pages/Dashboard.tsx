@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import { useAuth } from "@/context/AuthContext";
 import { api } from "@/services/api";
 import { SettingsBar } from "@/components/SettingsBar";
+import { safeJsonParse } from "@/lib/safeJson";
 
 interface FarmData {
   selectedCrops?: string[];
@@ -89,7 +90,9 @@ const Dashboard = () => {
   }, []);
 
   const storedDist = typeof window !== "undefined" ? localStorage.getItem("farmDistributions") : null;
-  const parsedDist: { name: string; area: number }[] = storedDist ? JSON.parse(storedDist) : farmData?.distributions || [];
+  const parsedDist: { name: string; area: number }[] = storedDist
+    ? safeJsonParse<{ name: string; area: number }[]>(storedDist, [])
+    : farmData?.distributions || [];
 
   const palette = ["#8B5CF6", "#EF4444", "#06B6D4", "#F97316", "#3B82F6", "#10B981", "#A855F7", "#F59E0B"];
 

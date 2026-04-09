@@ -1,6 +1,7 @@
 {
   "common": {
     "loading": "लोड हो रहा है...",
+    "loadingApp": "{{app}} लोड हो रहा है...",
     "error": "त्रुटि",
     "success": "सफल",
     "save": "सहेजें",
@@ -14,7 +15,8 @@
     "close": "बंद करें",
     "open": "खोलें",
     "search": "खोजें",
-    "home": "होम"
+    "home": "होम",
+    "toggleTheme": "थीम बदलें"
   },
   "auth": {
     "title": "Farmalytics में आपका स्वागत है",
@@ -75,10 +77,17 @@
     "farmSizeSubtitle": "अपनी कुल भूमि का क्षेत्रफल दर्ज करें",
     "farmSizeLabel": "खेती का आकार (एकड़)",
     "farmSizePlaceholder": "उदा., 5",
+    "enterFarmSize": "कृपया अपनी खेती का आकार दर्ज करें",
+    "farmSizeSaveFailed": "खेती का आकार सेव नहीं हो सका। कृपया फिर से कोशिश करें।",
     "cropsTitle": "आप क्या उगाते हैं?",
     "cropsSubtitle": "वे फसलें चुनें जो आप उगाते हैं",
+    "cropsSearchPlaceholder": "फसल, सब्जी, फल खोजें...",
+    "selectAtLeastOneCrop": "कृपया कम से कम एक फसल चुनें",
+    "cropsSaveFailed": "फसलें सेव नहीं हो सकीं। कृपया फिर से कोशिश करें।",
     "distributionTitle": "आपकी भूमि कैसे वितरित है?",
     "distributionSubtitle": "प्रत्येक फसल के लिए क्षेत्रफल दर्ज करें",
+    "fillAllAreas": "कृपया सभी क्षेत्र भरें",
+    "distributionSaveFailed": "वितरण सेव नहीं हो सका। कृपया फिर से कोशिश करें।",
     "areaLabel": "क्षेत्रफल (एकड़)",
     "areaPlaceholder": "उदा., 2.5",
     "addCrop": "फसल जोड़ें",
@@ -112,7 +121,13 @@
     "loading": "विचार कर रहे हैं...",
     "initialMessage": "नमस्ते! मैं आपके सवालों का जवाब देने के लिए तैयार हूँ।",
     "error": "कुछ त्रुटि हुई। कृपया पुनः प्रयास करें।",
-    "send": "भेजें"
+    "send": "भेजें",
+    "retryLoadHistory": "चैट इतिहास फिर से लोड करें",
+    "loadingPreviousChat": "पिछली चैट लोड हो रही है...",
+    "feedbackSaveFailed": "फीडबैक सेव नहीं हो सका। कृपया फिर से कोशिश करें।"
+  },
+  "layout": {
+    "userFallback": "उपयोगकर्ता"
   },
   "soil": {
     "ph": "pH स्तर",
@@ -229,9 +244,17 @@
       "today": "आज",
       "tomorrow": "कल",
       "clear": "साफ",
+      "partlyCloudy": "आंशिक बादल",
+      "cloudy": "बादल",
+      "fog": "कोहरा",
+      "snow": "बर्फ",
       "stormy": "आंधी",
       "rainy": "बारिश",
+      "loadFailed": "अभी लाइव मौसम डेटा नहीं मिल सका। उपलब्ध डेटा दिखाया जा रहा है।",
+      "locationUnknown": "लोकेशन उपलब्ध नहीं",
       "hourlyForecast": "24-घंटे का पूर्वानुमान",
+      "sunrise": "सूर्योदय",
+      "sunset": "सूर्यास्त",
       "reminders": "रिमाइंडर",
       "reminder1": "1. उर्वरक डालें",
       "reminder2": "2. कीटनाशक डालें",

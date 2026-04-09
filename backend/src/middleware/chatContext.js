@@ -49,6 +49,7 @@ export const chatContextMiddleware = async (req, _res, next) => {
     userId: null,
     user: null,
     farm: null,
+    authState: "anonymous",
     promptContext: buildContextText({ user: null, farm: null, anonymousContext }),
     anonymousContext,
   };
@@ -59,6 +60,7 @@ export const chatContextMiddleware = async (req, _res, next) => {
 
   const token = getRequestToken(req);
   if (!token) {
+    req.chatContext.authState = "anonymous";
     req.chatContext.promptContext = buildContextText({ user: null, farm: null, anonymousContext });
     req.chatContext.anonymousContext = anonymousContext;
     return next();
@@ -69,6 +71,7 @@ export const chatContextMiddleware = async (req, _res, next) => {
     const userRecord = await resolveUserFromFirebaseClaims(decoded);
 
     if (!userRecord?._id) {
+      req.chatContext.authState = "invalid-token";
       req.chatContext.promptContext = buildContextText({ user: null, farm: null, anonymousContext });
       req.chatContext.anonymousContext = anonymousContext;
       return next();
@@ -83,10 +86,12 @@ export const chatContextMiddleware = async (req, _res, next) => {
       userId: userRecord._id.toString(),
       user,
       farm,
+      authState: "authenticated",
       promptContext: buildContextText({ user, farm, anonymousContext }),
       anonymousContext,
     };
   } catch {
+    req.chatContext.authState = "invalid-token";
     req.chatContext.promptContext = buildContextText({ user: null, farm: null, anonymousContext });
     req.chatContext.anonymousContext = anonymousContext;
   }

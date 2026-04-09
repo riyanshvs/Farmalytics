@@ -7,7 +7,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Bell,
-  AlertTriangle,
   Info,
   CheckCircle,
   X,
@@ -17,14 +16,14 @@ import {
   MapPin,
   Droplets,
   Bug,
-  Sun,
   CloudRain,
   TrendingUp,
   Filter,
   Building2,
-  DollarSign
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { api } from "@/services/api";
+import { safeJsonParse } from "@/lib/safeJson";
 
 // Mock alerts data - in production, this would come from backend API
 const alertsData = [
@@ -126,20 +125,54 @@ const Alerts = () => {
 
   const handleRefresh = async () => {
     setIsLoading(true);
-    // In production, this would call backend API to refresh alerts
-    setTimeout(() => {
+    try {
+      const userLocationRaw = localStorage.getItem("userLocation");
+      const userLocation = safeJsonParse<{ state?: string; district?: string } | null>(userLocationRaw, null);
+      const response = await api.alerts.getAll({
+        state: userLocation?.state,
+        district: userLocation?.district,
+      });
+
+      if (Array.isArray(response?.alerts) && response.alerts.length > 0) {
+        setAlerts(response.alerts);
+      }
+    } catch (error) {
+      console.error("Failed to refresh alerts:", error);
+    } finally {
       setIsLoading(false);
-    }, 1500);
+    }
   };
 
-  const markAsRead = (alertId: number) => {
-    setAlerts(alerts.map(alert =>
-      alert.id === alertId ? { ...alert, isRead: true } : alert
-    ));
+  useEffect(() => {
+    void handleRefresh();
+  }, []);
+
+  const markAsRead = async (alertId: number) => {
+    const previousAlerts = alerts;
+    setAlerts((prevAlerts) =>
+      prevAlerts.map((alert) =>
+        alert.id === alertId ? { ...alert, isRead: true } : alert
+      )
+    );
+
+    try {
+      await api.alerts.markRead(alertId);
+    } catch (error) {
+      console.error("Failed to persist read state:", error);
+      setAlerts(previousAlerts);
+    }
   };
 
-  const dismissAlert = (alertId: number) => {
-    setAlerts(alerts.filter(alert => alert.id !== alertId));
+  const dismissAlert = async (alertId: number) => {
+    const previousAlerts = alerts;
+    setAlerts((prevAlerts) => prevAlerts.filter((alert) => alert.id !== alertId));
+
+    try {
+      await api.alerts.dismiss(alertId);
+    } catch (error) {
+      console.error("Failed to persist dismissed state:", error);
+      setAlerts(previousAlerts);
+    }
   };
 
   const updateSetting = (category: string, setting: string, value: boolean) => {
@@ -328,7 +361,9 @@ const Alerts = () => {
                           <Button
                             variant="ghost"
                             size="sm"
-                            onClick={() => markAsRead(alert.id)}
+                            onClick={() => {
+                              void markAsRead(alert.id);
+                            }}
                           >
                             {t("pages.alerts.markRead")}
                           </Button>
@@ -336,7 +371,9 @@ const Alerts = () => {
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() => dismissAlert(alert.id)}
+                          onClick={() => {
+                            void dismissAlert(alert.id);
+                          }}
                         >
                           <X className="w-4 h-4" />
                         </Button>

@@ -14,7 +14,6 @@ interface TranslationCache {
 
 class TranslateService {
   private cache: TranslationCache = {};
-  private readonly GOOGLE_TRANSLATE_API = "https://translate.googleapis.com/translate_a/element.js";
 
   constructor() {
     this.loadCacheFromStorage();
@@ -27,10 +26,12 @@ class TranslateService {
     try {
       const stored = localStorage.getItem("translationCache");
       if (stored) {
-        this.cache = JSON.parse(stored);
+        const parsed = JSON.parse(stored) as TranslationCache;
+        this.cache = parsed && typeof parsed === "object" ? parsed : {};
       }
     } catch (error) {
       console.error("Error loading translation cache:", error);
+      this.cache = {};
     }
   }
 

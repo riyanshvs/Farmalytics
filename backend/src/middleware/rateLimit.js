@@ -1,4 +1,20 @@
 const buckets = new Map();
+const MAX_BUCKETS = 5000;
+
+const cleanupExpiredBuckets = () => {
+  const currentTime = now();
+  for (const [key, bucket] of buckets.entries()) {
+    if (currentTime > bucket.expiresAt) {
+      buckets.delete(key);
+    }
+  }
+};
+
+// Best-effort periodic cleanup so stale keys do not accumulate indefinitely.
+const cleanupTimer = setInterval(cleanupExpiredBuckets, 60 * 1000);
+if (typeof cleanupTimer?.unref === "function") {
+  cleanupTimer.unref();
+}
 
 const now = () => Date.now();
 
@@ -19,6 +35,8 @@ const getKey = (req) => {
 
 export const createRateLimiter = ({ windowMs, maxRequests }) => {
   return (req, res, next) => {
+    cleanupExpiredBuckets();
+
     const key = getKey(req);
     const currentTime = now();
 
@@ -29,6 +47,14 @@ export const createRateLimiter = ({ windowMs, maxRequests }) => {
         expiresAt: currentTime + windowMs,
       };
       buckets.set(key, bucket);
+
+      if (buckets.size > MAX_BUCKETS) {
+        // Drop the oldest inserted key to keep memory usage bounded.
+        const oldestKey = buckets.keys().next().value;
+        if (oldestKey) {
+          buckets.delete(oldestKey);
+        }
+      }
     }
 
     bucket.count += 1;

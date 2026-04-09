@@ -6,6 +6,18 @@ import { cn } from "@/lib/utils";
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: "", dark: ".dark" } as const;
 
+const toSafeCssIdentifier = (value: string) => value.replace(/[^a-zA-Z0-9_-]/g, "");
+
+const isSafeCssColor = (value: string) => {
+  const color = value.trim();
+  return (
+    /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(color) ||
+    /^rgb(a)?\([^\n\r;{}]+\)$/i.test(color) ||
+    /^hsl(a)?\([^\n\r;{}]+\)$/i.test(color) ||
+    /^[a-zA-Z]+$/.test(color)
+  );
+};
+
 export type ChartConfig = {
   [k in string]: {
     label?: React.ReactNode;
@@ -37,7 +49,7 @@ const ChartContainer = React.forwardRef<
   }
 >(({ id, className, children, config, ...props }, ref) => {
   const uniqueId = React.useId();
-  const chartId = `chart-${id || uniqueId.replace(/:/g, "")}`;
+  const chartId = `chart-${toSafeCssIdentifier(id || uniqueId.replace(/:/g, ""))}`;
 
   return (
     <ChartContext.Provider value={{ config }}>
@@ -71,11 +83,20 @@ const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
         __html: Object.entries(THEMES)
           .map(
             ([theme, prefix]) => `
-${prefix} [data-chart=${id}] {
+${prefix} [data-chart="${id}"] {
 ${colorConfig
   .map(([key, itemConfig]) => {
     const color = itemConfig.theme?.[theme as keyof typeof itemConfig.theme] || itemConfig.color;
-    return color ? `  --color-${key}: ${color};` : null;
+    if (!color || !isSafeCssColor(color)) {
+      return null;
+    }
+
+    const cssKey = toSafeCssIdentifier(String(key));
+    if (!cssKey) {
+      return null;
+    }
+
+    return `  --color-${cssKey}: ${color.trim()};`;
   })
   .join("\n")}
 }

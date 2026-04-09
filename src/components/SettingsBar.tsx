@@ -52,7 +52,7 @@ export const SettingsBar: React.FC<SettingsBarProps> = ({ className = "" }) => {
             className="relative"
           >
             <Globe className="w-4 h-4" />
-            <span className="sr-only">Select language</span>
+            <span className="sr-only">{t("language.selectLanguage")}</span>
           </Button>
         </DropdownMenuTrigger>
 
@@ -93,7 +93,7 @@ export const SettingsBar: React.FC<SettingsBarProps> = ({ className = "" }) => {
         ) : (
           <Moon className="w-4 h-4" />
         )}
-        <span className="sr-only">Toggle theme</span>
+        <span className="sr-only">{t("common.toggleTheme")}</span>
       </Button>
     </div>
   );

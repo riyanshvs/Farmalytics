@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { api } from "@/services/api";
 import { useAuth } from "@/context/AuthContext";
+import { safeJsonParse } from "@/lib/safeJson";
 
 const cropIcons: Record<string, string> = {
   Potato: "🥔",
@@ -23,7 +24,7 @@ const FarmDistribution = () => {
   const { markOnboardingComplete } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const stored = typeof window !== "undefined" ? localStorage.getItem("selectedCrops") : null;
-  const selectedNames: string[] = stored ? JSON.parse(stored) : [];
+  const selectedNames: string[] = safeJsonParse<string[]>(stored, []);
 
   const crops = selectedNames.length > 0 ? selectedNames.map((name) => ({ name, image: cropIcons[name] || "🌾" })) : [
     { name: "Potato", image: "🥔" },
@@ -36,7 +37,7 @@ const FarmDistribution = () => {
     
     const allFilled = crops.every((_, index) => distributions[index]);
     if (!allFilled) {
-      toast.error("Please fill in all areas");
+      toast.error(t("welcome.fillAllAreas"));
       return;
     }
 
@@ -61,7 +62,7 @@ const FarmDistribution = () => {
       navigate("/completion");
     } catch (error: unknown) {
       console.error("Error saving farm distribution:", error);
-      toast.error(error instanceof Error ? error.message : "Failed to save distribution. Please try again.");
+      toast.error(error instanceof Error ? error.message : t("welcome.distributionSaveFailed"));
     } finally {
       setIsLoading(false);
     }

@@ -121,7 +121,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       id: (cachedUser as User | null)?.id || firebaseUser.uid,
       email: (cachedUser as User | null)?.email || firebaseUser.email || "",
       name: (cachedUser as User | null)?.name || firebaseUser.displayName || "",
-      language: (cachedUser as User | null)?.language || "hi",
+      language: (cachedUser as User | null)?.language || "en",
       emailVerified: firebaseUser.emailVerified,
     };
 
@@ -220,7 +220,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         id: (cachedUser as User | null)?.id || firebaseUser.uid,
         email: (cachedUser as User | null)?.email || firebaseUser.email || "",
         name: (cachedUser as User | null)?.name || firebaseUser.displayName || "",
-        language: (cachedUser as User | null)?.language || i18n.resolvedLanguage || "hi",
+        language: (cachedUser as User | null)?.language || i18n.resolvedLanguage || "en",
         emailVerified: firebaseUser.emailVerified,
       };
 

@@ -1,6 +1,7 @@
 {
   "common": {
     "loading": "Loading...",
+    "loadingApp": "Loading {{app}}...",
     "error": "Error",
     "success": "Success",
     "save": "Save",
@@ -14,7 +15,8 @@
     "close": "Close",
     "open": "Open",
     "search": "Search",
-    "home": "Home"
+    "home": "Home",
+    "toggleTheme": "Toggle theme"
   },
   "auth": {
     "title": "Welcome to Farmalytics",
@@ -75,10 +77,17 @@
     "farmSizeSubtitle": "Enter your total land area",
     "farmSizeLabel": "Farm Size (acres)",
     "farmSizePlaceholder": "e.g., 5",
+    "enterFarmSize": "Please enter your farm size",
+    "farmSizeSaveFailed": "Failed to save farm size. Please try again.",
     "cropsTitle": "What do you grow?",
     "cropsSubtitle": "Select the crops you cultivate",
+    "cropsSearchPlaceholder": "Search crops, vegetables, fruits...",
+    "selectAtLeastOneCrop": "Please select at least one crop",
+    "cropsSaveFailed": "Failed to save crops. Please try again.",
     "distributionTitle": "How is your land distributed?",
     "distributionSubtitle": "Enter area for each crop",
+    "fillAllAreas": "Please fill in all areas",
+    "distributionSaveFailed": "Failed to save distribution. Please try again.",
     "areaLabel": "Area (acres)",
     "areaPlaceholder": "e.g., 2.5",
     "addCrop": "Add Crop",
@@ -112,7 +121,13 @@
     "loading": "Thinking...",
     "initialMessage": "Hello! I'm ready to answer your questions.",
     "error": "Some error occurred. Please try again.",
-    "send": "Send"
+    "send": "Send",
+    "retryLoadHistory": "Retry loading history",
+    "loadingPreviousChat": "Loading previous chat...",
+    "feedbackSaveFailed": "Could not save feedback. Please try again."
+  },
+  "layout": {
+    "userFallback": "User"
   },
   "soil": {
     "ph": "pH Level",
@@ -229,9 +244,17 @@
       "today": "TODAY",
       "tomorrow": "TOMORROW",
       "clear": "Clear",
+      "partlyCloudy": "Partly Cloudy",
+      "cloudy": "Cloudy",
+      "fog": "Fog",
+      "snow": "Snow",
       "stormy": "Stormy",
       "rainy": "Rainy",
+      "loadFailed": "Unable to fetch live weather right now. Showing available values.",
+      "locationUnknown": "Location unavailable",
       "hourlyForecast": "24-HOUR FORECAST",
+      "sunrise": "Sunrise",
+      "sunset": "Sunset",
       "reminders": "Reminders",
       "reminder1": "1. Add Fertilisers",
       "reminder2": "2. Add pesticides",

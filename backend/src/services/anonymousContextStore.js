@@ -1,5 +1,6 @@
 const store = new Map();
 const TTL_MS = 24 * 60 * 60 * 1000;
+const MAX_CONTEXT_ENTRIES = 10000;
 
 const prune = () => {
   const now = Date.now();
@@ -18,6 +19,7 @@ export const getAnonymousContext = (conversationId) => {
 
 export const updateAnonymousContext = (conversationId, entities = {}) => {
   if (!conversationId) return;
+  prune();
 
   const current = store.get(conversationId) || {
     crops: [],
@@ -36,6 +38,14 @@ export const updateAnonymousContext = (conversationId, entities = {}) => {
   };
 
   store.set(conversationId, next);
+
+  if (store.size > MAX_CONTEXT_ENTRIES) {
+    // Evict oldest key when cap is exceeded to prevent unbounded growth.
+    const oldestKey = store.keys().next().value;
+    if (oldestKey) {
+      store.delete(oldestKey);
+    }
+  }
 };
 
 export default {

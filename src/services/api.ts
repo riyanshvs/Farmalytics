@@ -9,7 +9,7 @@ const getIdToken = async (): Promise<string | null> => {
   if (!user) return null;
 
   try {
-    return await user.getIdToken();
+    return await user.getIdToken(true);
   } catch {
     return null;
   }
@@ -119,6 +119,9 @@ export const api = {
   farm: {
     get: async () => {
       const res = await authFetch(`${API_URL}/farm`);
+      if (!res.ok) {
+        throw new Error(`Failed to fetch farm data (${res.status})`);
+      }
       return res.json();
     },
 
@@ -135,6 +138,86 @@ export const api = {
         },
         body: JSON.stringify(data),
       });
+
+      if (!res.ok) {
+        throw new Error(`Failed to save farm data (${res.status})`);
+      }
+
+      return res.json();
+    },
+  },
+
+  weather: {
+    getSummary: async (params?: { lat?: number; lon?: number; state?: string; district?: string }) => {
+      const query = new URLSearchParams();
+      if (params?.lat !== undefined) query.set("lat", String(params.lat));
+      if (params?.lon !== undefined) query.set("lon", String(params.lon));
+      if (params?.state) query.set("state", params.state);
+      if (params?.district) query.set("district", params.district);
+
+      const suffix = query.toString() ? `?${query.toString()}` : "";
+      const res = await authFetch(`${API_URL}/weather/summary${suffix}`);
+      if (!res.ok) {
+        throw new Error("Failed to load weather summary");
+      }
+      return res.json();
+    },
+  },
+
+  alerts: {
+    getAll: async (params?: { lat?: number; lon?: number; state?: string; district?: string }) => {
+      const query = new URLSearchParams();
+      if (params?.lat !== undefined) query.set("lat", String(params.lat));
+      if (params?.lon !== undefined) query.set("lon", String(params.lon));
+      if (params?.state) query.set("state", params.state);
+      if (params?.district) query.set("district", params.district);
+
+      const suffix = query.toString() ? `?${query.toString()}` : "";
+      const res = await authFetch(`${API_URL}/alerts${suffix}`);
+      if (!res.ok) {
+        throw new Error("Failed to load alerts");
+      }
+      return res.json();
+    },
+
+    markRead: async (alertId: number) => {
+      const res = await authFetch(`${API_URL}/alerts/read`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ alertId }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to mark alert as read");
+      }
+      return res.json();
+    },
+
+    dismiss: async (alertId: number) => {
+      const res = await authFetch(`${API_URL}/alerts/dismiss`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ alertId }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to dismiss alert");
+      }
+      return res.json();
+    },
+
+    resetState: async () => {
+      const res = await authFetch(`${API_URL}/alerts/reset`, {
+        method: "POST",
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to reset alert state");
+      }
       return res.json();
     },
   },
@@ -151,6 +234,10 @@ export const api = {
             },
             body: JSON.stringify({ message, language, conversationId }),
           });
+
+          if (!res.ok) {
+            throw new Error(`Chat request failed (${res.status})`);
+          }
 
           const data = await res.json();
           if (data?.reply) return data;

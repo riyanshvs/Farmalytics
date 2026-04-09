@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
 import { LanguageProvider } from "@/context/LanguageContext";
+import { useTranslation } from "react-i18next";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
@@ -24,17 +25,21 @@ import Layout from "./components/Layout";
 
 const queryClient = new QueryClient();
 
-const AppLoadingScreen = () => (
-  <div className="flex min-h-screen items-center justify-center bg-background text-foreground">
-    <div className="flex flex-col items-center gap-4">
-      <span
-        className="h-10 w-10 animate-spin rounded-full border-4 border-muted border-t-primary"
-        aria-label="Loading"
-      />
-      <p className="text-sm text-muted-foreground">Loading Farmalytics...</p>
+const AppLoadingScreen = () => {
+  const { t } = useTranslation();
+
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-background text-foreground">
+      <div className="flex flex-col items-center gap-4">
+        <span
+          className="h-10 w-10 animate-spin rounded-full border-4 border-muted border-t-primary"
+          aria-label={t("common.loading")}
+        />
+        <p className="text-sm text-muted-foreground">{t("common.loadingApp", { app: "Farmalytics" })}</p>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated, onboardingCompleted, loading } = useAuth();
@@ -61,7 +66,7 @@ const OnboardingRoute = ({ children }: { children: React.ReactNode }) => {
   const onboardingPaths = ["/hi", "/location", "/farm-size", "/crops-select", "/farm-distribution", "/completion"];
 
   if (loading) {
-    if (publicPaths.includes(location.pathname)) {
+    if (publicPaths.includes(location.pathname) || onboardingPaths.includes(location.pathname)) {
       return <>{children}</>;
     }
     return <AppLoadingScreen />;

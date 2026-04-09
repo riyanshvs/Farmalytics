@@ -27,8 +27,7 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
     initializedRef.current = true;
 
     const savedLanguage = localStorage.getItem("preferredLanguage") as Language | null;
-    const detectedLanguage = i18n.language as Language;
-    const initialLanguage = savedLanguage || detectedLanguage || "en";
+    const initialLanguage = savedLanguage || "en";
 
     setLanguageState((prev) => (prev === initialLanguage ? prev : initialLanguage));
     if (i18n.resolvedLanguage !== initialLanguage) {

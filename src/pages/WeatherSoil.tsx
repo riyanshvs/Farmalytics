@@ -1,22 +1,149 @@
+import { useEffect, useMemo, useState } from "react";
 import { LineChart, Line, ResponsiveContainer } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Sun, CloudRain, Wind, Droplets } from "lucide-react";
+import { Wind, Droplets } from "lucide-react";
 import { SettingsBar } from "@/components/SettingsBar";
 import { useAuth } from "@/context/AuthContext";
 import { useTranslation } from "react-i18next";
+import { api } from "@/services/api";
+import { safeJsonParse } from "@/lib/safeJson";
+
+type WeatherSummaryResponse = {
+  location?: { label?: string };
+  weather?: {
+    current?: {
+      temperature?: number;
+      humidity?: number;
+      windSpeed?: number;
+      precipitation?: number;
+      condition?: string;
+    };
+    hourly?: Array<{ time: string; temperature: number | null }>;
+    daily?: Array<{
+      date: string;
+      min: number | null;
+      max: number | null;
+      condition: string;
+    }>;
+    sun?: { sunrise?: string | null; sunset?: string | null };
+  };
+};
+
+const conditionToEmoji = (condition: string) => {
+  switch (condition) {
+    case "clear":
+      return "☀️";
+    case "partlyCloudy":
+      return "🌤️";
+    case "cloudy":
+      return "☁️";
+    case "rainy":
+    case "drizzle":
+      return "🌧️";
+    case "stormy":
+      return "⛈️";
+    case "fog":
+      return "🌫️";
+    case "snow":
+      return "❄️";
+    default:
+      return "🌤️";
+  }
+};
+
+const conditionToLabel = (condition: string, t: (key: string) => string) => {
+  switch (condition) {
+    case "clear":
+      return t("pages.weatherSoil.clear");
+    case "partlyCloudy":
+      return t("pages.weatherSoil.partlyCloudy");
+    case "cloudy":
+      return t("pages.weatherSoil.cloudy");
+    case "rainy":
+    case "drizzle":
+      return t("pages.weatherSoil.rainy");
+    case "stormy":
+      return t("pages.weatherSoil.stormy");
+    case "fog":
+      return t("pages.weatherSoil.fog");
+    case "snow":
+      return t("pages.weatherSoil.snow");
+    default:
+      return t("pages.weatherSoil.clear");
+  }
+};
+
+const formatTime = (iso?: string | null) => {
+  if (!iso) return "--:--";
+  try {
+    return new Date(iso).toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", hour12: false });
+  } catch {
+    return "--:--";
+  }
+};
 
 const WeatherSoil = () => {
   const { logout } = useAuth();
   const { t } = useTranslation();
-  const hourlyForecast = [21, 24, 23, 25, 23];
-  const weekly = [
-    { day: t("pages.weatherSoil.today"), icon: "☀️", temp: "21°/33°", note: t("pages.weatherSoil.clear") },
-    { day: t("pages.weatherSoil.tomorrow"), icon: "🌧️", temp: "19°/27°", note: t("pages.weatherSoil.stormy") },
-    { day: "22 FEB", icon: "🌧️", temp: "16°/24°", note: t("pages.weatherSoil.rainy") },
-    { day: "23 FEB", icon: "⛈️", temp: "17°/28°", note: t("pages.weatherSoil.stormy") },
-    { day: "24 FEB", icon: "🌤️", temp: "22°/36°", note: t("pages.weatherSoil.clear") },
-  ];
+  const [isLoading, setIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [weatherData, setWeatherData] = useState<WeatherSummaryResponse | null>(null);
+
+  useEffect(() => {
+    const loadWeather = async () => {
+      setIsLoading(true);
+      setErrorMessage("");
+      try {
+        const userLocationRaw = localStorage.getItem("userLocation");
+        const userLocation = safeJsonParse<{ state?: string; district?: string } | null>(userLocationRaw, null);
+
+        const response = await api.weather.getSummary({
+          state: userLocation?.state,
+          district: userLocation?.district,
+        });
+
+        setWeatherData(response);
+      } catch (error) {
+        console.error("Failed to load weather summary:", error);
+        setErrorMessage(t("pages.weatherSoil.loadFailed"));
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    void loadWeather();
+  }, [t]);
+
+  const current = weatherData?.weather?.current;
+  const daily = weatherData?.weather?.daily || [];
+  const hourly = weatherData?.weather?.hourly || [];
+
+  const todayCard = {
+    temp: current?.temperature ?? 0,
+    condition: current?.condition || "clear",
+  };
+
+  const weekly = useMemo(() => {
+    return daily.slice(0, 5).map((item, idx) => ({
+      day:
+        idx === 0
+          ? t("pages.weatherSoil.today")
+          : idx === 1
+            ? t("pages.weatherSoil.tomorrow")
+            : new Date(item.date).toLocaleDateString("en-IN", { day: "2-digit", month: "short" }).toUpperCase(),
+      icon: conditionToEmoji(item.condition),
+      temp: `${Math.round(item.min ?? 0)}°/${Math.round(item.max ?? 0)}°`,
+      note: conditionToLabel(item.condition, t),
+    }));
+  }, [daily, t]);
+
+  const hourlyForecast = hourly.slice(0, 5).map((row) => ({
+    value: row.temperature ?? 0,
+    label: formatTime(row.time),
+  }));
+
+  const locationLabel = weatherData?.location?.label || t("pages.weatherSoil.locationUnknown");
 
   return (
     <div className="p-4 md:p-6">
@@ -33,13 +160,26 @@ const WeatherSoil = () => {
           <Card className="border border-border shadow-sm rounded-2xl">
             <CardHeader>
               <CardTitle className="text-3xl">{t("dashboard.weather")}</CardTitle>
+              <p className="text-sm text-muted-foreground">{locationLabel}</p>
             </CardHeader>
             <CardContent className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+              {isLoading && (
+                <div className="lg:col-span-12 rounded-lg border border-blue-300 bg-blue-50 p-3 text-sm text-blue-800">
+                  {t("common.loading")}
+                </div>
+              )}
+
+              {errorMessage && (
+                <div className="lg:col-span-12 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-800">
+                  {errorMessage}
+                </div>
+              )}
+
               <div className="lg:col-span-2 border border-green-300 rounded-2xl p-4 text-center shadow-sm">
                 <div className="text-sm text-muted-foreground mb-1">{t("pages.weatherSoil.today")}</div>
-                <div className="text-5xl">☀️</div>
-                <div className="text-4xl font-bold">27</div>
-                <div className="text-muted-foreground">{t("pages.weatherSoil.clear")}</div>
+                <div className="text-5xl">{conditionToEmoji(todayCard.condition)}</div>
+                <div className="text-4xl font-bold">{Math.round(todayCard.temp)}</div>
+                <div className="text-muted-foreground">{conditionToLabel(todayCard.condition, t)}</div>
               </div>
 
               <div className="lg:col-span-5 space-y-3">
@@ -57,16 +197,14 @@ const WeatherSoil = () => {
                 <div className="border border-border rounded-xl p-3 shadow-sm">
                   <div className="text-sm text-muted-foreground mb-2">{t("pages.weatherSoil.hourlyForecast")}</div>
                   <ResponsiveContainer width="100%" height={60}>
-                    <LineChart data={hourlyForecast.map((value, index) => ({ x: index, value }))}>
+                    <LineChart data={hourlyForecast.map((item, index) => ({ x: index, value: item.value }))}>
                       <Line type="monotone" dataKey="value" stroke="#53BA4E" strokeWidth={2} dot={false} />
                     </LineChart>
                   </ResponsiveContainer>
                   <div className="flex justify-between text-xs text-emerald-600 font-medium">
-                    <span>09:00</span>
-                    <span>10:00</span>
-                    <span>11:00</span>
-                    <span>12:00</span>
-                    <span>13:00</span>
+                    {hourlyForecast.map((item, idx) => (
+                      <span key={`${item.label}-${idx}`}>{item.label}</span>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -77,23 +215,23 @@ const WeatherSoil = () => {
                     <div className="w-14 h-14 rounded-full bg-green-500 text-white flex items-center justify-center mx-auto mb-2">
                       <Wind className="w-6 h-6" />
                     </div>
-                    <div className="text-2xl text-green-600 font-semibold">13.7km/h</div>
+                    <div className="text-2xl text-green-600 font-semibold">{Math.round(current?.windSpeed ?? 0)}km/h</div>
                   </div>
                   <div>
                     <div className="w-14 h-14 rounded-full bg-green-500 text-white flex items-center justify-center mx-auto mb-2">
                       <Droplets className="w-6 h-6" />
                     </div>
-                    <div className="text-2xl text-green-600 font-semibold">2%</div>
+                    <div className="text-2xl text-green-600 font-semibold">{Math.round(current?.humidity ?? 0)}%</div>
                   </div>
                   <div>
                     <div className="w-14 h-14 rounded-full bg-green-500 text-black flex items-center justify-center mx-auto mb-2 font-bold">AQI</div>
-                    <div className="text-2xl text-green-600 font-semibold">73</div>
+                    <div className="text-2xl text-green-600 font-semibold">--</div>
                   </div>
                 </div>
 
                 <div className="text-sm text-muted-foreground flex items-end justify-between mt-6">
-                  <span>☀️ Sunrise 06:55</span>
-                  <span>☀️ Sunset 18:14</span>
+                  <span>☀️ {t("pages.weatherSoil.sunrise")} {formatTime(weatherData?.weather?.sun?.sunrise)}</span>
+                  <span>☀️ {t("pages.weatherSoil.sunset")} {formatTime(weatherData?.weather?.sun?.sunset)}</span>
                 </div>
               </div>
             </CardContent>

@@ -11,6 +11,8 @@ import ChatHistory from "./src/models/ChatHistory.js";
 import ChatFeedback from "./src/models/ChatFeedback.js";
 import authRoutes from "./src/routes/auth.js";
 import farmRoutes from "./src/routes/farm.js";
+import weatherRoutes from "./src/routes/weather.js";
+import alertsRoutes from "./src/routes/alerts.js";
 import { chatContextMiddleware } from "./src/middleware/chatContext.js";
 import { sanitizeChatInput, validateFeedbackInput } from "./src/middleware/validation.js";
 import { createRateLimiter } from "./src/middleware/rateLimit.js";
@@ -25,6 +27,7 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const isProduction = process.env.NODE_ENV === "production";
 
 if (!isFirebaseAdminReady()) {
   console.warn("Firebase Admin SDK is not configured. Authenticated endpoints will reject requests until Firebase env vars are set.");
@@ -47,7 +50,13 @@ app.use(
   cors({
     credentials: true,
     origin(origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
+      // Browsers send Origin for CORS requests; in development we still allow
+      // no-origin requests for local tooling and direct API testing.
+      if (!origin && !isProduction) {
+        return callback(null, true);
+      }
+
+      if (origin && allowedOrigins.includes(origin)) {
         return callback(null, true);
       }
       return callback(new Error("CORS policy blocked this origin."));
@@ -60,7 +69,8 @@ app.use(express.urlencoded({ extended: true, limit: "100kb" }));
 
 connectDB();
 
-const chatRateLimiter = createRateLimiter({ windowMs: 60 * 1000, maxRequests: 30 });
+const authChatRateLimiter = createRateLimiter({ windowMs: 60 * 1000, maxRequests: 30 });
+const anonymousChatRateLimiter = createRateLimiter({ windowMs: 60 * 1000, maxRequests: 12 });
 
 const hfToken = process.env.HUGGING_FACE_API_KEY;
 if (!hfToken) {
@@ -174,8 +184,22 @@ When a user asks something unrelated to farming, politely redirect them to farmi
 
 app.use("/api/auth", authRoutes);
 app.use("/api/farm", farmRoutes);
+app.use("/api/weather", weatherRoutes);
+app.use("/api/alerts", alertsRoutes);
 
-app.post("/api/chat", chatContextMiddleware, chatRateLimiter, sanitizeChatInput, async (req, res) => {
+app.post("/api/chat", chatContextMiddleware, sanitizeChatInput, async (req, res, next) => {
+  if (req.chatContext?.authState === "invalid-token") {
+    return res.status(401).json({
+      error: "Authentication token is invalid or expired.",
+    });
+  }
+
+  if (req.chatContext?.userId) {
+    return authChatRateLimiter(req, res, next);
+  }
+
+  return anonymousChatRateLimiter(req, res, next);
+}, async (req, res) => {
   const requestedLanguage = req.body?.language === "en" ? "en" : "hi";
   const userId = req.chatContext?.userId || null;
   const conversationId = req.body?.conversationId || randomUUID();
