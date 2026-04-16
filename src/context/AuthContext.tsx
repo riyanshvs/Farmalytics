@@ -13,6 +13,25 @@ import { firebaseAuth, getFirebaseClientConfigError, isFirebaseClientReady } fro
 
 const ONBOARDING_COMPLETED_KEY = "onboardingCompleted";
 const AUTH_INIT_TIMEOUT_MS = 8000;
+const AUTH_REQUEST_TIMEOUT_MS = 12000;
+
+const withTimeout = async <T,>(promise: Promise<T>, timeoutMs: number, timeoutMessage: string) => {
+  let timeoutId: number | undefined;
+
+  try {
+    const timeoutPromise = new Promise<T>((_, reject) => {
+      timeoutId = window.setTimeout(() => {
+        reject(new Error(timeoutMessage));
+      }, timeoutMs);
+    });
+
+    return await Promise.race([promise, timeoutPromise]);
+  } finally {
+    if (timeoutId !== undefined) {
+      window.clearTimeout(timeoutId);
+    }
+  }
+};
 
 const parseJsonArray = (value: string | null) => {
   if (!value) return [];
@@ -252,7 +271,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
 
     try {
-      const credential = await createUserWithEmailAndPassword(firebaseAuth, email.trim(), password);
+      const credential = await withTimeout(
+        createUserWithEmailAndPassword(firebaseAuth, email.trim(), password),
+        AUTH_REQUEST_TIMEOUT_MS,
+        "auth/request-timeout"
+      );
       if (name?.trim()) {
         await updateFirebaseProfile(credential.user, { displayName: name.trim() });
       }
@@ -269,6 +292,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         ? { success: true, onboardingCompleted: synced.onboardingCompleted }
         : { success: false, message: synced.message || "Registration failed" };
     } catch (error) {
+      if (error instanceof Error && error.message === "auth/request-timeout") {
+        return {
+          success: false,
+          message: "Registration request timed out. Please check your internet and try again.",
+        };
+      }
       return { success: false, message: mapFirebaseAuthError(error, "Registration failed") };
     }
   };
@@ -279,7 +308,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
 
     try {
-      const credential = await signInWithEmailAndPassword(firebaseAuth, email.trim(), password);
+      const credential = await withTimeout(
+        signInWithEmailAndPassword(firebaseAuth, email.trim(), password),
+        AUTH_REQUEST_TIMEOUT_MS,
+        "auth/request-timeout"
+      );
       const synced = await syncProfile();
       if (!synced.success) {
         const completed = applyFirebaseFallbackUser(credential.user);
@@ -289,6 +322,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         ? { success: true, onboardingCompleted: synced.onboardingCompleted }
         : { success: false, message: synced.message || "Login failed" };
     } catch (error) {
+      if (error instanceof Error && error.message === "auth/request-timeout") {
+        return {
+          success: false,
+          message: "Login request timed out. Please check your internet and try again.",
+        };
+      }
       return { success: false, message: mapFirebaseAuthError(error, "Login failed") };
     }
   };
