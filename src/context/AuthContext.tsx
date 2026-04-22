@@ -133,6 +133,7 @@ interface User {
   name?: string;
   language?: string;
   emailVerified?: boolean;
+  onboardingCompleted?: boolean;
 }
 
 interface AuthContextType {
@@ -187,19 +188,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const syncProfile = useCallback(async () => {
-    const result = await withTimeout(
-      api.auth.getProfile(),
-      PROFILE_SYNC_TIMEOUT_MS,
-      "auth/profile-sync-timeout"
-    ).catch(() => ({ success: false, message: "Profile sync timed out" }));
+    const result = await withTimeout(api.auth.getProfile(), PROFILE_SYNC_TIMEOUT_MS, "auth/profile-sync-timeout").catch(
+      () => null
+    );
 
-    if (!result.success || !result.user) {
+    if (!result?.user) {
       const firebaseUser = firebaseAuth.currentUser;
       if (!firebaseUser) {
         clearAuth();
         setUser(null);
         setOnboardingCompleted(false);
-        return { success: false as const, message: result.message };
+        return { success: false as const, message: "Profile sync failed" };
       }
 
       const completed = applyFirebaseFallbackUser(firebaseUser);
@@ -218,7 +217,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       void i18n.changeLanguage(userLanguage);
     }
 
-    const completed = await fetchOnboardingStatus();
+    const backendOnboardingCompleted =
+      typeof (result.user as User).onboardingCompleted === "boolean"
+        ? Boolean((result.user as User).onboardingCompleted)
+        : null;
+    const completed = backendOnboardingCompleted ?? (await fetchOnboardingStatus());
     setOnboardingCompleted(completed);
 
     return { success: true as const, onboardingCompleted: completed };

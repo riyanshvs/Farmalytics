@@ -1,6 +1,7 @@
 import express from "express";
 import { authMiddleware } from "../middleware/auth.js";
 import { fetchWeatherSnapshot, geocodeInIndia, buildWeatherAlerts } from "../services/weatherService.js";
+import { getNewsBundle } from "../services/newsService.js";
 import mongoose from "mongoose";
 import Farm from "../models/Farm.js";
 import AlertState from "../models/AlertState.js";
@@ -8,6 +9,18 @@ import AlertState from "../models/AlertState.js";
 const router = express.Router();
 
 const canUseDatabase = () => mongoose.connection.readyState === 1;
+
+const buildNewsBackedAlert = (item, fallback) => {
+  if (!item) return fallback;
+
+  return {
+    ...fallback,
+    title: item.title || fallback.title,
+    message: item.summary || fallback.message,
+    timestamp: item.publishedAt || fallback.timestamp,
+    actions: fallback.actions,
+  };
+};
 
 const isValidCoordinatePair = (lat, lon) =>
   Number.isFinite(lat) &&
@@ -22,7 +35,7 @@ const resolveLocationForAlerts = async (req) => {
   const lon = req.query?.lon ? Number(req.query.lon) : null;
 
   if (isValidCoordinatePair(lat, lon)) {
-    return { latitude: lat, longitude: lon, locationLabel: "Custom Location" };
+    return { latitude: lat, longitude: lon, locationLabel: "Custom Location", state: null, district: null };
   }
 
   if ((lat !== null || lon !== null) && !isValidCoordinatePair(lat, lon)) {
@@ -43,12 +56,14 @@ const resolveLocationForAlerts = async (req) => {
     latitude: geo.latitude,
     longitude: geo.longitude,
     locationLabel: geo.resolvedName,
+    state: state || null,
+    district: district || null,
   };
 };
 
 router.get("/", authMiddleware, async (req, res) => {
   try {
-    const { latitude, longitude, locationLabel } = await resolveLocationForAlerts(req);
+    const { latitude, longitude, locationLabel, state, district } = await resolveLocationForAlerts(req);
     const weather = await fetchWeatherSnapshot({
       latitude,
       longitude,
@@ -57,8 +72,18 @@ router.get("/", authMiddleware, async (req, res) => {
 
     const weatherAlerts = buildWeatherAlerts(weather, locationLabel);
 
+    const newsBundle = await getNewsBundle({
+      language: "en",
+      state,
+      district,
+      limit: 12,
+    }).catch(() => ({ news: [] }));
+
+    const marketNews = newsBundle.news?.find((item) => item.categoryKey === "market_update");
+    const policyNews = newsBundle.news?.find((item) => item.categoryKey === "policy");
+
     const advisoryAlerts = [
-      {
+      buildNewsBackedAlert(marketNews, {
         id: 201,
         type: "market",
         priority: "medium",
@@ -69,8 +94,8 @@ router.get("/", authMiddleware, async (req, res) => {
         isRead: false,
         actions: ["Check mandi prices", "Compare nearby markets"],
         icon: "market",
-      },
-      {
+      }),
+      buildNewsBackedAlert(policyNews, {
         id: 202,
         type: "government",
         priority: "low",
@@ -81,7 +106,7 @@ router.get("/", authMiddleware, async (req, res) => {
         isRead: false,
         actions: ["Check PM-KISAN status", "Verify crop insurance deadlines"],
         icon: "government",
-      },
+      }),
     ];
 
     const generatedAlerts = [...weatherAlerts, ...advisoryAlerts];
@@ -131,7 +156,7 @@ router.post("/read", authMiddleware, async (req, res) => {
     }
 
     if (!canUseDatabase() || !req.user?.userId) {
-      return res.json({ success: true, offline: true });
+      return res.json({ success: true, offline: true, degraded: true, degradedReason: "db_unavailable" });
     }
 
     await AlertState.findOneAndUpdate(
@@ -155,7 +180,7 @@ router.post("/dismiss", authMiddleware, async (req, res) => {
     }
 
     if (!canUseDatabase() || !req.user?.userId) {
-      return res.json({ success: true, offline: true });
+      return res.json({ success: true, offline: true, degraded: true, degradedReason: "db_unavailable" });
     }
 
     await AlertState.findOneAndUpdate(
@@ -177,7 +202,7 @@ router.post("/dismiss", authMiddleware, async (req, res) => {
 router.post("/reset", authMiddleware, async (req, res) => {
   try {
     if (!canUseDatabase() || !req.user?.userId) {
-      return res.json({ success: true, offline: true });
+      return res.json({ success: true, offline: true, degraded: true, degradedReason: "db_unavailable" });
     }
 
     await AlertState.findOneAndUpdate(

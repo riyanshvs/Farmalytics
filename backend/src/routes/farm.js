@@ -18,7 +18,7 @@ const farmAuthMiddleware = (req, res, next) => {
 router.get("/", farmAuthMiddleware, async (req, res) => {
   try {
     if (!canUseDatabase()) {
-      return res.json({ farm: null, offline: true });
+      return res.json({ farm: null, offline: true, degraded: true, degradedReason: "db_unavailable" });
     }
 
     let farm = await Farm.findOne({ userId: req.userId });
@@ -50,6 +50,8 @@ router.put("/", farmAuthMiddleware, validateFarmInput, async (req, res) => {
           offline: true,
         },
         offline: true,
+        degraded: true,
+        degradedReason: "db_unavailable",
       });
     }
 

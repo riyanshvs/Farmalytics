@@ -103,8 +103,8 @@
     "yourCrops": "Your Crops",
     "viewAll": "View All",
     "cropsPrice": "Crops & Price",
-    "weatherSoil": "Weather & Soil",
-    "newsReports": "News Reports",
+    "weatherSoil": "Weather",
+    "newsReports": "News",
     "alerts": "Alerts",
     "profile": "Profile",
     "settings": "Settings",
@@ -262,7 +262,7 @@
       "reminder4": "4. Harvest after at least 3 months"
     },
     "newsReports": {
-      "title": "News & Information Hub",
+      "title": "News",
       "subtitle": "Stay updated with the latest agricultural news, market trends, and farming insights",
       "searchPlaceholder": "Search news, reports, and updates...",
       "allCategories": "All Categories",

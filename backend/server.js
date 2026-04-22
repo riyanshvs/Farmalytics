@@ -13,6 +13,7 @@ import authRoutes from "./src/routes/auth.js";
 import farmRoutes from "./src/routes/farm.js";
 import weatherRoutes from "./src/routes/weather.js";
 import alertsRoutes from "./src/routes/alerts.js";
+import newsRoutes from "./src/routes/news.js";
 import { chatContextMiddleware } from "./src/middleware/chatContext.js";
 import { sanitizeChatInput, validateFeedbackInput } from "./src/middleware/validation.js";
 import { createRateLimiter } from "./src/middleware/rateLimit.js";
@@ -186,6 +187,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/farm", farmRoutes);
 app.use("/api/weather", weatherRoutes);
 app.use("/api/alerts", alertsRoutes);
+app.use("/api/news", newsRoutes);
 
 app.post("/api/chat", chatContextMiddleware, sanitizeChatInput, async (req, res, next) => {
   if (req.chatContext?.authState === "invalid-token") {
@@ -327,6 +329,7 @@ app.post("/api/chat", chatContextMiddleware, sanitizeChatInput, async (req, res,
       buildStructuredResponse({
         reply: fallbackReply,
         source: "fallback",
+        degraded: true,
         conversationId,
         entities: effectiveEntities,
         knowledge: await retrieveRelevantKnowledge({ query: req.body?.message || "", topK: 2, hf: null }),
@@ -391,7 +394,18 @@ app.post("/api/chat/feedback", chatContextMiddleware, validateFeedbackInput, asy
 });
 
 app.get("/health", (req, res) => {
-  res.json({ status: "OK", message: "Farmalytics backend is running." });
+  res.json({
+    status: "OK",
+    message: "Farmalytics backend is running.",
+    dependencies: {
+      mongo: {
+        readyState: mongoose.connection.readyState,
+        connected: mongoose.connection.readyState === 1,
+      },
+      firebaseAdminConfigured: isFirebaseAdminReady(),
+      huggingFaceConfigured: Boolean(hfToken),
+    },
+  });
 });
 
 const server = app.listen(PORT, () => {
@@ -400,6 +414,7 @@ const server = app.listen(PORT, () => {
   console.log(`PUT /api/auth/profile - Update authenticated profile`);
   console.log(`GET /api/farm - Get farm data`);
   console.log(`PUT /api/farm - Save farm data`);
+  console.log(`GET /api/news - Get agriculture news feed`);
   console.log(`POST /api/chat - Send message to Kissan Sahayk`);
   console.log(`GET /health - Check backend status`);
 });

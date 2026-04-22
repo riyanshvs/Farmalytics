@@ -1,3 +1,5 @@
+import { ensureRedisConnection, getRedisClient, shouldUseRedisForRateLimit } from "../config/redis.js";
+
 const buckets = new Map();
 const MAX_BUCKETS = 5000;
 
@@ -34,7 +36,28 @@ const getKey = (req) => {
 };
 
 export const createRateLimiter = ({ windowMs, maxRequests }) => {
-  return (req, res, next) => {
+  return async (req, res, next) => {
+    if (shouldUseRedisForRateLimit()) {
+      const connected = await ensureRedisConnection();
+      const client = connected ? getRedisClient() : null;
+      if (client) {
+        const key = `ratelimit:${getKey(req)}`;
+        const currentCount = await client.incr(key);
+        if (currentCount === 1) {
+          await client.pexpire(key, windowMs);
+        }
+        if (currentCount > maxRequests) {
+          const ttlMs = await client.pttl(key);
+          const retryAfter = Math.max(1, Math.ceil((ttlMs > 0 ? ttlMs : windowMs) / 1000));
+          return res.status(429).json({
+            error: "Too many requests. Please try again shortly.",
+            retryAfter,
+          });
+        }
+        return next();
+      }
+    }
+
     cleanupExpiredBuckets();
 
     const key = getKey(req);

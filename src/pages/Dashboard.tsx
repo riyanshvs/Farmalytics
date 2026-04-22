@@ -1,8 +1,9 @@
-import { Home, Sprout, Sun, FileText, AlertTriangle, User, Droplets, Wind, MessageCircle } from "lucide-react";
+import { Sun, Sprout, Droplets, Wind, MessageCircle } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import { PieChart, Pie, Cell, ResponsiveContainer, LineChart, Line } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Chatbot from "@/components/Chatbot";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/context/AuthContext";
@@ -17,33 +18,45 @@ interface FarmData {
 
 const LiveWeather = () => {
   const { t } = useTranslation();
-  const [weather, setWeather] = useState<{ temp?: number; condition?: string; wind?: number; humidity?: number; aqi?: number | null }>({});
+  const [weather, setWeather] = useState<{
+    temp?: number;
+    condition?: string;
+    wind?: number;
+    humidity?: number;
+    aqi?: number | null;
+  }>({});
 
   useEffect(() => {
     if (!navigator.geolocation) return;
-    navigator.geolocation.getCurrentPosition(async (pos) => {
-      const lat = pos.coords.latitude;
-      const lon = pos.coords.longitude;
-      try {
-        const response = await api.weather.getSummary({ lat, lon });
-        const current = response?.weather?.current;
-        setWeather({
-          temp: current?.temperature,
-          condition: current?.condition,
-          wind: current?.windSpeed,
-          humidity: current?.humidity,
-          aqi: current?.aqi ?? null,
-        });
-      } catch (e) {
-        console.error("Weather fetch error:", e);
+
+    navigator.geolocation.getCurrentPosition(
+      async (pos) => {
+        const lat = pos.coords.latitude;
+        const lon = pos.coords.longitude;
+
+        try {
+          const response = await api.weather.getSummary({ lat, lon });
+          const current = response?.weather?.current;
+          setWeather({
+            temp: current?.temperature,
+            condition: current?.condition,
+            wind: current?.windSpeed,
+            humidity: current?.humidity,
+            aqi: current?.aqi ?? null,
+          });
+        } catch (error) {
+          console.error("Weather fetch error:", error);
+        }
+      },
+      () => {
+        // Keep placeholders if location permission is denied.
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0,
       }
-    }, () => {
-      // No-op: keep placeholders if location permission is denied.
-    }, {
-      enableHighAccuracy: true,
-      timeout: 10000,
-      maximumAge: 0,
-    });
+    );
   }, []);
 
   return (
@@ -82,6 +95,7 @@ const LiveWeather = () => {
 const Dashboard = () => {
   const { t } = useTranslation();
   const { logout } = useAuth();
+  const navigate = useNavigate();
   const [chatOpen, setChatOpen] = useState(false);
   const [farmData, setFarmData] = useState<FarmData | null>(null);
 
@@ -96,7 +110,8 @@ const Dashboard = () => {
         console.warn("Failed to fetch farm data:", error);
       }
     };
-    fetchFarmData();
+
+    void fetchFarmData();
   }, []);
 
   const storedDist = typeof window !== "undefined" ? localStorage.getItem("farmDistributions") : null;
@@ -105,29 +120,19 @@ const Dashboard = () => {
     : farmData?.distributions || [];
 
   const palette = ["#8B5CF6", "#EF4444", "#06B6D4", "#F97316", "#3B82F6", "#10B981", "#A855F7", "#F59E0B"];
-
-  const fieldData = parsedDist.length > 0 ? parsedDist.map((d, i) => ({ name: d.name, value: d.area, color: palette[i % palette.length] })) : [
-    { name: "Potato", value: 32.22, color: "#8B5CF6" },
-    { name: "Tomato", value: 16.67, color: "#EF4444" },
-    { name: "Onion", value: 11.11, color: "#06B6D4" },
-    { name: "Cucumber", value: 22.22, color: "#F97316" },
-  ];
-
-  const defaultCrops = [
-    { name: "Potato", price: 10, change: 3.3, trend: [12, 15, 13, 18, 16, 20, 18], positive: true },
-    { name: "Onion", price: 13, change: 3.3, trend: [10, 12, 11, 15, 14, 17, 16], positive: true },
-    { name: "Tomato", price: 17, change: -9.8, trend: [20, 22, 21, 19, 18, 17, 17], positive: false },
-    { name: "Cucumber", price: 11, change: 3.3, trend: [8, 10, 9, 12, 11, 14, 13], positive: true },
-  ];
+  const fieldData =
+    parsedDist.length > 0
+      ? parsedDist.map((d, i) => ({ name: d.name, value: d.area, color: palette[i % palette.length] }))
+      : [
+          { name: "Potato", value: 32.22, color: "#8B5CF6" },
+          { name: "Tomato", value: 16.67, color: "#EF4444" },
+          { name: "Onion", value: 11.11, color: "#06B6D4" },
+          { name: "Cucumber", value: 22.22, color: "#F97316" },
+        ];
 
   const selectedNames = farmData?.selectedCrops || [];
-  const cropMap: Record<string, typeof defaultCrops[0]> = {};
-  defaultCrops.forEach((c) => (cropMap[c.name] = c));
-
-  const crops = (selectedNames.length > 0
-    ? selectedNames.map((name: string) => cropMap[name] ?? { name, price: 0, change: 0, trend: [0, 0, 0, 0, 0, 0, 0], positive: true })
-    : defaultCrops
-  );
+  const crops = selectedNames.length > 0 ? selectedNames : fieldData.map((item) => item.name);
+  const distributionMap = Object.fromEntries(parsedDist.map((item) => [item.name, item.area]));
 
   return (
     <div className="p-4 md:p-6">
@@ -142,28 +147,10 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <Card className="p-5">
             <h3 className="text-lg font-semibold mb-4">{t("dashboard.weather")}</h3>
             <LiveWeather />
-          </Card>
-
-          <Card className="p-5">
-            <h3 className="text-lg font-semibold mb-4">{t("dashboard.soil")}</h3>
-            <div className="space-y-4">
-              <div className="flex items-center gap-3">
-                <div className="text-2xl">🧪</div>
-                <div className="text-lg font-semibold text-primary">{t("pages.dashboard.soilNeutral")}</div>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="text-2xl">💧</div>
-                <div className="text-lg font-semibold text-primary">{t("pages.dashboard.soilHigh")}</div>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="text-2xl">💊</div>
-                <div className="text-lg font-semibold text-primary">{t("pages.dashboard.soilRequired")}</div>
-              </div>
-            </div>
           </Card>
 
           <Card className="p-5">
@@ -199,34 +186,35 @@ const Dashboard = () => {
         </div>
 
         <div>
-          <h2 className="text-2xl font-bold mb-6">{t("dashboard.yourCrops")}</h2>
+          <div className="mb-6 flex items-center justify-between gap-4">
+            <h2 className="text-2xl font-bold">{t("dashboard.yourCrops")}</h2>
+            <Button onClick={() => navigate("/crops-price")} variant="outline">
+              {t("pages.cropsPrice.openMarketView", { defaultValue: "Open crop market view" })}
+            </Button>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
             {crops.map((crop) => (
-              <Card key={crop.name} className="p-5">
+              <Card key={crop} className="p-5">
                 <div className="w-20 h-20 mx-auto mb-4 bg-muted rounded-full flex items-center justify-center text-3xl">
-                  {crop.name === "Potato" && "🥔"}
-                  {crop.name === "Onion" && "🧅"}
-                  {crop.name === "Tomato" && "🍅"}
-                  {crop.name === "Cucumber" && "🥒"}
+                  <Sprout className="h-8 w-8 text-emerald-600" />
                 </div>
-                <h3 className="text-center text-lg font-semibold mb-2">{crop.name}</h3>
-                <div className="text-center text-xl font-bold mb-1">
-                  {crop.price}<span className="text-sm text-muted-foreground">/kg</span>
+                <h3 className="text-center text-lg font-semibold mb-2">{crop}</h3>
+                <div className="text-center text-sm font-medium text-muted-foreground mb-3">
+                  {distributionMap[crop]
+                    ? t("pages.cropsPrice.areaValue", {
+                        defaultValue: "{{value}} acres assigned",
+                        value: distributionMap[crop],
+                      })
+                    : t("pages.cropsPrice.areaPending", {
+                        defaultValue: "Area details available after onboarding sync",
+                      })}
                 </div>
-                <div className={`text-center text-sm font-semibold mb-3 ${crop.positive ? "text-green-600" : "text-orange-600"}`}>
-                  {crop.positive ? "+" : ""}{crop.change}%
+                <div className="rounded-xl border border-dashed border-amber-300 bg-amber-50 px-3 py-4 text-center text-sm text-amber-900">
+                  {t("pages.cropsPrice.livePending", {
+                    defaultValue: "Live mandi prices will appear here after market API integration is connected.",
+                  })}
                 </div>
-                <ResponsiveContainer width="100%" height={40}>
-                  <LineChart data={crop.trend.map((val, i) => ({ value: val }))}>
-                    <Line
-                      type="monotone"
-                      dataKey="value"
-                      stroke={crop.positive ? "#10B981" : "#F97316"}
-                      strokeWidth={2}
-                      dot={false}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
               </Card>
             ))}
           </div>
@@ -257,7 +245,7 @@ const Dashboard = () => {
             className="absolute right-2 top-2 z-10"
             aria-label="Close chatbot panel"
           >
-            ✕
+            ×
           </Button>
           <div className="h-full pt-2">
             <Chatbot />

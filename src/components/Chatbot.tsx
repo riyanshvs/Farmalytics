@@ -5,6 +5,8 @@ import { MessageCircle, Send, Loader, ThumbsUp, ThumbsDown } from "lucide-react"
 import { useTranslation } from "react-i18next";
 import { api } from "@/services/api";
 import { toast } from "sonner";
+import { useQuery } from "@tanstack/react-query";
+import queryKeys from "@/lib/queryKeys";
 
 interface Message {
   id: string;
@@ -33,41 +35,35 @@ export const Chatbot = () => {
   const hasLocalInteractionRef = useRef(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const loadHistory = async (savedConversationId: string, retries = 2) => {
-    setHistoryLoading(true);
-    setHistoryError(false);
-
-    for (let attempt = 0; attempt <= retries; attempt += 1) {
-      try {
-        const history = await api.chat.getHistory(savedConversationId);
-        if (Array.isArray(history) && history.length > 0 && !hasLocalInteractionRef.current) {
-          setMessages(
-            history.map((item: HistoryMessage, idx: number) => ({
-              id: `${item.createdAt || Date.now()}-${idx}`,
-              type: item.role === "assistant" ? "assistant" : "user",
-              text: item.message || "",
-              timestamp: item.createdAt ? new Date(item.createdAt) : new Date(),
-            }))
-          );
-        }
-        setHistoryLoading(false);
-        return;
-      } catch {
-        if (attempt === retries) {
-          setHistoryError(true);
-          setHistoryLoading(false);
-        }
-      }
-    }
-  };
-
   useEffect(() => {
     const savedConversationId = localStorage.getItem("chatConversationId");
     if (savedConversationId) {
       setConversationId(savedConversationId);
-      loadHistory(savedConversationId);
     }
   }, []);
+
+  const historyQuery = useQuery({
+    queryKey: conversationId ? queryKeys.chatHistory(conversationId) : ["chatHistory", "none"],
+    queryFn: () => api.chat.getHistory(conversationId || ""),
+    enabled: Boolean(conversationId),
+    retry: 2,
+  });
+
+  useEffect(() => {
+    setHistoryLoading(historyQuery.isLoading);
+    setHistoryError(historyQuery.isError);
+    const history = historyQuery.data;
+    if (Array.isArray(history) && history.length > 0 && !hasLocalInteractionRef.current) {
+      setMessages(
+        history.map((item: HistoryMessage, idx: number) => ({
+          id: `${item.createdAt || Date.now()}-${idx}`,
+          type: item.role === "assistant" ? "assistant" : "user",
+          text: item.message || "",
+          timestamp: item.createdAt ? new Date(item.createdAt) : new Date(),
+        }))
+      );
+    }
+  }, [historyQuery.data, historyQuery.isError, historyQuery.isLoading]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -124,13 +120,17 @@ export const Chatbot = () => {
   const submitFeedback = async (messageId: string, helpful: boolean) => {
     if (!conversationId) return;
 
-    const result = await api.chat.submitFeedback({
-      conversationId,
-      messageId,
-      helpful,
-    });
-
-    if (!result?.success) {
+    try {
+      const result = await api.chat.submitFeedback({
+        conversationId,
+        messageId,
+        helpful,
+      });
+      if (!result?.success) {
+        toast.error(t("chatbot.feedbackSaveFailed"));
+        return;
+      }
+    } catch {
       toast.error(t("chatbot.feedbackSaveFailed"));
       return;
     }
@@ -159,7 +159,7 @@ export const Chatbot = () => {
       <div className="flex-1 overflow-y-auto mb-4 space-y-3 min-h-0">
         {historyError && !historyLoading && (
           <div className="flex justify-center py-1">
-            <Button variant="outline" size="sm" className="text-xs" onClick={() => conversationId && loadHistory(conversationId)}>
+            <Button variant="outline" size="sm" className="text-xs" onClick={() => void historyQuery.refetch()}>
               {t("chatbot.retryLoadHistory")}
             </Button>
           </div>

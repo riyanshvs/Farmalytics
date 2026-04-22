@@ -25,7 +25,15 @@ const Alerts = lazy(() => import("./pages/Alerts"));
 const Profile = lazy(() => import("./pages/Profile"));
 const Layout = lazy(() => import("./components/Layout"));
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      staleTime: 60_000,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const AppLoadingScreen = () => {
   const { t } = useTranslation();
@@ -208,7 +216,7 @@ const App = () => (
                   }
                 />
                 <Route
-                  path="/weather-soil"
+                  path="/weather"
                   element={
                     <ProtectedRoute>
                       <Layout>
@@ -218,7 +226,7 @@ const App = () => (
                   }
                 />
                 <Route
-                  path="/news-reports"
+                  path="/news"
                   element={
                     <ProtectedRoute>
                       <Layout>
@@ -247,6 +255,8 @@ const App = () => (
                     </ProtectedRoute>
                   }
                 />
+                <Route path="/weather-soil" element={<Navigate to="/weather" replace />} />
+                <Route path="/news-reports" element={<Navigate to="/news" replace />} />
 
                 <Route path="*" element={<NotFound />} />
               </Routes>

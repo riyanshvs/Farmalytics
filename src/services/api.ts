@@ -41,6 +41,23 @@ const authFetch = async (url: string, init?: RequestInit) => {
   }
 };
 
+const parseJsonSafe = async <T>(res: Response): Promise<T | null> => {
+  try {
+    return (await res.json()) as T;
+  } catch {
+    return null;
+  }
+};
+
+const fetchJsonOrThrow = async <T>(url: string, init?: RequestInit, fallbackMessage = "Request failed"): Promise<T> => {
+  const res = await authFetch(url, init);
+  const data = await parseJsonSafe<{ message?: string } & T>(res);
+  if (!res.ok) {
+    throw new Error(data?.message || `${fallbackMessage} (${res.status})`);
+  }
+  return (data || ({} as T)) as T;
+};
+
 const getChatFallbackReply = (message: string, language: string) => {
   const input = message.toLowerCase();
   const isEnglish = language === "en";
@@ -72,56 +89,43 @@ const getChatFallbackReply = (message: string, language: string) => {
 export const api = {
   auth: {
     getProfile: async () => {
-      try {
-        const res = await authFetch(`${API_URL}/auth/me`);
-        const data = await res.json();
-
-        if (!res.ok) {
-          return { success: false, message: data?.message || "Failed to get profile" };
-        }
-
-        return { success: true, user: data.user };
-      } catch {
-        return { success: false, message: "Failed to get profile" };
-      }
+      const data = await fetchJsonOrThrow<{ user: Record<string, unknown> }>(
+        `${API_URL}/auth/me`,
+        undefined,
+        "Failed to get profile"
+      );
+      return { user: data.user };
     },
 
     updateProfile: async (data: { name?: string; language?: string }) => {
-      try {
-        const res = await authFetch(`${API_URL}/auth/profile`, {
+      const result = await fetchJsonOrThrow<{ user?: Record<string, unknown> }>(
+        `${API_URL}/auth/profile`,
+        {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(data),
-        });
+        },
+        "Failed to update profile"
+      );
 
-        const result = await res.json();
-        if (!res.ok) {
-          return { success: false, message: result?.message || "Failed to update profile" };
-        }
-
-        if (result?.user) {
-          localStorage.setItem(USER_DATA_KEY, JSON.stringify(result.user));
-        }
-
-        return { success: true, user: result.user };
-      } catch {
-        return { success: false, message: "Failed to update profile" };
+      if (result?.user) {
+        localStorage.setItem(USER_DATA_KEY, JSON.stringify(result.user));
       }
+
+      return { user: result.user };
     },
 
     logout: async () => {
-      try {
-        const res = await authFetch(`${API_URL}/auth/logout`, {
+      await fetchJsonOrThrow<{ success?: boolean }>(
+        `${API_URL}/auth/logout`,
+        {
           method: "POST",
-        });
-
-        const data = await res.json();
-        return { success: !!data?.success };
-      } catch {
-        return { success: false };
-      }
+        },
+        "Failed to logout"
+      );
+      return { success: true };
     },
   },
 
@@ -165,11 +169,7 @@ export const api = {
       if (params?.district) query.set("district", params.district);
 
       const suffix = query.toString() ? `?${query.toString()}` : "";
-      const res = await authFetch(`${API_URL}/weather/summary${suffix}`);
-      if (!res.ok) {
-        throw new Error("Failed to load weather summary");
-      }
-      return res.json();
+      return fetchJsonOrThrow(`${API_URL}/weather/summary${suffix}`, undefined, "Failed to load weather summary");
     },
   },
 
@@ -182,52 +182,45 @@ export const api = {
       if (params?.district) query.set("district", params.district);
 
       const suffix = query.toString() ? `?${query.toString()}` : "";
-      const res = await authFetch(`${API_URL}/alerts${suffix}`);
-      if (!res.ok) {
-        throw new Error("Failed to load alerts");
-      }
-      return res.json();
+      return fetchJsonOrThrow(`${API_URL}/alerts${suffix}`, undefined, "Failed to load alerts");
     },
 
     markRead: async (alertId: number) => {
-      const res = await authFetch(`${API_URL}/alerts/read`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      return fetchJsonOrThrow(
+        `${API_URL}/alerts/read`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ alertId }),
         },
-        body: JSON.stringify({ alertId }),
-      });
-
-      if (!res.ok) {
-        throw new Error("Failed to mark alert as read");
-      }
-      return res.json();
+        "Failed to mark alert as read"
+      );
     },
 
     dismiss: async (alertId: number) => {
-      const res = await authFetch(`${API_URL}/alerts/dismiss`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      return fetchJsonOrThrow(
+        `${API_URL}/alerts/dismiss`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ alertId }),
         },
-        body: JSON.stringify({ alertId }),
-      });
-
-      if (!res.ok) {
-        throw new Error("Failed to dismiss alert");
-      }
-      return res.json();
+        "Failed to dismiss alert"
+      );
     },
 
     resetState: async () => {
-      const res = await authFetch(`${API_URL}/alerts/reset`, {
-        method: "POST",
-      });
-
-      if (!res.ok) {
-        throw new Error("Failed to reset alert state");
-      }
-      return res.json();
+      return fetchJsonOrThrow(
+        `${API_URL}/alerts/reset`,
+        {
+          method: "POST",
+        },
+        "Failed to reset alert state"
+      );
     },
   },
 
@@ -253,11 +246,7 @@ export const api = {
       if (params?.forceRefresh) query.set("forceRefresh", "true");
 
       const suffix = query.toString() ? `?${query.toString()}` : "";
-      const res = await authFetch(`${API_URL}/news${suffix}`);
-      if (!res.ok) {
-        throw new Error("Failed to load news feed");
-      }
-      return res.json();
+      return fetchJsonOrThrow(`${API_URL}/news${suffix}`, undefined, "Failed to load news feed");
     },
   },
 
@@ -316,18 +305,18 @@ export const api = {
       helpful: boolean;
       comment?: string;
     }) => {
-      try {
-        const res = await authFetch(`${API_URL}/chat/feedback`, {
+      const result = await fetchJsonOrThrow<{ success?: boolean }>(
+        `${API_URL}/chat/feedback`,
+        {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(payload),
-        });
-        return res.json();
-      } catch {
-        return { success: false };
-      }
+        },
+        "Failed to submit chat feedback"
+      );
+      return result;
     },
   },
 };

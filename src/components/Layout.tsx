@@ -62,7 +62,7 @@ const SidebarContent = ({ showSettings = true, framed = false }: SidebarContentP
         </NavLink>
 
         <NavLink
-          to="/weather-soil"
+          to="/weather"
           className="flex items-center gap-3 px-3 py-3 rounded-lg text-foreground hover:text-primary transition-colors"
           activeClassName="font-semibold text-foreground underline underline-offset-4 decoration-2"
         >
@@ -71,7 +71,7 @@ const SidebarContent = ({ showSettings = true, framed = false }: SidebarContentP
         </NavLink>
 
         <NavLink
-          to="/news-reports"
+          to="/news"
           className="flex items-center gap-3 px-3 py-3 rounded-lg text-foreground hover:text-primary transition-colors"
           activeClassName="font-semibold text-foreground underline underline-offset-4 decoration-2"
         >

@@ -213,15 +213,15 @@ export const buildWeatherAlerts = (weather, locationLabel) => {
   if (alerts.length === 0) {
     alerts.push({
       id: 104,
-      type: "soil",
+      type: "weather",
       priority: "low",
       title: "Weather Stable",
-      message: "No major weather risks detected for today. Continue routine field monitoring.",
+      message: "No major weather risks detected for today. Continue planned field work and monitor the next forecast update.",
       location: locationLabel,
       timestamp: now,
       isRead: false,
-      actions: ["Monitor soil moisture", "Follow regular schedule"],
-      icon: "soil",
+      actions: ["Review the 24-hour forecast", "Proceed with routine field work"],
+      icon: "rain",
     });
   }
 

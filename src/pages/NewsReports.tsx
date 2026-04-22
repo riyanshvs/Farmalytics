@@ -21,6 +21,8 @@ import {
 import { useTranslation } from "react-i18next";
 import { api } from "@/services/api";
 import { safeJsonParse } from "@/lib/safeJson";
+import { useQuery } from "@tanstack/react-query";
+import queryKeys from "@/lib/queryKeys";
 
 type NewsCategory = "weather" | "market_update" | "technology" | "success_story" | "policy";
 type NewsPriority = "critical" | "high" | "medium" | "low";
@@ -39,15 +41,6 @@ type NewsItem = {
   url?: string;
 };
 
-type MarketReport = {
-  id: number;
-  title: string;
-  summary: string;
-  highlights: string[];
-  publishedAt: string;
-  downloadUrl?: string;
-};
-
 const NEWS_POLL_INTERVAL_MS = Number(import.meta.env.VITE_NEWS_POLL_INTERVAL_MS || 60000);
 
 const NewsReports = () => {
@@ -55,10 +48,6 @@ const NewsReports = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedPriority, setSelectedPriority] = useState("all");
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [lastUpdatedAt, setLastUpdatedAt] = useState<string | null>(null);
-  const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
   const [visibleNewsCount, setVisibleNewsCount] = useState(6);
 
   const language = useMemo(
@@ -83,15 +72,18 @@ const NewsReports = () => {
     }
   };
 
-  const handleRefresh = async (manualRefresh = false) => {
-    setIsLoading(true);
-    setErrorMessage("");
-
-    try {
-      const rawLocation = localStorage.getItem("userLocation");
-      const userLocation = safeJsonParse<{ state?: string; district?: string } | null>(rawLocation, null);
-
-      const response = await api.news.getAll({
+  const rawLocation = localStorage.getItem("userLocation");
+  const userLocation = safeJsonParse<{ state?: string; district?: string } | null>(rawLocation, null);
+  const newsQuery = useQuery({
+    queryKey: queryKeys.news({
+      language,
+      category: selectedCategory,
+      priority: selectedPriority,
+      state: userLocation?.state,
+      district: userLocation?.district,
+    }),
+    queryFn: () =>
+      api.news.getAll({
         language,
         category: selectedCategory as "all" | "weather" | "market_update" | "technology" | "success_story" | "policy",
         priority: selectedPriority as "all" | "critical" | "high" | "medium" | "low",
@@ -99,29 +91,13 @@ const NewsReports = () => {
         district: userLocation?.district,
         limit: 30,
         offset: 0,
-        forceRefresh: manualRefresh,
-      });
-
-      setNewsItems(Array.isArray(response?.news) ? response.news : []);
-      setLastUpdatedAt(response?.meta?.lastUpdatedAt || new Date().toISOString());
-      setVisibleNewsCount(6);
-    } catch (error) {
-      console.error("Failed to load live news feed:", error);
-      setErrorMessage(t("pages.newsReports.loadError"));
-    } finally {
-      setIsLoading(false);
-    }
-  };
+      }),
+    refetchInterval: NEWS_POLL_INTERVAL_MS,
+  });
 
   useEffect(() => {
-    void handleRefresh(false);
-
-    const intervalId = window.setInterval(() => {
-      void handleRefresh(false);
-    }, NEWS_POLL_INTERVAL_MS);
-
-    return () => window.clearInterval(intervalId);
-  }, [language, selectedCategory, selectedPriority]);
+    setVisibleNewsCount(6);
+  }, [selectedCategory, selectedPriority, language]);
 
   const handleLoadMore = () => {
     setVisibleNewsCount(prev => prev + 6);
@@ -156,6 +132,9 @@ const NewsReports = () => {
     }
   };
 
+  const newsItems = Array.isArray(newsQuery.data?.news) ? (newsQuery.data.news as NewsItem[]) : [];
+  const lastUpdatedAt = newsQuery.data?.meta?.lastUpdatedAt || null;
+  const errorMessage = newsQuery.isError ? t("pages.newsReports.loadError") : "";
   const filteredNews = newsItems.filter(news => {
     const matchesSearch = news.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          news.summary.toLowerCase().includes(searchTerm.toLowerCase());
@@ -218,8 +197,8 @@ const NewsReports = () => {
                     <SelectItem value="medium">{t("pages.newsReports.medium")}</SelectItem>
                   </SelectContent>
                 </Select>
-                <Button onClick={() => void handleRefresh(true)} disabled={isLoading} variant="outline" className="h-10 md:h-12 px-4 md:px-6">
-                  <RefreshCw className={`w-4 h-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
+                <Button onClick={() => void newsQuery.refetch()} disabled={newsQuery.isFetching} variant="outline" className="h-10 md:h-12 px-4 md:px-6">
+                  <RefreshCw className={`w-4 h-4 mr-2 ${newsQuery.isFetching ? 'animate-spin' : ''}`} />
                   <span className="hidden sm:inline">{t("pages.newsReports.refresh")}</span>
                 </Button>
               </div>
@@ -232,6 +211,11 @@ const NewsReports = () => {
                     {t("pages.newsReports.lastUpdated")} {formatDate(lastUpdatedAt)}
                   </p>
                 )}
+              </div>
+            )}
+            {newsQuery.data?.meta?.cache?.stale && (
+              <div className="mt-2 rounded-lg border border-amber-300 bg-amber-50 p-2 text-sm text-amber-800">
+                News is served from stale fallback cache due to upstream API issues.
               </div>
             )}
           </div>

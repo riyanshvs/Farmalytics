@@ -1,3 +1,5 @@
+import { ensureRedisConnection, getRedisClient, shouldUseRedisForCache } from "../config/redis.js";
+
 const GNEWS_BASE_URL = process.env.GNEWS_BASE_URL || "https://gnews.io/api/v4";
 const NEWS_PROVIDER = String(process.env.NEWS_PROVIDER || "auto").toLowerCase();
 
@@ -21,6 +23,7 @@ const NEWS_CACHE_TTL_MS = Number(process.env.NEWS_CACHE_TTL_MS || 300000);
 const NEWS_DEFAULT_LIMIT = Number(process.env.NEWS_DEFAULT_LIMIT || 24);
 
 const memoryCache = new Map();
+const REDIS_CACHE_PREFIX = "news:bundle:";
 
 const getNow = () => Date.now();
 const hasScraperConfigured = () => Boolean(SCRAPER_NEWS_API_URL);
@@ -630,6 +633,32 @@ const fetchLiveNewsBundle = async ({ language, state, district, limit }) => {
 export const getNewsBundle = async (params = {}) => {
   const cacheKey = buildCacheKey(params);
   const forceRefresh = params.forceRefresh === true;
+  const useRedis = shouldUseRedisForCache();
+
+  if (useRedis && !forceRefresh) {
+    const connected = await ensureRedisConnection();
+    const client = connected ? getRedisClient() : null;
+    if (client) {
+      const raw = await client.get(`${REDIS_CACHE_PREFIX}${cacheKey}`);
+      if (raw) {
+        try {
+          const payload = JSON.parse(raw);
+          return {
+            ...payload,
+            cache: {
+              hit: true,
+              stale: false,
+              ttlMs: NEWS_CACHE_TTL_MS,
+              provider: "redis",
+            },
+          };
+        } catch {
+          // Ignore malformed cache payload and rebuild fresh payload below.
+        }
+      }
+    }
+  }
+
   const existing = memoryCache.get(cacheKey);
 
   if (!forceRefresh && isCacheFresh(existing)) {
@@ -639,12 +668,26 @@ export const getNewsBundle = async (params = {}) => {
         hit: true,
         stale: false,
         ttlMs: NEWS_CACHE_TTL_MS,
+        provider: "memory",
       },
     };
   }
 
   try {
     const payload = await fetchLiveNewsBundle(params);
+    if (useRedis) {
+      const connected = await ensureRedisConnection();
+      const client = connected ? getRedisClient() : null;
+      if (client) {
+        await client.set(
+          `${REDIS_CACHE_PREFIX}${cacheKey}`,
+          JSON.stringify(payload),
+          "PX",
+          NEWS_CACHE_TTL_MS
+        );
+      }
+    }
+
     memoryCache.set(cacheKey, {
       createdAt: getNow(),
       payload,
@@ -656,6 +699,7 @@ export const getNewsBundle = async (params = {}) => {
         hit: false,
         stale: false,
         ttlMs: NEWS_CACHE_TTL_MS,
+        provider: useRedis ? "redis" : "memory",
       },
     };
   } catch (error) {
@@ -666,6 +710,7 @@ export const getNewsBundle = async (params = {}) => {
           hit: true,
           stale: true,
           ttlMs: NEWS_CACHE_TTL_MS,
+          provider: "memory",
         },
       };
     }
