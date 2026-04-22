@@ -284,7 +284,10 @@
       "adjustFilters": "Try adjusting your search or filter criteria.",
       "loadMoreNews": "Load More News",
       "download": "Download",
-      "keyHighlights": "Key Highlights:"
+      "keyHighlights": "Key Highlights:",
+      "loadError": "Unable to load live news right now. Showing the latest available items.",
+      "lastUpdated": "Last updated:",
+      "linkUnavailable": "Link Unavailable"
     },
     "alerts": {
       "title": "Alerts & Notifications",

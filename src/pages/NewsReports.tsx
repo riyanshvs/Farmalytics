@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,7 +7,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Newspaper,
-  TrendingUp,
   Calendar,
   Search,
   RefreshCw,
@@ -21,121 +20,112 @@ import {
   ChevronDown
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { api } from "@/services/api";
+import { safeJsonParse } from "@/lib/safeJson";
 
-// Mock news data - in production, this would come from backend API
-const newsData = [
-  {
-    id: 1,
-    title: "Maharashtra Government Announces New MSP Rates for Kharif Crops",
-    summary: "The Maharashtra government has increased Minimum Support Prices (MSP) for major kharif crops including cotton, soybean, and tur dal by 5-7% to benefit farmers.",
-    content: "The state government has revised MSP rates to ensure better returns for farmers. Cotton MSP increased to Rs6,050 per quintal, soybean to Rs4,250, and tur dal to Rs6,800. This move is expected to benefit over 2 million farmers across the state.",
-    category: "Government Policy",
-    priority: "high",
-    publishedAt: "2024-03-08T10:30:00Z",
-    author: "Agriculture Ministry",
-    tags: ["MSP", "Kharif", "Maharashtra"],
-    readTime: 3,
-    image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=400&h=250&fit=crop"
-  },
-  {
-    id: 2,
-    title: "Heavy Rains Expected in Western Maharashtra This Week",
-    summary: "Meteorological department predicts heavy rainfall in Konkan and Western Maharashtra regions, affecting farming activities.",
-    content: "The India Meteorological Department (IMD) has forecasted heavy to very heavy rainfall in the Konkan region and parts of Western Maharashtra from March 10-15. Farmers are advised to take necessary precautions for crop protection and drainage management.",
-    category: "Weather Alert",
-    priority: "critical",
-    publishedAt: "2024-03-08T08:15:00Z",
-    author: "IMD Maharashtra",
-    tags: ["Weather", "Rainfall", "Maharashtra"],
-    readTime: 2,
-    image: "https://images.unsplash.com/photo-1534274988757-a28bf1a57c17?w=400&h=250&fit=crop"
-  },
-  {
-    id: 3,
-    title: "Organic Farming Adoption Increases by 25% in Pune District",
-    summary: "Pune district sees significant rise in organic farming practices with government support and farmer training programs.",
-    content: "According to recent data from the Department of Agriculture, Pune district has witnessed a 25% increase in organic farming adoption. Over 15,000 hectares of land are now under organic cultivation, with major crops including vegetables, fruits, and spices.",
-    category: "Success Story",
-    priority: "medium",
-    publishedAt: "2024-03-07T16:45:00Z",
-    author: "Pune Agriculture Office",
-    tags: ["Organic Farming", "Pune", "Success"],
-    readTime: 4,
-    image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&h=250&fit=crop"
-  },
-  {
-    id: 4,
-    title: "New Pest Control Technology Introduced in Vidarbha Region",
-    summary: "Advanced drone-based pest monitoring system launched to help cotton farmers combat bollworm infestations.",
-    content: "The Central Institute for Cotton Research has introduced a cutting-edge drone technology for pest monitoring in Vidarbha. The system uses AI-powered cameras to detect early signs of pest attacks, enabling timely intervention and reducing pesticide use by up to 40%.",
-    category: "Technology",
-    priority: "medium",
-    publishedAt: "2024-03-07T14:20:00Z",
-    author: "CICR Nagpur",
-    tags: ["Technology", "Pest Control", "Cotton"],
-    readTime: 5,
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=250&fit=crop"
-  },
-  {
-    id: 5,
-    title: "Market Update: Onion Prices Surge Due to Export Demand",
-    summary: "Onion prices in major markets have increased by 15-20% driven by strong export demand and reduced arrivals.",
-    content: "Onion prices have shown significant upward movement in key markets. Lasalgaon mandi reported prices of Rs2,800-3,200 per quintal, while Pune market saw rates of Rs3,000-3,400. The increase is attributed to higher export orders and lower-than-expected arrivals from producing regions.",
-    category: "Market Update",
-    priority: "high",
-    publishedAt: "2024-03-07T12:00:00Z",
-    author: "Agri Market Intelligence",
-    tags: ["Onion", "Prices", "Export"],
-    readTime: 3,
-    image: "https://images.unsplash.com/photo-1618375569909-3c8616cf09ae?w=400&h=250&fit=crop"
-  }
-];
+type NewsCategory = "weather" | "market_update" | "technology" | "success_story" | "policy";
+type NewsPriority = "critical" | "high" | "medium" | "low";
 
-const marketReports = [
-  {
-    id: 1,
-    title: "Weekly Agricultural Commodity Report",
-    summary: "Comprehensive analysis of major crop prices and market trends for the week ending March 8, 2024.",
-    highlights: [
-      "Cotton prices stable at Rs6,000-6,200/quintal",
-      "Turmeric shows 8% price increase",
-      "Soybean arrivals increase by 15%",
-      "Groundnut prices remain firm"
-    ],
-    publishedAt: "2024-03-08T09:00:00Z",
-    downloadUrl: "#"
-  },
-  {
-    id: 2,
-    title: "Monthly Crop Production Report - February 2024",
-    summary: "Detailed production statistics and yield analysis for major crops across Maharashtra.",
-    highlights: [
-      "Sugarcane production up by 12%",
-      "Cotton yield exceeds expectations",
-      "Vegetable production shows mixed trends",
-      "Rice procurement targets achieved"
-    ],
-    publishedAt: "2024-03-01T10:00:00Z",
-    downloadUrl: "#"
-  }
-];
+type NewsItem = {
+  id: number;
+  title: string;
+  summary: string;
+  categoryKey: NewsCategory;
+  priority: NewsPriority;
+  publishedAt: string;
+  author: string;
+  tags?: string[];
+  readTime?: number;
+  image?: string;
+  url?: string;
+};
+
+type MarketReport = {
+  id: number;
+  title: string;
+  summary: string;
+  highlights: string[];
+  publishedAt: string;
+  downloadUrl?: string;
+};
+
+const NEWS_POLL_INTERVAL_MS = Number(import.meta.env.VITE_NEWS_POLL_INTERVAL_MS || 60000);
 
 const NewsReports = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [activeTab, setActiveTab] = useState("news");
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedPriority, setSelectedPriority] = useState("all");
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [lastUpdatedAt, setLastUpdatedAt] = useState<string | null>(null);
+  const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
+  const [marketReports, setMarketReports] = useState<MarketReport[]>([]);
   const [visibleNewsCount, setVisibleNewsCount] = useState(6);
 
-  const handleRefresh = async () => {
-    setIsLoading(true);
-    // In production, this would call backend API to refresh news
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1500);
+  const language = useMemo(
+    () => (i18n.language?.toLowerCase().startsWith("hi") ? "hi" : "en"),
+    [i18n.language]
+  );
+
+  const locale = language === "hi" ? "hi-IN" : "en-IN";
+
+  const getCategoryLabel = (categoryKey: NewsCategory) => {
+    switch (categoryKey) {
+      case "weather":
+        return t("pages.newsReports.categoryWeatherAlert");
+      case "market_update":
+        return t("pages.newsReports.categoryMarketUpdate");
+      case "technology":
+        return t("pages.newsReports.categoryTechnology");
+      case "success_story":
+        return t("pages.newsReports.categorySuccessStory");
+      default:
+        return t("pages.newsReports.categoryGovernmentPolicy");
+    }
   };
+
+  const handleRefresh = async (manualRefresh = false) => {
+    setIsLoading(true);
+    setErrorMessage("");
+
+    try {
+      const rawLocation = localStorage.getItem("userLocation");
+      const userLocation = safeJsonParse<{ state?: string; district?: string } | null>(rawLocation, null);
+
+      const response = await api.news.getAll({
+        language,
+        category: selectedCategory as "all" | "weather" | "market_update" | "technology" | "success_story" | "policy",
+        priority: selectedPriority as "all" | "critical" | "high" | "medium" | "low",
+        state: userLocation?.state,
+        district: userLocation?.district,
+        limit: 30,
+        offset: 0,
+        forceRefresh: manualRefresh,
+      });
+
+      setNewsItems(Array.isArray(response?.news) ? response.news : []);
+      setMarketReports(Array.isArray(response?.marketReports) ? response.marketReports : []);
+      setLastUpdatedAt(response?.meta?.lastUpdatedAt || new Date().toISOString());
+      setVisibleNewsCount(6);
+    } catch (error) {
+      console.error("Failed to load live news feed:", error);
+      setErrorMessage(t("pages.newsReports.loadError"));
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    void handleRefresh(false);
+
+    const intervalId = window.setInterval(() => {
+      void handleRefresh(false);
+    }, NEWS_POLL_INTERVAL_MS);
+
+    return () => window.clearInterval(intervalId);
+  }, [language, selectedCategory, selectedPriority]);
 
   const handleLoadMore = () => {
     setVisibleNewsCount(prev => prev + 6);
@@ -143,7 +133,7 @@ const NewsReports = () => {
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-IN', {
+    return date.toLocaleDateString(locale, {
       day: 'numeric',
       month: 'short',
       year: 'numeric',
@@ -170,10 +160,10 @@ const NewsReports = () => {
     }
   };
 
-  const filteredNews = newsData.filter(news => {
+  const filteredNews = newsItems.filter(news => {
     const matchesSearch = news.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          news.summary.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === 'all' || news.category === selectedCategory;
+    const matchesCategory = selectedCategory === 'all' || news.categoryKey === selectedCategory;
     const matchesPriority = selectedPriority === 'all' || news.priority === selectedPriority;
     return matchesSearch && matchesCategory && matchesPriority;
   });
@@ -215,11 +205,10 @@ const NewsReports = () => {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">{t("pages.newsReports.allCategories")}</SelectItem>
-                    <SelectItem value="Government Policy">{t("pages.newsReports.categoryGovernmentPolicy")}</SelectItem>
-                    <SelectItem value="Weather Alert">{t("pages.newsReports.categoryWeatherAlert")}</SelectItem>
-                    <SelectItem value="Market Update">{t("pages.newsReports.categoryMarketUpdate")}</SelectItem>
-                    <SelectItem value="Technology">{t("pages.newsReports.categoryTechnology")}</SelectItem>
-                    <SelectItem value="Success Story">{t("pages.newsReports.categorySuccessStory")}</SelectItem>
+                    <SelectItem value="weather">{t("pages.newsReports.categoryWeatherAlert")}</SelectItem>
+                    <SelectItem value="market_update">{t("pages.newsReports.categoryMarketUpdate")}</SelectItem>
+                    <SelectItem value="technology">{t("pages.newsReports.categoryTechnology")}</SelectItem>
+                    <SelectItem value="success_story">{t("pages.newsReports.categorySuccessStory")}</SelectItem>
                   </SelectContent>
                 </Select>
                 <Select value={selectedPriority} onValueChange={setSelectedPriority}>
@@ -233,12 +222,22 @@ const NewsReports = () => {
                     <SelectItem value="medium">{t("pages.newsReports.medium")}</SelectItem>
                   </SelectContent>
                 </Select>
-                <Button onClick={handleRefresh} disabled={isLoading} variant="outline" className="h-10 md:h-12 px-4 md:px-6">
+                <Button onClick={() => void handleRefresh(true)} disabled={isLoading} variant="outline" className="h-10 md:h-12 px-4 md:px-6">
                   <RefreshCw className={`w-4 h-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
                   <span className="hidden sm:inline">{t("pages.newsReports.refresh")}</span>
                 </Button>
               </div>
             </div>
+            {(errorMessage || lastUpdatedAt) && (
+              <div className="mt-3 text-sm text-muted-foreground">
+                {errorMessage && <p>{errorMessage}</p>}
+                {lastUpdatedAt && (
+                  <p>
+                    {t("pages.newsReports.lastUpdated")} {formatDate(lastUpdatedAt)}
+                  </p>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -257,11 +256,18 @@ const NewsReports = () => {
               {visibleNews.map((news) => (
                 <Card key={news.id} className="overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 bg-white dark:bg-gray-800 border-0 shadow-lg">
                   <div className="relative">
-                    <img
-                      src={news.image}
-                      alt={news.title}
-                      className="w-full h-40 md:h-48 object-cover"
-                    />
+                    {news.image ? (
+                      <img
+                        src={news.image}
+                        alt={news.title}
+                        loading="lazy"
+                        className="w-full h-40 md:h-48 object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-40 md:h-48 bg-muted flex items-center justify-center">
+                        <Newspaper className="w-10 h-10 text-muted-foreground" />
+                      </div>
+                    )}
                     <div className="absolute top-3 left-3">
                       <Badge className={`${getPriorityColor(news.priority)} flex items-center gap-1 text-xs`}>
                         {getPriorityIcon(news.priority)}
@@ -270,7 +276,7 @@ const NewsReports = () => {
                     </div>
                   </div>
                   <CardHeader className="pb-2 md:pb-3 px-4 md:px-6 pt-4">
-                    <Badge variant="outline" className="w-fit mb-2 text-xs">{news.category}</Badge>
+                    <Badge variant="outline" className="w-fit mb-2 text-xs">{getCategoryLabel(news.categoryKey)}</Badge>
                     <CardTitle className="text-base md:text-lg leading-tight hover:text-green-600 cursor-pointer transition-colors line-clamp-2">
                       {news.title}
                     </CardTitle>
@@ -291,19 +297,29 @@ const NewsReports = () => {
                       <div className="flex items-center gap-1">
                         <Calendar className="w-3 h-3" />
                         <span className="hidden sm:inline">{formatDate(news.publishedAt)}</span>
-                        <span className="sm:hidden">{new Date(news.publishedAt).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' })}</span>
+                        <span className="sm:hidden">{new Date(news.publishedAt).toLocaleDateString(locale, { month: 'short', day: 'numeric' })}</span>
                       </div>
                     </div>
-                    <div className="flex flex-wrap gap-1 mb-3 md:mb-4">
-                      {news.tags.slice(0, 2).map((tag) => (
+                    <div className="flex flex-wrap gap-1 mb-3 md:mb-4 min-h-6">
+                      {(news.tags || []).slice(0, 2).map((tag) => (
                         <Badge key={tag} variant="secondary" className="text-xs">
                           #{tag}
                         </Badge>
                       ))}
                     </div>
-                    <Button variant="outline" size="sm" className="w-full text-sm">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="w-full text-sm"
+                      disabled={!news.url}
+                      onClick={() => {
+                        if (news.url) {
+                          window.open(news.url, "_blank", "noopener,noreferrer");
+                        }
+                      }}
+                    >
                       <ExternalLink className="w-3 h-3 md:w-4 md:h-4 mr-2" />
-                      {t("pages.newsReports.readMore")}
+                      {news.url ? t("pages.newsReports.readMore") : t("pages.newsReports.linkUnavailable")}
                     </Button>
                   </CardContent>
                 </Card>
@@ -343,9 +359,21 @@ const NewsReports = () => {
                           {formatDate(report.publishedAt)}
                         </div>
                       </div>
-                      <Button variant="secondary" size="sm" className="bg-white text-green-600 hover:bg-gray-100 self-start flex-shrink-0">
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        className="bg-white text-green-600 hover:bg-gray-100 self-start flex-shrink-0"
+                        disabled={!report.downloadUrl}
+                        onClick={() => {
+                          if (report.downloadUrl) {
+                            window.open(report.downloadUrl, "_blank", "noopener,noreferrer");
+                          }
+                        }}
+                      >
                         <ExternalLink className="w-4 h-4 mr-2" />
-                        <span className="hidden sm:inline">{t("pages.newsReports.download")}</span>
+                        <span className="hidden sm:inline">
+                          {report.downloadUrl ? t("pages.newsReports.download") : t("pages.newsReports.linkUnavailable")}
+                        </span>
                       </Button>
                     </div>
                   </CardHeader>

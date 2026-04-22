@@ -1,5 +1,6 @@
 const OPEN_METEO_FORECAST_URL = "https://api.open-meteo.com/v1/forecast";
 const OPEN_METEO_GEOCODE_URL = "https://geocoding-api.open-meteo.com/v1/search";
+const OPEN_METEO_AIR_QUALITY_URL = "https://air-quality-api.open-meteo.com/v1/air-quality";
 
 const weatherCodeMap = {
   0: "clear",
@@ -84,12 +85,29 @@ export const fetchWeatherSnapshot = async ({ latitude, longitude, timezone = "As
   url.searchParams.set("forecast_days", "5");
   url.searchParams.set("timezone", timezone);
 
-  const response = await fetch(url.toString());
-  if (!response.ok) {
+  const airQualityUrl = new URL(OPEN_METEO_AIR_QUALITY_URL);
+  airQualityUrl.searchParams.set("latitude", String(latitude));
+  airQualityUrl.searchParams.set("longitude", String(longitude));
+  airQualityUrl.searchParams.set("current", "us_aqi");
+  airQualityUrl.searchParams.set("timezone", timezone);
+
+  const [weatherResponse, airQualityResponse] = await Promise.all([
+    fetch(url.toString()),
+    fetch(airQualityUrl.toString()),
+  ]);
+
+  if (!weatherResponse.ok) {
     throw new Error("Weather request failed");
   }
 
-  const payload = await response.json();
+  const payload = await weatherResponse.json();
+
+  let aqi = null;
+  if (airQualityResponse.ok) {
+    const airQualityPayload = await airQualityResponse.json();
+    const parsedAqi = Number(airQualityPayload?.current?.us_aqi);
+    aqi = Number.isFinite(parsedAqi) ? parsedAqi : null;
+  }
 
   const current = payload?.current || {};
   const hourly = payload?.hourly || {};
@@ -124,6 +142,7 @@ export const fetchWeatherSnapshot = async ({ latitude, longitude, timezone = "As
       temperature: current.temperature_2m ?? null,
       humidity: current.relative_humidity_2m ?? null,
       windSpeed: current.wind_speed_10m ?? null,
+      aqi,
       precipitation: current.precipitation ?? null,
       weatherCode: current.weather_code ?? -1,
       condition: resolveCondition(current.weather_code ?? -1),

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode, useRef } from "react";
+import React, { createContext, useContext, useState, useEffect, ReactNode, useRef, useCallback } from "react";
 import { api, setAuth, clearAuth, getAuth, USER_DATA_KEY } from "@/services/api";
 import { useTranslation } from "react-i18next";
 import {
@@ -134,7 +134,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const { i18n } = useTranslation();
   const initializedRef = useRef(false);
 
-  const applyFirebaseFallbackUser = (firebaseUser: { uid: string; email: string | null; displayName: string | null; emailVerified: boolean }) => {
+  const applyFirebaseFallbackUser = useCallback((firebaseUser: { uid: string; email: string | null; displayName: string | null; emailVerified: boolean }) => {
     const { user: cachedUser } = getAuth();
     const fallbackUser = {
       id: (cachedUser as User | null)?.id || firebaseUser.uid,
@@ -157,9 +157,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const completed = getLocalOnboardingStatus();
     setOnboardingCompleted(completed);
     return completed;
-  };
+  }, [i18n]);
 
-  const syncProfile = async () => {
+  const fetchOnboardingStatus = useCallback(async () => {
+    return getLocalOnboardingStatus();
+  }, []);
+
+  const syncProfile = useCallback(async () => {
     const result = await api.auth.getProfile();
     if (!result.success || !result.user) {
       const firebaseUser = firebaseAuth.currentUser;
@@ -190,11 +194,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setOnboardingCompleted(completed);
 
     return { success: true as const, onboardingCompleted: completed };
-  };
-
-  const fetchOnboardingStatus = async () => {
-    return getLocalOnboardingStatus();
-  };
+  }, [applyFirebaseFallbackUser, fetchOnboardingStatus, i18n]);
 
   useEffect(() => {
     if (initializedRef.current) {
@@ -263,7 +263,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       window.clearTimeout(initTimeout);
       unsub();
     };
-  }, [i18n]);
+  }, [i18n, syncProfile]);
 
   const register = async (email: string, password: string, name?: string) => {
     if (!isFirebaseClientReady) {

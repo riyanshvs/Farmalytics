@@ -17,7 +17,7 @@ interface FarmData {
 
 const LiveWeather = () => {
   const { t } = useTranslation();
-  const [weather, setWeather] = useState<{ temp?: number; condition?: string; wind?: number; humidity?: number }>({});
+  const [weather, setWeather] = useState<{ temp?: number; condition?: string; wind?: number; humidity?: number; aqi?: number | null }>({});
 
   useEffect(() => {
     if (!navigator.geolocation) return;
@@ -25,14 +25,24 @@ const LiveWeather = () => {
       const lat = pos.coords.latitude;
       const lon = pos.coords.longitude;
       try {
-        const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
-        const json = await res.json();
-        if (json && json.current_weather) {
-          setWeather({ temp: json.current_weather.temperature, condition: json.current_weather.weathercode?.toString() || "", wind: json.current_weather.windspeed });
-        }
+        const response = await api.weather.getSummary({ lat, lon });
+        const current = response?.weather?.current;
+        setWeather({
+          temp: current?.temperature,
+          condition: current?.condition,
+          wind: current?.windSpeed,
+          humidity: current?.humidity,
+          aqi: current?.aqi ?? null,
+        });
       } catch (e) {
         console.error("Weather fetch error:", e);
       }
+    }, () => {
+      // No-op: keep placeholders if location permission is denied.
+    }, {
+      enableHighAccuracy: true,
+      timeout: 10000,
+      maximumAge: 0,
     });
   }, []);
 
@@ -56,7 +66,7 @@ const LiveWeather = () => {
           <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-1">
             <span className="text-xs font-bold text-primary-foreground">AQI</span>
           </div>
-          <div className="text-xs font-semibold">--</div>
+          <div className="text-xs font-semibold">{weather.aqi != null ? Math.round(weather.aqi) : "--"}</div>
         </div>
         <div className="text-center">
           <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-1">

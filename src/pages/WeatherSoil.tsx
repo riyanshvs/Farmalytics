@@ -16,6 +16,7 @@ type WeatherSummaryResponse = {
       temperature?: number;
       humidity?: number;
       windSpeed?: number;
+      aqi?: number | null;
       precipitation?: number;
       condition?: string;
     };
@@ -83,6 +84,24 @@ const formatTime = (iso?: string | null) => {
   }
 };
 
+const getLiveCoordinates = () =>
+  new Promise<{ lat: number; lon: number } | null>((resolve) => {
+    if (!navigator.geolocation) {
+      resolve(null);
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        resolve({ lat: position.coords.latitude, lon: position.coords.longitude });
+      },
+      () => {
+        resolve(null);
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+    );
+  });
+
 const WeatherSoil = () => {
   const { logout } = useAuth();
   const { t } = useTranslation();
@@ -97,8 +116,11 @@ const WeatherSoil = () => {
       try {
         const userLocationRaw = localStorage.getItem("userLocation");
         const userLocation = safeJsonParse<{ state?: string; district?: string } | null>(userLocationRaw, null);
+        const liveCoords = await getLiveCoordinates();
 
         const response = await api.weather.getSummary({
+          lat: liveCoords?.lat,
+          lon: liveCoords?.lon,
           state: userLocation?.state,
           district: userLocation?.district,
         });
@@ -225,7 +247,7 @@ const WeatherSoil = () => {
                   </div>
                   <div>
                     <div className="w-14 h-14 rounded-full bg-green-500 text-black flex items-center justify-center mx-auto mb-2 font-bold">AQI</div>
-                    <div className="text-2xl text-green-600 font-semibold">--</div>
+                    <div className="text-2xl text-green-600 font-semibold">{current?.aqi != null ? Math.round(current.aqi) : "--"}</div>
                   </div>
                 </div>
 

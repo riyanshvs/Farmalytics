@@ -222,6 +222,36 @@ export const api = {
     },
   },
 
+  news: {
+    getAll: async (params?: {
+      language?: "en" | "hi";
+      category?: "all" | "weather" | "market_update" | "technology" | "success_story" | "policy";
+      priority?: "all" | "critical" | "high" | "medium" | "low";
+      state?: string;
+      district?: string;
+      limit?: number;
+      offset?: number;
+      forceRefresh?: boolean;
+    }) => {
+      const query = new URLSearchParams();
+      if (params?.language) query.set("language", params.language);
+      if (params?.category) query.set("category", params.category);
+      if (params?.priority) query.set("priority", params.priority);
+      if (params?.state) query.set("state", params.state);
+      if (params?.district) query.set("district", params.district);
+      if (params?.limit !== undefined) query.set("limit", String(params.limit));
+      if (params?.offset !== undefined) query.set("offset", String(params.offset));
+      if (params?.forceRefresh) query.set("forceRefresh", "true");
+
+      const suffix = query.toString() ? `?${query.toString()}` : "";
+      const res = await authFetch(`${API_URL}/news${suffix}`);
+      if (!res.ok) {
+        throw new Error("Failed to load news feed");
+      }
+      return res.json();
+    },
+  },
+
   chat: {
     send: async (message: string, language: string = "hi", conversationId?: string) => {
       const maxAttempts = 3;

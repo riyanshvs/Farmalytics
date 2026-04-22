@@ -394,7 +394,7 @@ app.get("/health", (req, res) => {
   res.json({ status: "OK", message: "Farmalytics backend is running." });
 });
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Farmalytics backend running on http://localhost:${PORT}`);
   console.log(`GET /api/auth/me - Get authenticated profile (Firebase token)`);
   console.log(`PUT /api/auth/profile - Update authenticated profile`);
@@ -402,4 +402,14 @@ app.listen(PORT, () => {
   console.log(`PUT /api/farm - Save farm data`);
   console.log(`POST /api/chat - Send message to Kissan Sahayk`);
   console.log(`GET /health - Check backend status`);
+});
+
+server.on("error", (error) => {
+  if (error?.code === "EADDRINUSE") {
+    console.error(`Port ${PORT} is already in use. Stop the other process or set a different PORT in backend/.env.`);
+    process.exit(1);
+  }
+
+  console.error("Server startup failed:", error);
+  process.exit(1);
 });

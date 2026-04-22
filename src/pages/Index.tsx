@@ -9,10 +9,15 @@ const Index = () => {
   const { t } = useTranslation();
 
   return (
-    <div
-      className="flex min-h-screen items-center justify-center bg-cover bg-center relative"
-      style={{ backgroundImage: `url(${bg})` }}
-    >
+    <div className="flex min-h-screen items-center justify-center relative overflow-hidden">
+      <img
+        src={bg}
+        alt=""
+        aria-hidden="true"
+        loading="eager"
+        fetchPriority="high"
+        className="absolute inset-0 h-full w-full object-cover"
+      />
       <div className="absolute inset-0 bg-black/25" />
 
       <div className="absolute top-4 right-4 z-20">

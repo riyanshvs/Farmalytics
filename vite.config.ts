@@ -15,4 +15,39 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (!id.includes("node_modules")) return undefined;
+
+          if (id.includes("react-router") || id.includes("@remix-run")) {
+            return "router";
+          }
+
+          if (id.includes("@tanstack/react-query")) {
+            return "react-query";
+          }
+
+          if (id.includes("recharts")) {
+            return "charts";
+          }
+
+          if (id.includes("react-i18next") || id.includes("i18next")) {
+            return "i18n";
+          }
+
+          if (id.includes("firebase")) {
+            return "firebase";
+          }
+
+          if (id.includes("lucide-react")) {
+            return "icons";
+          }
+
+          return "vendor";
+        },
+      },
+    },
+  },
 }));

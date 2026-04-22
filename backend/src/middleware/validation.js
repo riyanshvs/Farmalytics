@@ -116,8 +116,52 @@ export const validateFarmInput = (req, res, next) => {
   next();
 };
 
+export const validateNewsQuery = (req, res, next) => {
+  const allowedLanguages = new Set(["en", "hi"]);
+  const allowedCategories = new Set(["all", "weather", "market_update", "technology", "success_story", "policy"]);
+  const allowedPriorities = new Set(["all", "critical", "high", "medium", "low"]);
+
+  const language = sanitizeText(req.query?.language || "en").toLowerCase();
+  req.query.language = allowedLanguages.has(language) ? language : "en";
+
+  const category = sanitizeText(req.query?.category || "all").toLowerCase();
+  if (!allowedCategories.has(category)) {
+    return res.status(400).json({ error: "Invalid category filter." });
+  }
+  req.query.category = category;
+
+  const priority = sanitizeText(req.query?.priority || "all").toLowerCase();
+  if (!allowedPriorities.has(priority)) {
+    return res.status(400).json({ error: "Invalid priority filter." });
+  }
+  req.query.priority = priority;
+
+  const limit = Number(req.query?.limit ?? 24);
+  if (!Number.isInteger(limit) || limit < 1 || limit > 50) {
+    return res.status(400).json({ error: "limit must be an integer between 1 and 50." });
+  }
+  req.query.limit = String(limit);
+
+  const offset = Number(req.query?.offset ?? 0);
+  if (!Number.isInteger(offset) || offset < 0 || offset > 500) {
+    return res.status(400).json({ error: "offset must be an integer between 0 and 500." });
+  }
+  req.query.offset = String(offset);
+
+  const forceRefreshRaw = String(req.query?.forceRefresh || "false").toLowerCase();
+  req.query.forceRefresh = forceRefreshRaw === "true" || forceRefreshRaw === "1" ? "true" : "false";
+
+  const state = sanitizeText(req.query?.state || "").slice(0, 80);
+  const district = sanitizeText(req.query?.district || "").slice(0, 80);
+  if (state) req.query.state = state;
+  if (district) req.query.district = district;
+
+  next();
+};
+
 export default {
   sanitizeChatInput,
   validateFeedbackInput,
   validateFarmInput,
+  validateNewsQuery,
 };
