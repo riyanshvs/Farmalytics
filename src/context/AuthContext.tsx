@@ -14,6 +14,7 @@ import { firebaseAuth, getFirebaseClientConfigError, isFirebaseClientReady } fro
 const ONBOARDING_COMPLETED_KEY = "onboardingCompleted";
 const AUTH_INIT_TIMEOUT_MS = 8000;
 const AUTH_REQUEST_TIMEOUT_MS = 12000;
+const PROFILE_SYNC_TIMEOUT_MS = 8000;
 
 const withTimeout = async <T,>(promise: Promise<T>, timeoutMs: number, timeoutMessage: string) => {
   let timeoutId: number | undefined;
@@ -164,7 +165,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const syncProfile = useCallback(async () => {
-    const result = await api.auth.getProfile();
+    const result = await withTimeout(
+      api.auth.getProfile(),
+      PROFILE_SYNC_TIMEOUT_MS,
+      "auth/profile-sync-timeout"
+    ).catch(() => ({ success: false, message: "Profile sync timed out" }));
+
     if (!result.success || !result.user) {
       const firebaseUser = firebaseAuth.currentUser;
       if (!firebaseUser) {
@@ -276,6 +282,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         AUTH_REQUEST_TIMEOUT_MS,
         "auth/request-timeout"
       );
+
+      // New account should always start onboarding from scratch on this device.
+      localStorage.removeItem(ONBOARDING_COMPLETED_KEY);
+      localStorage.removeItem("userLocation");
+      localStorage.removeItem("farmSize");
+      localStorage.removeItem("selectedCrops");
+      localStorage.removeItem("farmDistributions");
+      setOnboardingCompleted(false);
+
       if (name?.trim()) {
         await updateFirebaseProfile(credential.user, { displayName: name.trim() });
       }
@@ -286,7 +301,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         return { success: true, onboardingCompleted: completed };
       }
       if (name?.trim()) {
-        await updateProfile({ name: name.trim() });
+        void updateProfile({ name: name.trim() });
       }
       return synced.success
         ? { success: true, onboardingCompleted: synced.onboardingCompleted }
@@ -313,6 +328,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         AUTH_REQUEST_TIMEOUT_MS,
         "auth/request-timeout"
       );
+
+      // Every fresh sign-in should restart onboarding flow on this device.
+      localStorage.removeItem(ONBOARDING_COMPLETED_KEY);
+      localStorage.removeItem("userLocation");
+      localStorage.removeItem("farmSize");
+      localStorage.removeItem("selectedCrops");
+      localStorage.removeItem("farmDistributions");
+      setOnboardingCompleted(false);
+
       const synced = await syncProfile();
       if (!synced.success) {
         const completed = applyFirebaseFallbackUser(credential.user);

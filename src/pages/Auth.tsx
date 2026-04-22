@@ -90,7 +90,10 @@ const Auth = () => {
       }
 
       toast.success(mode === "signup" ? t("auth.accountCreated") : t("common.success"));
-      navigate(result.onboardingCompleted ? "/dashboard" : "/hi");
+      navigate(result.onboardingCompleted ? "/dashboard" : "/location");
+    } catch (error) {
+      console.error("Auth submit failed unexpectedly:", error);
+      toast.error(t("auth.loginFailed"));
     } finally {
       setIsLoading(false);
     }

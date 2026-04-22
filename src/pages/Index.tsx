@@ -15,7 +15,7 @@ const Index = () => {
         alt=""
         aria-hidden="true"
         loading="eager"
-        fetchPriority="high"
+        fetchpriority="high"
         className="absolute inset-0 h-full w-full object-cover"
       />
       <div className="absolute inset-0 bg-black/25" />

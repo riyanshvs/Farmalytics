@@ -59,7 +59,7 @@ const FarmDistribution = () => {
       markOnboardingComplete();
       
       toast.success(t("common.success"));
-      navigate("/completion");
+      navigate("/hi");
     } catch (error: unknown) {
       console.error("Error saving farm distribution:", error);
       toast.error(error instanceof Error ? error.message : t("welcome.distributionSaveFailed"));

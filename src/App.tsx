@@ -65,6 +65,7 @@ const OnboardingRoute = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated, onboardingCompleted, loading } = useAuth();
   const location = useLocation();
   const publicPaths = ["/", "/signin", "/signup"];
+  const authPaths = ["/signin", "/signup"];
   const onboardingPaths = ["/hi", "/location", "/farm-size", "/crops-select", "/farm-distribution", "/completion"];
 
   if (loading) {
@@ -82,14 +83,14 @@ const OnboardingRoute = ({ children }: { children: React.ReactNode }) => {
   }
 
   if (isAuthenticated && onboardingCompleted) {
-    if (location.pathname === "/completion") {
+    if (location.pathname === "/completion" || location.pathname === "/hi" || authPaths.includes(location.pathname)) {
       return <>{children}</>;
     }
     return <Navigate to="/dashboard" replace />;
   }
 
   if (isAuthenticated && !onboardingCompleted && publicPaths.includes(location.pathname)) {
-    return <Navigate to="/hi" replace />;
+    return <Navigate to="/location" replace />;
   }
 
   if (isAuthenticated && !onboardingCompleted && onboardingPaths.includes(location.pathname)) {

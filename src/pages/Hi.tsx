@@ -13,9 +13,11 @@ const Hi = () => {
       setUserName(storedName);
     }
     
-    // Auto-navigate after 2 seconds
+    const onboardingCompleted = localStorage.getItem("onboardingCompleted") === "true";
+
+    // After onboarding completion, Hi leads to dashboard; otherwise continue onboarding.
     const timer = setTimeout(() => {
-      navigate("/location");
+      navigate(onboardingCompleted ? "/dashboard" : "/location");
     }, 2000);
     
     return () => clearTimeout(timer);

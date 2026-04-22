@@ -1,6 +1,7 @@
 import { firebaseAuth } from "@/lib/firebase";
 
 const API_URL = (import.meta.env.VITE_API_URL || "http://localhost:5000/api").trim();
+const API_TIMEOUT_MS = 10000;
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -26,10 +27,18 @@ const buildAuthHeaders = async (headers?: HeadersInit): Promise<Headers> => {
 
 const authFetch = async (url: string, init?: RequestInit) => {
   const headers = await buildAuthHeaders(init?.headers);
-  return fetch(url, {
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), API_TIMEOUT_MS);
+
+  try {
+    return await fetch(url, {
     ...init,
     headers,
-  });
+      signal: controller.signal,
+    });
+  } finally {
+    window.clearTimeout(timeout);
+  }
 };
 
 const getChatFallbackReply = (message: string, language: string) => {
