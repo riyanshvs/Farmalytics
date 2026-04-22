@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Newspaper,
   Calendar,
@@ -53,7 +52,6 @@ const NEWS_POLL_INTERVAL_MS = Number(import.meta.env.VITE_NEWS_POLL_INTERVAL_MS 
 
 const NewsReports = () => {
   const { t, i18n } = useTranslation();
-  const [activeTab, setActiveTab] = useState("news");
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedPriority, setSelectedPriority] = useState("all");
@@ -61,7 +59,6 @@ const NewsReports = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [lastUpdatedAt, setLastUpdatedAt] = useState<string | null>(null);
   const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
-  const [marketReports, setMarketReports] = useState<MarketReport[]>([]);
   const [visibleNewsCount, setVisibleNewsCount] = useState(6);
 
   const language = useMemo(
@@ -106,7 +103,6 @@ const NewsReports = () => {
       });
 
       setNewsItems(Array.isArray(response?.news) ? response.news : []);
-      setMarketReports(Array.isArray(response?.marketReports) ? response.marketReports : []);
       setLastUpdatedAt(response?.meta?.lastUpdatedAt || new Date().toISOString());
       setVisibleNewsCount(6);
     } catch (error) {
@@ -244,14 +240,10 @@ const NewsReports = () => {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-6 md:mb-8 h-10 md:h-12">
-            <TabsTrigger value="news" className="text-sm md:text-lg py-2 md:py-3">{t("pages.newsReports.latestNews")}</TabsTrigger>
-            <TabsTrigger value="reports" className="text-sm md:text-lg py-2 md:py-3">{t("pages.newsReports.marketReports")}</TabsTrigger>
-          </TabsList>
-
-          {/* News Tab */}
-          <TabsContent value="news" className="space-y-6 md:space-y-8">
+        <section className="space-y-6 md:space-y-8">
+            <h2 className="text-xl md:text-2xl font-semibold text-gray-900 dark:text-white">
+              {t("pages.newsReports.latestNews")}
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
               {visibleNews.map((news) => (
                 <Card key={news.id} className="overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 bg-white dark:bg-gray-800 border-0 shadow-lg">
@@ -342,57 +334,7 @@ const NewsReports = () => {
                 </Button>
               </div>
             )}
-          </TabsContent>
-
-          {/* Reports Tab */}
-          <TabsContent value="reports" className="space-y-6 md:space-y-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
-              {marketReports.map((report) => (
-                <Card key={report.id} className="overflow-hidden hover:shadow-xl transition-all duration-300 bg-white dark:bg-gray-800 border-0 shadow-lg">
-                  <CardHeader className="bg-gradient-to-r from-green-500 to-blue-500 text-white p-4 md:p-6">
-                    <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
-                      <div className="flex-1">
-                        <CardTitle className="text-lg md:text-xl mb-2">{report.title}</CardTitle>
-                        <p className="text-green-100 mb-2 md:mb-3 text-sm md:text-base">{report.summary}</p>
-                        <div className="flex items-center gap-2 text-sm text-green-100">
-                          <Calendar className="w-4 h-4" />
-                          {formatDate(report.publishedAt)}
-                        </div>
-                      </div>
-                      <Button
-                        variant="secondary"
-                        size="sm"
-                        className="bg-white text-green-600 hover:bg-gray-100 self-start flex-shrink-0"
-                        disabled={!report.downloadUrl}
-                        onClick={() => {
-                          if (report.downloadUrl) {
-                            window.open(report.downloadUrl, "_blank", "noopener,noreferrer");
-                          }
-                        }}
-                      >
-                        <ExternalLink className="w-4 h-4 mr-2" />
-                        <span className="hidden sm:inline">
-                          {report.downloadUrl ? t("pages.newsReports.download") : t("pages.newsReports.linkUnavailable")}
-                        </span>
-                      </Button>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="pt-4 md:pt-6 px-4 md:px-6 pb-4 md:pb-6">
-                    <div className="space-y-3">
-                      <h4 className="font-semibold text-gray-900 dark:text-white mb-3 md:mb-4 text-sm md:text-base">{t("pages.newsReports.keyHighlights")}</h4>
-                      {report.highlights.map((highlight, index) => (
-                        <div key={index} className="flex items-start gap-2 md:gap-3 text-sm">
-                          <div className="w-1.5 md:w-2 h-1.5 md:h-2 bg-green-500 rounded-full mt-1.5 md:mt-2 flex-shrink-0" />
-                          <span className="text-gray-700 dark:text-gray-300">{highlight}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </TabsContent>
-        </Tabs>
+        </section>
       </div>
       </div>
     </div>

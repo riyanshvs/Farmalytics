@@ -9,6 +9,7 @@ import { api } from "@/services/api";
 import { useLanguage } from "@/context/LanguageContext";
 import { cropsCatalog } from "@/data/cropsCatalog";
 import { safeJsonParse } from "@/lib/safeJson";
+import { SettingsBar } from "@/components/SettingsBar";
 
 const CropsSelect = () => {
   const navigate = useNavigate();
@@ -65,6 +66,10 @@ const CropsSelect = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-background px-4 py-8">
+      <div className="absolute top-6 right-6 z-20">
+        <SettingsBar />
+      </div>
+
       <h1 className="text-4xl md:text-6xl font-bold text-primary mb-12">
         {t("welcome.cropsTitle")}
       </h1>

@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { api } from "@/services/api";
 import { useAuth } from "@/context/AuthContext";
 import { safeJsonParse } from "@/lib/safeJson";
+import { SettingsBar } from "@/components/SettingsBar";
 
 const cropIcons: Record<string, string> = {
   Potato: "🥔",
@@ -70,6 +71,10 @@ const FarmDistribution = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-background px-4 py-8">
+      <div className="absolute top-6 right-6 z-20">
+        <SettingsBar />
+      </div>
+
       <h1 className="text-4xl md:text-6xl font-bold text-primary mb-12">
         {t("welcome.distributionTitle")}
       </h1>

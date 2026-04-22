@@ -76,6 +76,10 @@ const OnboardingRoute = ({ children }: { children: React.ReactNode }) => {
   }
 
   if (!isAuthenticated) {
+    if (location.pathname === "/") {
+      return <Navigate to="/signin" replace />;
+    }
+
     if (publicPaths.includes(location.pathname)) {
       return <>{children}</>;
     }

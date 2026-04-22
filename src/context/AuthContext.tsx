@@ -2,9 +2,11 @@ import React, { createContext, useContext, useState, useEffect, ReactNode, useRe
 import { api, setAuth, clearAuth, getAuth, USER_DATA_KEY } from "@/services/api";
 import { useTranslation } from "react-i18next";
 import {
+  browserSessionPersistence,
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   sendPasswordResetEmail,
+  setPersistence,
   signInWithEmailAndPassword,
   signOut,
   updateProfile as updateFirebaseProfile,
@@ -41,6 +43,26 @@ const parseJsonArray = (value: string | null) => {
     return Array.isArray(parsed) ? parsed : [];
   } catch {
     return [];
+  }
+};
+
+const SESSION_KEYS_TO_CLEAR = [
+  ONBOARDING_COMPLETED_KEY,
+  "userLocation",
+  "farmSize",
+  "selectedCrops",
+  "farmDistributions",
+  "userData",
+  USER_DATA_KEY,
+  "userName",
+  "preferredLanguage",
+  "language",
+  "i18nextLng",
+];
+
+const clearClientSessionData = () => {
+  for (const key of SESSION_KEYS_TO_CLEAR) {
+    localStorage.removeItem(key);
   }
 };
 
@@ -216,6 +238,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       return;
     }
 
+    void setPersistence(firebaseAuth, browserSessionPersistence).catch((error) => {
+      console.warn("Unable to enforce session auth persistence:", error);
+    });
+
+    const unloadHandler = () => {
+      clearClientSessionData();
+    };
+    window.addEventListener("beforeunload", unloadHandler);
+
     const initTimeout = window.setTimeout(() => {
       console.warn("Auth initialization timed out. Continuing without blocking UI.");
       setLoading(false);
@@ -267,6 +298,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     return () => {
       window.clearTimeout(initTimeout);
+      window.removeEventListener("beforeunload", unloadHandler);
       unsub();
     };
   }, [i18n, syncProfile]);
@@ -277,6 +309,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
 
     try {
+      await setPersistence(firebaseAuth, browserSessionPersistence);
+
       const credential = await withTimeout(
         createUserWithEmailAndPassword(firebaseAuth, email.trim(), password),
         AUTH_REQUEST_TIMEOUT_MS,
@@ -323,6 +357,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
 
     try {
+      await setPersistence(firebaseAuth, browserSessionPersistence);
+
       const credential = await withTimeout(
         signInWithEmailAndPassword(firebaseAuth, email.trim(), password),
         AUTH_REQUEST_TIMEOUT_MS,
@@ -390,6 +426,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const logout = () => {
     void api.auth.logout();
     void signOut(firebaseAuth);
+    clearClientSessionData();
     clearAuth();
     setUser(null);
     setOnboardingCompleted(false);
