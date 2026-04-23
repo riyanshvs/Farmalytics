@@ -14,6 +14,7 @@ import farmRoutes from "./src/routes/farm.js";
 import weatherRoutes from "./src/routes/weather.js";
 import alertsRoutes from "./src/routes/alerts.js";
 import newsRoutes from "./src/routes/news.js";
+import marketRoutes from "./src/routes/market.js";
 import { chatContextMiddleware } from "./src/middleware/chatContext.js";
 import { sanitizeChatInput, validateFeedbackInput } from "./src/middleware/validation.js";
 import { createRateLimiter } from "./src/middleware/rateLimit.js";
@@ -188,6 +189,7 @@ app.use("/api/farm", farmRoutes);
 app.use("/api/weather", weatherRoutes);
 app.use("/api/alerts", alertsRoutes);
 app.use("/api/news", newsRoutes);
+app.use("/api/market", marketRoutes);
 
 app.post("/api/chat", chatContextMiddleware, sanitizeChatInput, async (req, res, next) => {
   if (req.chatContext?.authState === "invalid-token") {
@@ -415,6 +417,7 @@ const server = app.listen(PORT, () => {
   console.log(`GET /api/farm - Get farm data`);
   console.log(`PUT /api/farm - Save farm data`);
   console.log(`GET /api/news - Get agriculture news feed`);
+  console.log(`GET /api/market - Get live mandi price feed`);
   console.log(`POST /api/chat - Send message to Kissan Sahayk`);
   console.log(`GET /health - Check backend status`);
 });

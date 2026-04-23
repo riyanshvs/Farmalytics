@@ -173,6 +173,19 @@ export const api = {
     },
   },
 
+  market: {
+    getAll: async (params?: { state?: string; district?: string; crops?: string[]; limit?: number }) => {
+      const query = new URLSearchParams();
+      if (params?.state) query.set("state", params.state);
+      if (params?.district) query.set("district", params.district);
+      if (Array.isArray(params?.crops) && params.crops.length > 0) query.set("crops", params.crops.join(","));
+      if (params?.limit !== undefined) query.set("limit", String(params.limit));
+
+      const suffix = query.toString() ? `?${query.toString()}` : "";
+      return fetchJsonOrThrow(`${API_URL}/market${suffix}`, undefined, "Failed to load market prices");
+    },
+  },
+
   alerts: {
     getAll: async (params?: { lat?: number; lon?: number; state?: string; district?: string }) => {
       const query = new URLSearchParams();

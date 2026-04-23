@@ -10,11 +10,22 @@ import { useAuth } from "@/context/AuthContext";
 import { api } from "@/services/api";
 import { SettingsBar } from "@/components/SettingsBar";
 import { safeJsonParse } from "@/lib/safeJson";
+import { useQuery } from "@tanstack/react-query";
+import queryKeys from "@/lib/queryKeys";
 
 interface FarmData {
   selectedCrops?: string[];
   distributions?: { name: string; area: number }[];
 }
+
+type MarketItem = {
+  id: string;
+  crop: string;
+  market: string;
+  district: string;
+  arrivalDate: string;
+  modalPrice: number | null;
+};
 
 const LiveWeather = () => {
   const { t } = useTranslation();
@@ -133,6 +144,39 @@ const Dashboard = () => {
   const selectedNames = farmData?.selectedCrops || [];
   const crops = selectedNames.length > 0 ? selectedNames : fieldData.map((item) => item.name);
   const distributionMap = Object.fromEntries(parsedDist.map((item) => [item.name, item.area]));
+  const marketQuery = useQuery({
+    queryKey: queryKeys.market({ crops }),
+    enabled: crops.length > 0,
+    queryFn: () =>
+      api.market.getAll({
+        crops,
+        limit: Math.max(crops.length * 3, 10),
+      }),
+  });
+  const marketItems = Array.isArray(marketQuery.data?.market?.items)
+    ? (marketQuery.data.market.items as MarketItem[])
+    : [];
+  const marketByCrop = Object.fromEntries(
+    crops.map((crop) => [
+      crop,
+      marketItems.find((item) => item.crop.toLowerCase() === crop.toLowerCase()) || null,
+    ])
+  );
+
+  const formatPrice = (value: number | null) =>
+    value == null
+      ? "--"
+      : new Intl.NumberFormat("en-IN", {
+          style: "currency",
+          currency: "INR",
+          maximumFractionDigits: 0,
+        }).format(value);
+
+  const formatDate = (value: string) =>
+    new Date(value).toLocaleDateString("en-IN", {
+      day: "numeric",
+      month: "short",
+    });
 
   return (
     <div className="p-4 md:p-6">
@@ -210,11 +254,33 @@ const Dashboard = () => {
                         defaultValue: "Area details available after onboarding sync",
                       })}
                 </div>
-                <div className="rounded-xl border border-dashed border-amber-300 bg-amber-50 px-3 py-4 text-center text-sm text-amber-900">
-                  {t("pages.cropsPrice.livePending", {
-                    defaultValue: "Live mandi prices will appear here after market API integration is connected.",
-                  })}
-                </div>
+                {marketQuery.isLoading ? (
+                  <div className="rounded-xl border border-dashed border-border bg-muted/20 px-3 py-4 text-center text-sm text-muted-foreground">
+                    {t("pages.cropsPrice.loadingFeed", { defaultValue: "Loading live mandi prices..." })}
+                  </div>
+                ) : marketByCrop[crop] ? (
+                  <div className="rounded-xl border border-emerald-300 bg-emerald-50 px-3 py-4 text-center text-sm text-emerald-950">
+                    <div className="text-base font-semibold">{formatPrice(marketByCrop[crop].modalPrice)}</div>
+                    <div className="mt-1 text-xs text-emerald-900/80">
+                      {marketByCrop[crop].market}, {marketByCrop[crop].district}
+                    </div>
+                    <div className="mt-1 text-xs text-emerald-900/70">
+                      {t("pages.cropsPrice.arrivalLabel", { defaultValue: "Arrival" })} {formatDate(marketByCrop[crop].arrivalDate)}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="rounded-xl border border-dashed border-amber-300 bg-amber-50 px-3 py-4 text-center text-sm text-amber-900">
+                    {marketQuery.data?.degraded
+                      ? t("pages.cropsPrice.integrationPendingBody", {
+                          defaultValue:
+                            "Add your Data.gov API key and market resource ID in the backend environment to display real mandi values here.",
+                        })
+                      : t("pages.cropsPrice.noMatchesBody", {
+                          defaultValue:
+                            "No matching mandi record has been returned for this crop in the saved location yet.",
+                        })}
+                  </div>
+                )}
               </Card>
             ))}
           </div>
