@@ -259,7 +259,79 @@ export const retrieveRelevantKnowledge = async ({ query, topK = 3, hf = null }) 
   return scored;
 };
 
+const intentToCategories = {
+  crop_advice: new Set(["crop_management", "irrigation", "soil_health"]),
+  pest_disease: new Set(["pest_disease"]),
+  fertilizer: new Set(["soil_health", "irrigation"]),
+  irrigation: new Set(["irrigation", "soil_health", "crop_management"]),
+  weather: new Set(["irrigation", "crop_management"]),
+  market: new Set(["market", "post_harvest"]),
+  government: new Set(["government_schemes"]),
+  general: null,
+};
+
+const languageBoost = (doc, languageStyle) => {
+  if (languageStyle === "english" && doc.content) return 0.08;
+  if (languageStyle !== "english" && doc.contentHi) return 0.08;
+  return 0;
+};
+
+const entityBoost = (doc, entities = {}) => {
+  let score = 0;
+
+  if (entities?.crops?.length && entities.crops.includes(doc.crop_id)) {
+    score += 0.2;
+  }
+
+  if (entities?.topics?.length && entities.topics.some((topic) => String(doc.category || "").includes(topic))) {
+    score += 0.12;
+  }
+
+  if (doc.confidence === "high") score += 0.08;
+  if (doc.confidence === "medium") score += 0.04;
+
+  return score;
+};
+
+export const retrieveIntentAwareKnowledge = async ({
+  query,
+  entities,
+  intent = "general",
+  languageStyle = "hindi",
+  topK = 4,
+  hf = null,
+}) => {
+  const raw = await retrieveRelevantKnowledge({ query, topK: 12, hf });
+  const allowedCategories = intentToCategories[intent] || null;
+
+  const filtered = raw
+    .filter((item) => !allowedCategories || allowedCategories.has(item.category))
+    .map((item) => ({
+      ...item,
+      adjustedScore: item.score + entityBoost(item, entities) + languageBoost(item, languageStyle),
+    }))
+    .sort((left, right) => right.adjustedScore - left.adjustedScore)
+    .slice(0, topK);
+
+  const normalizedConfidence =
+    filtered.length === 0
+      ? 0
+      : Number(
+          Math.min(
+            0.95,
+            filtered.reduce((sum, item) => sum + Math.min(item.adjustedScore / 20, 0.35), 0) +
+              Math.min(filtered.length * 0.1, 0.3)
+          ).toFixed(2)
+        );
+
+  return {
+    items: filtered,
+    confidence: normalizedConfidence,
+  };
+};
+
 export default {
   rebuildKnowledgeIndex,
   retrieveRelevantKnowledge,
+  retrieveIntentAwareKnowledge,
 };

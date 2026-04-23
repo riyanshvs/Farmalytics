@@ -5,7 +5,6 @@ import mongoose from "mongoose";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import { randomUUID } from "crypto";
-import { HfInference } from "@huggingface/inference";
 import connectDB from "./src/config/db.js";
 import ChatHistory from "./src/models/ChatHistory.js";
 import ChatFeedback from "./src/models/ChatFeedback.js";
@@ -19,10 +18,13 @@ import { chatContextMiddleware } from "./src/middleware/chatContext.js";
 import { sanitizeChatInput, validateFeedbackInput } from "./src/middleware/validation.js";
 import { createRateLimiter } from "./src/middleware/rateLimit.js";
 import { extractEntities } from "./src/services/entityExtractor.js";
-import { retrieveRelevantKnowledge } from "./src/services/ragService.js";
 import { getRecentConversationMessages, toLLMMessages } from "./src/services/conversationManager.js";
 import { buildStructuredResponse } from "./src/services/responseBuilder.js";
 import { getAnonymousContext, updateAnonymousContext } from "./src/services/anonymousContextStore.js";
+import { createHuggingFaceChatProvider } from "./src/services/chatProvider.js";
+import { buildLiveContext } from "./src/services/liveContextService.js";
+import { buildChatResponse } from "./src/services/chatOrchestrator.js";
+import { mergeEntitySets, persistChatExchange } from "./src/services/chatPersistence.js";
 import { isFirebaseAdminReady } from "./src/config/firebaseAdmin.js";
 
 dotenv.config();
@@ -52,8 +54,6 @@ app.use(
   cors({
     credentials: true,
     origin(origin, callback) {
-      // Browsers send Origin for CORS requests; in development we still allow
-      // no-origin requests for local tooling and direct API testing.
       if (!origin && !isProduction) {
         return callback(null, true);
       }
@@ -73,116 +73,14 @@ connectDB();
 
 const authChatRateLimiter = createRateLimiter({ windowMs: 60 * 1000, maxRequests: 30 });
 const anonymousChatRateLimiter = createRateLimiter({ windowMs: 60 * 1000, maxRequests: 12 });
+const chatProvider = createHuggingFaceChatProvider();
 
-const hfToken = process.env.HUGGING_FACE_API_KEY;
-if (!hfToken) {
+if (!chatProvider.configured) {
   console.error("ERROR: HUGGING_FACE_API_KEY not found in environment variables.");
   console.error("Get your free API token from: https://huggingface.co/settings/tokens");
 }
 
-let hf;
-if (hfToken) {
-  hf = new HfInference(hfToken);
-}
-
-const HF_ROUTER_BASE_URL = process.env.HF_ROUTER_BASE_URL || "https://router.huggingface.co/hf-inference/models";
-const CHAT_MODEL = process.env.HF_CHAT_MODEL || "mistralai/Mistral-7B-Instruct-v0.2";
-const CHAT_ENDPOINT_URL = `${HF_ROUTER_BASE_URL}/${CHAT_MODEL}`;
-
 const canPersistToDb = () => mongoose.connection.readyState === 1;
-
-const mergeEntitySets = (base = {}, incoming = {}) => ({
-  crops: Array.from(new Set([...(base.crops || []), ...(incoming.crops || [])])),
-  topics: Array.from(new Set([...(base.topics || []), ...(incoming.topics || [])])),
-  locations: Array.from(new Set([...(base.locations || []), ...(incoming.locations || [])])),
-  dates: Array.from(new Set([...(base.dates || []), ...(incoming.dates || [])])),
-});
-
-const persistChatHistory = async ({ userId, conversationId, message, reply, language, source, entities }) => {
-  if (!canPersistToDb()) return;
-
-  const base = {
-    conversationId,
-    language,
-    source,
-    entities,
-  };
-
-  await ChatHistory.insertMany([
-    {
-      ...base,
-      ...(userId ? { userId } : {}),
-      role: "user",
-      message,
-    },
-    {
-      ...base,
-      ...(userId ? { userId } : {}),
-      role: "assistant",
-      message: reply,
-    },
-  ]);
-};
-
-const getFallbackReply = (message = "", language = "hi") => {
-  const input = String(message).toLowerCase();
-  const isEnglish = language === "en";
-
-  const hasAny = (keywords = []) => keywords.some((k) => input.includes(k));
-
-  if (hasAny(["soil", "मिट्टी", "rabi", "रबी"])) {
-    return isEnglish
-      ? "For most rabi crops, well-drained loamy to clay-loam soil with pH around 6.0-7.5 works best. Add well-decomposed FYM/compost before sowing and avoid waterlogging."
-      : "Zyadatar rabi crops ke liye achhi drainage wali loamy ya clay-loam mitti (pH 6.0-7.5) best hoti hai. Bowaai se pehle sadi hui gobar khaad/compost daalein aur pani jama na hone dein.";
-  }
-
-  if (hasAny(["pest", "कीट", "disease", "रोग", "aphid", "whitefly", "thrips", "stem borer", "fung", "blight", "rust"])) {
-    return isEnglish
-      ? "Use Integrated Pest Management: monitor field twice weekly, remove infected parts, prefer bio-controls first, and spray recommended pesticides only as per label and local advisory."
-      : "IPM follow karein: hafte me 2 baar khet dekhain, sankramit hisson ko hataayein, pehle bio-control use karein, aur pesticide sirf label/local salah ke hisab se lagayein.";
-  }
-
-  if (hasAny(["water", "irrigation", "सिंचाई", "पानी", "drip", "sprinkler"])) {
-    return isEnglish
-      ? "Irrigate based on crop stage and soil moisture, not fixed dates. Critical stages need priority irrigation; avoid overwatering to prevent root disease."
-      : "Sinchai fixed date se nahi, fasal ke stage aur mitti ki nami ke hisab se karein. Critical stage par paani zaroor dein, aur zyada paani se bachein.";
-  }
-
-  if (hasAny(["fertilizer", "fertiliser", "urea", "dap", "npk", "khaad", "खाद", "potash", "nutrient"])) {
-    return isEnglish
-      ? "For fertilizer planning: do a soil test first, split nitrogen doses, and use balanced NPK with micronutrients if deficiency appears. Share crop and area for a stage-wise schedule."
-      : "Khaad planning ke liye pehle soil test karein, nitrogen ko split dose me dein, aur balance NPK use karein. Crop aur area batayein to stage-wise schedule de sakta hoon.";
-  }
-
-  if (hasAny(["price", "market", "mandi", "भाव", "bhav", "rate", "msp"])) {
-    return isEnglish
-      ? "For crop prices, check your nearest mandi trends for the last 3-5 days and compare with MSP where applicable. Share crop and district, and I can suggest a selling strategy."
-      : "Daam ke liye najdeeki mandi ke 3-5 din ke trend dekhein aur MSP se compare karein. Crop aur district batayein, main bechne ki strategy suggest karunga.";
-  }
-
-  if (hasAny(["weather", "rain", "temperature", "forecast", "मौसम", "बारिश", "तापमान"])) {
-    return isEnglish
-      ? "Plan farm operations with a 3-7 day forecast: avoid spray before rain, irrigate early morning/evening, and protect seedlings during temperature extremes."
-      : "Kheti ka kaam 3-7 din ke mausam forecast ke hisab se karein: barish se pehle spray na karein, subah-shaam sinchai karein, aur seedlings ko extreme taapman se bachayein.";
-  }
-
-  return isEnglish
-    ? `I understood your question: "${String(message).slice(0, 80)}". I can guide on crop, soil, irrigation, fertilizer, pest control, weather, and mandi rates. Share crop + location for a specific recommendation.`
-    : `Maine aapka sawal samjha: "${String(message).slice(0, 80)}". Main fasal, mitti, sinchai, khaad, keet niyantran, mausam aur mandi daam par madad kar sakta hoon. Behtar salah ke liye crop + location batayein.`;
-};
-
-const SYSTEM_PROMPT = `You are "Kissan Sahayk" (किसान सहायक), an AI assistant dedicated to helping Indian farmers.
-
-Your responsibilities:
-1. Provide practical agricultural advice on crops, seasons, soil health, irrigation, pesticides, fertilizers, and pricing.
-2. Understand and respond in Hindi, English, and Hinglish (mixed language).
-3. Mirror the language style the user uses: Hindi input → Hindi response, English → English, mixed → mixed.
-4. Keep responses short, clear, and practical.
-5. Use bullet points when helpful.
-6. If unsure about specific numbers (like exact MSP or legal rules), acknowledge uncertainty and provide general guidance instead of guessing.
-7. Be friendly and encouraging to farmers.
-
-When a user asks something unrelated to farming, politely redirect them to farming-related topics.`;
 
 app.use("/api/auth", authRoutes);
 app.use("/api/farm", farmRoutes);
@@ -225,7 +123,6 @@ app.post("/api/chat", chatContextMiddleware, sanitizeChatInput, async (req, res,
     const persistedAnonymous = getAnonymousContext(conversationId) || req.chatContext?.anonymousContext || {};
     const effectiveEntities = userId ? entities : mergeEntitySets(persistedAnonymous, entities);
 
-    const knowledge = await retrieveRelevantKnowledge({ query: message, topK: 3, hf });
     const history = await getRecentConversationMessages({
       userId,
       conversationId,
@@ -233,72 +130,66 @@ app.post("/api/chat", chatContextMiddleware, sanitizeChatInput, async (req, res,
       dbReady: canPersistToDb(),
     });
 
-    let systemPrompt = SYSTEM_PROMPT;
-    const contextBlock = req.chatContext?.promptContext || "User context unavailable.";
-    
-    if (language === "en") {
-      systemPrompt = SYSTEM_PROMPT.replace(
-        "Hindi input → Hindi response, English → English, mixed → mixed",
-        "Always respond in English only"
-      );
-    }
+    const liveContext = await buildLiveContext({
+      farm: req.chatContext?.farm,
+      primaryIntent: null,
+      entities: effectiveEntities,
+    });
 
-    const ragBlock = knowledge.length
-      ? knowledge
-          .map((item, idx) => `${idx + 1}. (${item.category}) ${item.title}: ${item.content}`)
-          .join("\n")
-      : "No specific knowledge snippets matched.";
-
-    const entityBlock = `Entities detected:\n- crops: ${effectiveEntities.crops.join(", ") || "none"}\n- topics: ${effectiveEntities.topics.join(", ") || "none"}\n- locations: ${effectiveEntities.locations.join(", ") || "none"}\n- dates: ${effectiveEntities.dates.join(", ") || "none"}`;
-
-    systemPrompt = `${systemPrompt}\n\nFarmer Context:\n${contextBlock}\n\nRetrieved Knowledge:\n${ragBlock}\n\n${entityBlock}`;
-
-    let reply;
-    let source = "llm";
-
-    if (!hf) {
-      source = "fallback";
-      reply = getFallbackReply(message, language);
-    } else {
-      const historyMessages = toLLMMessages(history);
-      const chatCompletion = await hf.chatCompletion({
-        model: CHAT_MODEL,
-        endpointUrl: CHAT_ENDPOINT_URL,
-        messages: [
-          { role: "system", content: systemPrompt },
-          ...historyMessages,
-          { role: "user", content: message }
-        ],
-        max_tokens: 500,
-      });
-
-      reply = chatCompletion.choices[0]?.message?.content || 
-        (language === "hi" 
-          ? "Kuch dikkat aa rahi hai. Kripya thodi der baad try karein."
-          : "Some error occurred. Please try again later.");
-    }
+    const result = await buildChatResponse({
+      message,
+      requestedLanguage: language,
+      conversationId,
+      entities: effectiveEntities,
+      history: toLLMMessages(history),
+      chatContext: req.chatContext,
+      provider: chatProvider,
+      liveContext,
+    });
 
     try {
-      await persistChatHistory({ userId, conversationId, message, reply, language, source, entities: effectiveEntities });
+      await persistChatExchange({
+        dbReady: canPersistToDb(),
+        userId,
+        conversationId,
+        message,
+        reply: result.reply,
+        language,
+        source: result.source,
+        entities: effectiveEntities,
+        assistantMeta: {
+          mode: result.mode,
+          confidence: result.confidence,
+          sourcesUsed: result.sourcesUsed,
+          degraded: result.degraded,
+          languageUsed: result.languageUsed,
+        },
+      });
     } catch (historyError) {
       console.error("Failed to persist chat history:", historyError.message);
     }
 
-    res.status(200).json(
+    return res.status(200).json(
       buildStructuredResponse({
-        reply,
-        source,
+        reply: result.reply,
+        source: result.source,
         conversationId,
         entities: effectiveEntities,
-        knowledge,
+        knowledge: result.knowledge,
         language,
         farm: req.chatContext?.farm,
         history,
+        mode: result.mode,
+        confidence: result.confidence,
+        degraded: result.degraded,
+        sourcesUsed: result.sourcesUsed,
+        languageUsed: result.languageUsed,
+        quickReplyContext: result.quickReplyContext,
       })
     );
   } catch (error) {
-    console.error("Error calling Hugging Face API:", error);
-    const fallbackReply = getFallbackReply(req.body?.message, requestedLanguage);
+    console.error("Error building chat response:", error);
+
     const detectedEntities = extractEntities(req.body?.message);
     if (!userId) {
       updateAnonymousContext(conversationId, detectedEntities);
@@ -313,31 +204,59 @@ app.post("/api/chat", chatContextMiddleware, sanitizeChatInput, async (req, res,
       dbReady: canPersistToDb(),
     });
 
+    const fallbackResult = await buildChatResponse({
+      message: req.body?.message || "",
+      requestedLanguage,
+      conversationId,
+      entities: effectiveEntities,
+      history: toLLMMessages(history),
+      chatContext: req.chatContext,
+      provider: { configured: false },
+      liveContext: await buildLiveContext({
+        farm: req.chatContext?.farm,
+        primaryIntent: null,
+        entities: effectiveEntities,
+      }),
+    });
+
     try {
-      await persistChatHistory({
+      await persistChatExchange({
+        dbReady: canPersistToDb(),
         userId,
         conversationId,
         message: req.body?.message,
-        reply: fallbackReply,
+        reply: fallbackResult.reply,
         language: requestedLanguage,
-        source: "fallback",
+        source: fallbackResult.source,
         entities: effectiveEntities,
+        assistantMeta: {
+          mode: fallbackResult.mode,
+          confidence: fallbackResult.confidence,
+          sourcesUsed: fallbackResult.sourcesUsed,
+          degraded: fallbackResult.degraded,
+          languageUsed: fallbackResult.languageUsed,
+        },
       });
     } catch (historyError) {
       console.error("Failed to persist chat history:", historyError.message);
     }
 
-    res.status(200).json(
+    return res.status(200).json(
       buildStructuredResponse({
-        reply: fallbackReply,
-        source: "fallback",
+        reply: fallbackResult.reply,
+        source: fallbackResult.source,
         degraded: true,
         conversationId,
         entities: effectiveEntities,
-        knowledge: await retrieveRelevantKnowledge({ query: req.body?.message || "", topK: 2, hf: null }),
+        knowledge: fallbackResult.knowledge,
         language: requestedLanguage,
         farm: req.chatContext?.farm,
         history,
+        mode: fallbackResult.mode,
+        confidence: fallbackResult.confidence,
+        sourcesUsed: fallbackResult.sourcesUsed,
+        languageUsed: fallbackResult.languageUsed,
+        quickReplyContext: fallbackResult.quickReplyContext,
       })
     );
   }
@@ -361,7 +280,7 @@ app.get("/api/chat/history", chatContextMiddleware, async (req, res) => {
     const messages = await ChatHistory.find(filter)
       .sort({ createdAt: 1 })
       .limit(50)
-      .select("role message createdAt source")
+      .select("role message createdAt source mode confidence sourcesUsed degraded languageUsed")
       .lean();
 
     return res.status(200).json({ messages });
@@ -377,7 +296,7 @@ app.post("/api/chat/feedback", chatContextMiddleware, validateFeedbackInput, asy
       return res.status(200).json({ success: true, stored: false });
     }
 
-    const { messageId, helpful, comment } = req.body;
+    const { messageId, helpful, comment, mode, confidence, sourcesUsed } = req.body;
     const conversationId = req.body?.conversationId || "unknown";
 
     await ChatFeedback.create({
@@ -386,6 +305,9 @@ app.post("/api/chat/feedback", chatContextMiddleware, validateFeedbackInput, asy
       messageId,
       helpful,
       comment,
+      mode,
+      confidence,
+      sourcesUsed: Array.isArray(sourcesUsed) ? sourcesUsed : [],
     });
 
     return res.status(200).json({ success: true, stored: true });
@@ -395,7 +317,7 @@ app.post("/api/chat/feedback", chatContextMiddleware, validateFeedbackInput, asy
   }
 });
 
-app.get("/health", (req, res) => {
+app.get("/health", (_req, res) => {
   res.json({
     status: "OK",
     message: "Farmalytics backend is running.",
@@ -405,7 +327,7 @@ app.get("/health", (req, res) => {
         connected: mongoose.connection.readyState === 1,
       },
       firebaseAdminConfigured: isFirebaseAdminReady(),
-      huggingFaceConfigured: Boolean(hfToken),
+      huggingFaceConfigured: chatProvider.configured,
     },
   });
 });

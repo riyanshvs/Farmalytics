@@ -79,6 +79,53 @@ export const buildQuickReplies = ({ entities, farm, language = "hi", history = [
   return Array.from(new Set(replies)).slice(0, 4);
 };
 
+export const buildAdvisoryQuickReplies = ({
+  entities,
+  farm,
+  language = "hi",
+  history = [],
+  mode = "fallback_safe",
+  intent = "general",
+  missingSlots = [],
+  liveContext = {},
+}) => {
+  const replies = [];
+  const isEnglish = language === "en";
+  const crop = entities?.crops?.[0] || farm?.selectedCrops?.[0] || null;
+
+  if (missingSlots.includes("crop")) {
+    replies.push(isEnglish ? "My crop is tomato" : "Meri crop tomato hai");
+    replies.push(isEnglish ? "My crop is wheat" : "Meri crop gehun hai");
+  }
+
+  if (missingSlots.includes("stage")) {
+    replies.push(isEnglish ? "Stage is sowing" : "Stage sowing hai");
+    replies.push(isEnglish ? "Stage is flowering" : "Stage flowering hai");
+  }
+
+  if (missingSlots.includes("location")) {
+    replies.push(isEnglish ? "My district is Nashik" : "Mera district Nashik hai");
+  }
+
+  if (intent !== "weather") {
+    replies.push(isEnglish ? "Show weather risk" : "Mausam risk dikhao");
+  }
+
+  if (crop) {
+    replies.push(isEnglish ? `Fertilizer plan for ${crop}` : `${crop} ke liye khaad plan`);
+    replies.push(isEnglish ? `Pest risk in ${crop}` : `${crop} me pest risk`);
+    replies.push(isEnglish ? `Mandi explanation for ${crop}` : `${crop} ke mandi daam samjhao`);
+  } else {
+    replies.push(isEnglish ? "Share crop stage" : "Crop stage batata hoon");
+  }
+
+  if (liveContext?.alerts?.length && mode !== "clarifying_question") {
+    replies.push(isEnglish ? "Explain active alerts" : "Active alerts samjhao");
+  }
+
+  return Array.from(new Set(replies)).slice(0, 4);
+};
+
 export const buildRecommendations = ({ entities, knowledge = [], language = "hi" }) => {
   const recs = [];
 
@@ -109,21 +156,54 @@ export const buildStructuredResponse = ({
   language,
   farm,
   history,
+  mode = "fallback_safe",
+  confidence = 0,
+  degraded = false,
+  sourcesUsed = [],
+  languageUsed = language,
+  quickReplyContext = {},
 }) => ({
   reply,
   source,
   conversationId,
   entities,
   recommendations: buildRecommendations({ entities, knowledge, language }),
-  quickReplies: buildQuickReplies({ entities, farm, language, history }),
+  quickReplies:
+    mode === "clarifying_question" || quickReplyContext?.missingSlots?.length
+      ? buildAdvisoryQuickReplies({
+          entities,
+          farm,
+          language,
+          history,
+          mode,
+          intent: quickReplyContext?.intent,
+          missingSlots: quickReplyContext?.missingSlots || [],
+          liveContext: quickReplyContext?.liveContext || {},
+        })
+      : buildAdvisoryQuickReplies({
+          entities,
+          farm,
+          language,
+          history,
+          mode,
+          intent: quickReplyContext?.intent,
+          missingSlots: [],
+          liveContext: quickReplyContext?.liveContext || {},
+        }),
   contextUsed: {
     knowledgeCount: knowledge.length,
     hasFarmContext: !!farm,
   },
+  mode,
+  languageUsed,
+  confidence,
+  sourcesUsed,
+  degraded,
 });
 
 export default {
   buildStructuredResponse,
   buildQuickReplies,
+  buildAdvisoryQuickReplies,
   buildRecommendations,
 };

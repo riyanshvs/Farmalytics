@@ -34,6 +34,29 @@ const chatHistorySchema = new mongoose.Schema(
       enum: ["llm", "fallback", "frontend-fallback"],
       default: "llm",
     },
+    mode: {
+      type: String,
+      enum: ["grounded_llm", "deterministic_template", "clarifying_question", "fallback_safe"],
+      default: "fallback_safe",
+    },
+    confidence: {
+      type: Number,
+      default: 0,
+      min: 0,
+      max: 1,
+    },
+    sourcesUsed: [{
+      type: String,
+      enum: ["knowledge", "farm", "weather", "alerts", "market", "fallback"],
+    }],
+    degraded: {
+      type: Boolean,
+      default: false,
+    },
+    languageUsed: {
+      type: String,
+      default: "hi",
+    },
     entities: {
       crops: [{ type: String }],
       topics: [{ type: String }],

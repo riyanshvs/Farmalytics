@@ -294,6 +294,11 @@ export const api = {
       return {
         reply: getChatFallbackReply(message, language),
         source: "frontend-fallback",
+        mode: "fallback_safe",
+        languageUsed: language,
+        confidence: 0,
+        sourcesUsed: ["fallback"],
+        degraded: true,
         recommendations: [],
         quickReplies: [],
       };
@@ -317,6 +322,9 @@ export const api = {
       messageId: string;
       helpful: boolean;
       comment?: string;
+      mode?: string;
+      confidence?: number;
+      sourcesUsed?: string[];
     }) => {
       const result = await fetchJsonOrThrow<{ success?: boolean }>(
         `${API_URL}/chat/feedback`,

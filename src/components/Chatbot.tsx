@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
 import { MessageCircle, Send, Loader, ThumbsUp, ThumbsDown } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { api } from "@/services/api";
@@ -14,12 +15,24 @@ interface Message {
   text: string;
   timestamp: Date;
   feedbackSubmitted?: boolean;
+  mode?: "grounded_llm" | "deterministic_template" | "clarifying_question" | "fallback_safe";
+  confidence?: number;
+  sourcesUsed?: string[];
+  degraded?: boolean;
+  languageUsed?: string;
+  source?: string;
 }
 
 interface HistoryMessage {
   role?: string;
   message?: string;
   createdAt?: string;
+  mode?: Message["mode"];
+  confidence?: number;
+  sourcesUsed?: string[];
+  degraded?: boolean;
+  languageUsed?: string;
+  source?: string;
 }
 
 export const Chatbot = () => {
@@ -60,6 +73,12 @@ export const Chatbot = () => {
           type: item.role === "assistant" ? "assistant" : "user",
           text: item.message || "",
           timestamp: item.createdAt ? new Date(item.createdAt) : new Date(),
+          mode: item.mode,
+          confidence: item.confidence,
+          sourcesUsed: item.sourcesUsed || [],
+          degraded: item.degraded,
+          languageUsed: item.languageUsed,
+          source: item.source,
         }))
       );
     }
@@ -101,6 +120,12 @@ export const Chatbot = () => {
         type: "assistant",
         text: result.reply || t("chatbot.error"),
         timestamp: new Date(),
+        mode: result.mode,
+        confidence: result.confidence,
+        sourcesUsed: result.sourcesUsed || [],
+        degraded: result.degraded,
+        languageUsed: result.languageUsed,
+        source: result.source,
       };
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
@@ -120,11 +145,16 @@ export const Chatbot = () => {
   const submitFeedback = async (messageId: string, helpful: boolean) => {
     if (!conversationId) return;
 
+    const targetMessage = messages.find((msg) => msg.id === messageId);
+
     try {
       const result = await api.chat.submitFeedback({
         conversationId,
         messageId,
         helpful,
+        mode: targetMessage?.mode,
+        confidence: targetMessage?.confidence,
+        sourcesUsed: targetMessage?.sourcesUsed,
       });
       if (!result?.success) {
         toast.error(t("chatbot.feedbackSaveFailed"));
@@ -143,6 +173,40 @@ export const Chatbot = () => {
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && !loading) {
       sendMessage();
+    }
+  };
+
+  const getModeLabel = (mode?: Message["mode"]) => {
+    switch (mode) {
+      case "grounded_llm":
+        return t("chatbot.modeGrounded", { defaultValue: "Grounded answer" });
+      case "deterministic_template":
+        return t("chatbot.modeTemplate", { defaultValue: "Source-backed summary" });
+      case "clarifying_question":
+        return t("chatbot.modeClarify", { defaultValue: "Needs one more detail" });
+      case "fallback_safe":
+        return t("chatbot.modeFallback", { defaultValue: "Safe fallback" });
+      default:
+        return "";
+    }
+  };
+
+  const getSourceLabel = (source: string) => {
+    switch (source) {
+      case "farm":
+        return t("chatbot.sourceFarm", { defaultValue: "Farm profile" });
+      case "weather":
+        return t("chatbot.sourceWeather", { defaultValue: "Weather" });
+      case "alerts":
+        return t("chatbot.sourceAlerts", { defaultValue: "Alerts" });
+      case "market":
+        return t("chatbot.sourceMarket", { defaultValue: "Market" });
+      case "knowledge":
+        return t("chatbot.sourceKnowledge", { defaultValue: "Knowledge base" });
+      case "fallback":
+        return t("chatbot.sourceFallback", { defaultValue: "Fallback mode" });
+      default:
+        return source;
     }
   };
 
@@ -181,13 +245,46 @@ export const Chatbot = () => {
               className={`flex ${msg.type === "user" ? "justify-end" : "justify-start"}`}
             >
               <div
-                className={`max-w-xs px-4 py-2 rounded-lg text-sm ${
+                className={`max-w-xs space-y-2 px-4 py-2 rounded-lg text-sm ${
                   msg.type === "user"
                     ? "bg-primary text-primary-foreground"
                     : "bg-secondary text-foreground"
                 }`}
               >
                 {msg.text}
+                {msg.type === "assistant" && (
+                  <div className="space-y-2">
+                    <div className="flex flex-wrap gap-1">
+                      {msg.mode ? (
+                        <Badge variant={msg.mode === "clarifying_question" ? "default" : "secondary"} className="text-[10px]">
+                          {getModeLabel(msg.mode)}
+                        </Badge>
+                      ) : null}
+                      {msg.degraded ? (
+                        <Badge variant="outline" className="text-[10px]">
+                          {t("chatbot.degraded", { defaultValue: "Degraded" })}
+                        </Badge>
+                      ) : null}
+                      {typeof msg.confidence === "number" ? (
+                        <Badge variant="outline" className="text-[10px]">
+                          {t("chatbot.confidence", {
+                            defaultValue: "Confidence {{value}}%",
+                            value: Math.round(msg.confidence * 100),
+                          })}
+                        </Badge>
+                      ) : null}
+                    </div>
+                    {Array.isArray(msg.sourcesUsed) && msg.sourcesUsed.length > 0 ? (
+                      <div className="flex flex-wrap gap-1">
+                        {msg.sourcesUsed.map((source) => (
+                          <Badge key={`${msg.id}-${source}`} variant="outline" className="text-[10px]">
+                            {getSourceLabel(source)}
+                          </Badge>
+                        ))}
+                      </div>
+                    ) : null}
+                  </div>
+                )}
               </div>
               {msg.type === "assistant" && !msg.feedbackSubmitted && (
                 <div className="flex gap-1 mt-1 px-1">

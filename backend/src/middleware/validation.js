@@ -27,7 +27,7 @@ export const sanitizeChatInput = (req, res, next) => {
 };
 
 export const validateFeedbackInput = (req, res, next) => {
-  const { messageId, helpful, comment, conversationId } = req.body || {};
+  const { messageId, helpful, comment, conversationId, mode, confidence, sourcesUsed } = req.body || {};
 
   if (!messageId || typeof messageId !== "string") {
     return res.status(400).json({ error: "messageId is required." });
@@ -40,6 +40,23 @@ export const validateFeedbackInput = (req, res, next) => {
   req.body.messageId = sanitizeText(messageId).slice(0, 120);
   req.body.comment = sanitizeText(comment || "").slice(0, 500);
   req.body.conversationId = sanitizeText(conversationId || "").slice(0, 120) || "unknown";
+  req.body.mode = sanitizeText(mode || "").slice(0, 60);
+
+  if (confidence !== undefined && confidence !== null && confidence !== "") {
+    const numericConfidence = Number(confidence);
+    if (!Number.isFinite(numericConfidence) || numericConfidence < 0 || numericConfidence > 1) {
+      return res.status(400).json({ error: "confidence must be between 0 and 1." });
+    }
+    req.body.confidence = numericConfidence;
+  }
+
+  if (sourcesUsed !== undefined) {
+    if (!Array.isArray(sourcesUsed) || !sourcesUsed.every((item) => typeof item === "string")) {
+      return res.status(400).json({ error: "sourcesUsed must be an array of strings." });
+    }
+    req.body.sourcesUsed = sourcesUsed.map((item) => sanitizeText(item).slice(0, 40)).filter(Boolean);
+  }
+
   next();
 };
 

@@ -27,6 +27,21 @@ const chatFeedbackSchema = new mongoose.Schema(
       default: "",
       trim: true,
     },
+    mode: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+    confidence: {
+      type: Number,
+      min: 0,
+      max: 1,
+      default: null,
+    },
+    sourcesUsed: [{
+      type: String,
+      trim: true,
+    }],
   },
   {
     timestamps: true,
