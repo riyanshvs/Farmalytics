@@ -30,8 +30,12 @@ const Location = () => {
     setIsLoading(true);
     try {
       const locationData = {
+        address: formData.address,
+        city: formData.city,
+        pincode: formData.pincode,
         state: formData.state,
         district: formData.city,
+        country: formData.country,
       };
       
       localStorage.setItem("userLocation", JSON.stringify(locationData));

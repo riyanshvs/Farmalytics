@@ -7,11 +7,12 @@ import { useNavigate } from "react-router-dom";
 import Chatbot from "@/components/Chatbot";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/context/AuthContext";
-import { api } from "@/services/api";
+import { api, type MarketResponse, type WeatherSummaryResponse } from "@/services/api";
 import { SettingsBar } from "@/components/SettingsBar";
 import { safeJsonParse } from "@/lib/safeJson";
 import { useQuery } from "@tanstack/react-query";
 import queryKeys from "@/lib/queryKeys";
+import { getCropLabel, normalizeSupportedCropSelection } from "@/data/marketPrices";
 
 interface FarmData {
   selectedCrops?: string[];
@@ -46,7 +47,7 @@ const LiveWeather = () => {
         const lon = pos.coords.longitude;
 
         try {
-          const response = await api.weather.getSummary({ lat, lon });
+            const response: WeatherSummaryResponse = await api.weather.getSummary({ lat, lon });
           const current = response?.weather?.current;
           setWeather({
             temp: current?.temperature,
@@ -142,9 +143,10 @@ const Dashboard = () => {
         ];
 
   const selectedNames = farmData?.selectedCrops || [];
-  const crops = selectedNames.length > 0 ? selectedNames : fieldData.map((item) => item.name);
+  const normalizedSelectedNames = normalizeSupportedCropSelection(selectedNames);
+  const crops = normalizedSelectedNames.length > 0 ? normalizedSelectedNames : fieldData.map((item) => item.name);
   const distributionMap = Object.fromEntries(parsedDist.map((item) => [item.name, item.area]));
-  const marketQuery = useQuery({
+  const marketQuery = useQuery<MarketResponse>({
     queryKey: queryKeys.market({ crops }),
     enabled: crops.length > 0,
     queryFn: () =>
@@ -221,7 +223,7 @@ const Dashboard = () => {
                 {fieldData.map((item) => (
                   <div key={item.name} className="flex items-center gap-2">
                     <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }} />
-                    <span>{item.name}</span>
+                    <span>{getCropLabel(item.name)}</span>
                   </div>
                 ))}
               </div>
@@ -243,7 +245,7 @@ const Dashboard = () => {
                 <div className="w-20 h-20 mx-auto mb-4 bg-muted rounded-full flex items-center justify-center text-3xl">
                   <Sprout className="h-8 w-8 text-emerald-600" />
                 </div>
-                <h3 className="text-center text-lg font-semibold mb-2">{crop}</h3>
+                <h3 className="text-center text-lg font-semibold mb-2">{getCropLabel(crop)}</h3>
                 <div className="text-center text-sm font-medium text-muted-foreground mb-3">
                   {distributionMap[crop]
                     ? t("pages.cropsPrice.areaValue", {

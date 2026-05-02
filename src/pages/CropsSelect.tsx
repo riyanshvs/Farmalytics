@@ -6,18 +6,16 @@ import { Plus } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { api } from "@/services/api";
-import { useLanguage } from "@/context/LanguageContext";
-import { cropsCatalog } from "@/data/cropsCatalog";
+import { normalizeSupportedCropSelection, supportedCrops } from "@/data/marketPrices";
 import { safeJsonParse } from "@/lib/safeJson";
 import { SettingsBar } from "@/components/SettingsBar";
 
 const CropsSelect = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { language } = useLanguage();
   const [isLoading, setIsLoading] = useState(false);
   const [selectedCrops, setSelectedCrops] = useState<string[]>(
-    safeJsonParse<string[]>(localStorage.getItem("selectedCrops"), [])
+    normalizeSupportedCropSelection(safeJsonParse<string[]>(localStorage.getItem("selectedCrops"), []))
   );
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -55,12 +53,12 @@ const CropsSelect = () => {
     }
   };
 
-  const filteredCrops = cropsCatalog.filter((crop) => {
+  const filteredCrops = supportedCrops.filter((crop) => {
     const search = searchTerm.trim().toLowerCase();
     if (!search) return true;
     return (
-      crop.nameEn.toLowerCase().includes(search) ||
-      crop.nameHi.toLowerCase().includes(search)
+      crop.label.toLowerCase().includes(search) ||
+      crop.id.toLowerCase().includes(search)
     );
   });
 
@@ -103,7 +101,7 @@ const CropsSelect = () => {
                 {crop.emoji}
               </div>
               <span className="text-xl font-semibold flex-1 text-left">
-                {language === "hi" ? crop.nameHi : crop.nameEn}
+                {crop.label}
               </span>
               <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center ${
                 selectedCrops.includes(crop.id)

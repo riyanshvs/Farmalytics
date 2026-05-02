@@ -1,7 +1,104 @@
 import { firebaseAuth } from "@/lib/firebase";
+import { buildHardcodedMarketResponse } from "@/data/marketPrices";
 
 const API_URL = (import.meta.env.VITE_API_URL || "http://localhost:5000/api").trim();
 const API_TIMEOUT_MS = 10000;
+
+export interface FarmLocation {
+  address?: string;
+  city?: string;
+  pincode?: string;
+  state?: string;
+  district?: string;
+  country?: string;
+}
+
+export interface FarmDistribution {
+  name: string;
+  area: number;
+}
+
+export interface FarmRecord {
+  location?: FarmLocation;
+  farmSize?: number;
+  selectedCrops?: string[];
+  distributions?: FarmDistribution[];
+  offline?: boolean;
+}
+
+export interface FarmResponse {
+  farm: FarmRecord | null;
+  message?: string;
+  offline?: boolean;
+  degraded?: boolean;
+  degradedReason?: string;
+}
+
+export interface WeatherSummaryResponse {
+  location: {
+    label: string;
+    source: string;
+    latitude: number;
+    longitude: number;
+  };
+  weather: {
+    current: {
+      temperature: number | null;
+      humidity: number | null;
+      windSpeed: number | null;
+      aqi: number | null;
+      precipitation: number | null;
+      weatherCode: number;
+      condition: string;
+      observedAt: string | null;
+    };
+    hourly: Array<{
+      time: string;
+      temperature: number | null;
+      humidity: number | null;
+      precipitationProbability: number | null;
+    }>;
+    daily: Array<{
+      date: string;
+      weatherCode: number;
+      condition: string;
+      min: number | null;
+      max: number | null;
+      precipitationProbabilityMax: number | null;
+      sunrise: string | null;
+      sunset: string | null;
+    }>;
+    sun: {
+      sunrise: string | null;
+      sunset: string | null;
+    };
+    updatedAt: string;
+  };
+}
+
+export interface MarketItem {
+  id: string;
+  crop: string;
+  market: string;
+  district: string;
+  arrivalDate: string;
+  modalPrice: number | null;
+}
+
+export interface MarketResponse {
+  market: {
+    items: MarketItem[];
+    location?: unknown;
+    configured?: boolean;
+    matchedCrops?: string[];
+  };
+  selectedCrops?: string[];
+  location?: unknown;
+  degraded?: boolean;
+  degradedReason?: string | null;
+  message?: string;
+  reportDate?: string;
+}
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -135,11 +232,11 @@ export const api = {
       if (!res.ok) {
         throw new Error(`Failed to fetch farm data (${res.status})`);
       }
-      return res.json();
+      return (await res.json()) as FarmResponse;
     },
 
     save: async (data: {
-      location?: { state: string; district: string };
+      location?: FarmLocation;
       farmSize?: number;
       selectedCrops?: string[];
       distributions?: { name: string; area: number }[];
@@ -169,20 +266,21 @@ export const api = {
       if (params?.district) query.set("district", params.district);
 
       const suffix = query.toString() ? `?${query.toString()}` : "";
-      return fetchJsonOrThrow(`${API_URL}/weather/summary${suffix}`, undefined, "Failed to load weather summary");
+      return fetchJsonOrThrow<WeatherSummaryResponse>(
+        `${API_URL}/weather/summary${suffix}`,
+        undefined,
+        "Failed to load weather summary"
+      );
     },
   },
 
   market: {
     getAll: async (params?: { state?: string; district?: string; crops?: string[]; limit?: number }) => {
-      const query = new URLSearchParams();
-      if (params?.state) query.set("state", params.state);
-      if (params?.district) query.set("district", params.district);
-      if (Array.isArray(params?.crops) && params.crops.length > 0) query.set("crops", params.crops.join(","));
-      if (params?.limit !== undefined) query.set("limit", String(params.limit));
-
-      const suffix = query.toString() ? `?${query.toString()}` : "";
-      return fetchJsonOrThrow(`${API_URL}/market${suffix}`, undefined, "Failed to load market prices");
+      void params?.state;
+      void params?.district;
+      return Promise.resolve(
+        buildHardcodedMarketResponse(params?.crops, params?.limit) as MarketResponse
+      );
     },
   },
 

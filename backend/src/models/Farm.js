@@ -8,8 +8,12 @@ const farmSchema = new mongoose.Schema({
     unique: true,
   },
   location: {
+    address: String,
+    city: String,
+    pincode: String,
     state: String,
     district: String,
+    country: String,
   },
   farmSize: {
     type: Number,

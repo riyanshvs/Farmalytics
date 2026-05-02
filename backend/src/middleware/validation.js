@@ -73,12 +73,16 @@ export const validateFarmInput = (req, res, next) => {
       return res.status(400).json({ error: "location must be an object." });
     }
 
+    const address = sanitizeText(location.address || "").slice(0, 120);
+    const city = sanitizeText(location.city || "").slice(0, 80);
+    const pincode = sanitizeText(location.pincode || "").slice(0, 20);
     const state = sanitizeText(location.state || "").slice(0, 80);
     const district = sanitizeText(location.district || "").slice(0, 80);
+    const country = sanitizeText(location.country || "").slice(0, 80);
     if (!state || !district) {
       return res.status(400).json({ error: "location.state and location.district are required when location is provided." });
     }
-    req.body.location = { state, district };
+    req.body.location = { address, city, pincode, state, district, country };
   }
 
   if (farmSize !== undefined) {

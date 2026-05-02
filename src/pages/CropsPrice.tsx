@@ -11,6 +11,7 @@ import { api } from "@/services/api";
 import { AlertCircle, MapPin, RadioTower, RefreshCw, TrendingUp } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import queryKeys from "@/lib/queryKeys";
+import { getCropLabel, normalizeSupportedCropSelection } from "@/data/marketPrices";
 
 type FarmDistribution = {
   name: string;
@@ -43,8 +44,9 @@ const CropsPrice = () => {
     const localCrops = safeJsonParse<string[]>(localStorage.getItem("selectedCrops"), []);
     const localDistributions = safeJsonParse<FarmDistribution[]>(localStorage.getItem("farmDistributions"), []);
 
-    if (localCrops.length > 0) {
-      setSelectedCrops(localCrops);
+    const normalizedCrops = normalizeSupportedCropSelection(localCrops);
+    if (normalizedCrops.length > 0) {
+      setSelectedCrops(normalizedCrops);
     }
 
     if (localDistributions.length > 0) {
@@ -55,7 +57,7 @@ const CropsPrice = () => {
       .get()
       .then((result) => {
         if (Array.isArray(result?.farm?.selectedCrops) && result.farm.selectedCrops.length > 0) {
-          setSelectedCrops(result.farm.selectedCrops);
+          setSelectedCrops(normalizeSupportedCropSelection(result.farm.selectedCrops));
         }
 
         if (Array.isArray(result?.farm?.distributions) && result.farm.distributions.length > 0) {
@@ -104,20 +106,6 @@ const CropsPrice = () => {
       })),
     [distributions, matchedCrops, selectedCrops]
   );
-
-  const getCropLabel = (name: string) => {
-    const map: Record<string, string> = {
-      Potato: t("pages.cropsPrice.crops.potato"),
-      Onion: t("pages.cropsPrice.crops.onion"),
-      Tomato: t("pages.cropsPrice.crops.tomato"),
-      Cucumber: t("pages.cropsPrice.crops.cucumber"),
-      Garlic: t("pages.cropsPrice.crops.garlic"),
-      Ginger: t("pages.cropsPrice.crops.ginger"),
-      Others: t("pages.cropsPrice.crops.others"),
-    };
-
-    return map[name] || name;
-  };
 
   const formatPrice = (value: number | null) =>
     value == null
